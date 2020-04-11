@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { LandingPage } from '@pages';
 import { store } from './store';
-import { LandingPage } from 'pages';
 
 const App = (): JSX.Element => {
   return (

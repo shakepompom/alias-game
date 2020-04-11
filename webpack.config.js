@@ -14,11 +14,11 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
-      src: resolve(rootDir, './src'),
-      common: resolve(rootDir, './src/common'),
-      components: resolve(rootDir, './src/common/components'),
-      features: resolve(rootDir, './src/features'),
-      pages: resolve(rootDir, './src/pages'),
+      '@src': resolve(rootDir, './src'),
+      '@common': resolve(rootDir, './src/common'),
+      '@components': resolve(rootDir, './src/common/components'),
+      '@features': resolve(rootDir, './src/features'),
+      '@pages': resolve(rootDir, './src/pages'),
     },
   },
   module: {
