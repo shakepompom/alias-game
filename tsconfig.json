@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "outDir": "./public/",
+    "module": "esnext",
+    "target": "esnext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "sourceMap": true,
+    "strict": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@common/*": ["src/common/*"],
+      "@components/*": ["src/common/components/*"],
+      "@features/*": ["src/features/*"],
+      "@pages/*": ["src/pages/*"]
+    },
+  },
+  "exclude": [
+    "node_modules",
+    "public",
+  ],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "types": [
+    "typePatches",
+  ]
+}
