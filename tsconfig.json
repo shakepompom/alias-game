@@ -17,13 +17,13 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "isolatedModules": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@src/*": ["src/*"],
-      "@common/*": ["src/common/*"],
-      "@components/*": ["src/common/components/*"],
-      "@features/*": ["src/features/*"],
-      "@pages/*": ["src/pages/*"]
+      "@src": ["src"],
+      "@common": ["src/common"],
+      "@components": ["src/common/components"],
+      "@features": ["src/features"],
+      "@pages": ["src/pages"]
     },
   },
   "exclude": [
