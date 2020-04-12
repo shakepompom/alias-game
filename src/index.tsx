@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { LandingPage } from '@pages';
+import { useLocation } from 'react-use';
+import { LandingPage, GamePage } from '@pages';
 import { store } from './store';
 
 const App = (): JSX.Element => {
+  const { pathname = '' } = useLocation();
+
   return (
     <Provider store={store}>
-      <LandingPage />
+      {pathname.length > 1 ? (
+        <GamePage roomId={pathname.slice(1)} />
+      ) : (
+        <LandingPage />
+      )}
     </Provider>
   );
 };

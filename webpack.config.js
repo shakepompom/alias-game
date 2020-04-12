@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line
 const { join, resolve } = require('path');
+const Dotenv = require('dotenv-webpack');
+
 const rootDir = join(__dirname, './');
 
 module.exports = {
@@ -32,6 +35,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new Dotenv({
+      path: './.env',
+    }),
+  ],
   devtool: 'eval',
   devServer: {
     host: '0.0.0.0',
