@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { ololoReducer } from '@common/ducks';
+import { userReducer } from '@common/ducks';
 
 export const mainReducer = combineReducers({
-  ololo: ololoReducer,
+  user: userReducer,
 });

@@ -1,44 +1,47 @@
-import { v4 as uuid } from 'uuid';
 import { database } from './initFirebase';
+import { User } from '@common/types';
 
-export const addRoom = (ruuid: string): void => {
-  const OlegId = uuid();
-  const MashaId = uuid();
+export const addUser = async (
+  ruuid: string,
+  { id, name, isAdmin = false }: User
+): Promise<void> => {
+  let index = 0;
+  const setIndex = (i: number): void => {
+    index = i;
+  };
 
-  // TODO: Replace with request data
+  await database
+    .ref(`rooms/${ruuid}/users/`)
+    .once('value', (snapshot): void => {
+      setIndex(snapshot.val().length);
+    });
+
+  const data = {
+    [index]: { id, name, isAdmin },
+  };
+
+  await database.ref(`rooms/${ruuid}/users/`).update(data);
+};
+
+export const addRoom = (ruuid: string, admin: User): void => {
   const data = {
     [ruuid]: {
       users: {
         0: {
-          id: OlegId,
-          name: 'Олег',
+          id: admin.id,
+          name: admin.name,
           isAdmin: true,
-        },
-        1: {
-          id: MashaId,
-          name: 'Маша',
-          isAdmin: false,
         },
       },
       teams: {
         0: {
           name: 'Котики',
-          users: {
-            0: OlegId,
-          },
         },
         1: {
           name: 'Пёсики',
-          users: {
-            0: MashaId,
-          },
         },
       },
       order: {
-        list: {
-          0: OlegId,
-          1: MashaId,
-        },
         current: 0,
       },
       isGameStarted: false,

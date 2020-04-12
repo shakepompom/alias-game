@@ -25,3 +25,7 @@ export type RoomSettings = {
   order: Order;
   isGameStarted: false;
 };
+
+export type MainReducer = {
+  user: User;
+};

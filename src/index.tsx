@@ -1,22 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { useLocation } from 'react-use';
+import { Provider, useSelector } from 'react-redux';
+import { useLocation, useLocalStorage } from 'react-use';
 import { LandingPage, GamePage } from '@pages';
+import { User } from '@common/types';
+import { userSelector } from '@common/selectors';
 import { store } from './store';
 
 const App = (): JSX.Element => {
   const { pathname = '' } = useLocation();
+  const [LSUser, setLSUser]: User = useLocalStorage('aliasUser');
+  const user = useSelector(userSelector);
+  const isUserIsInRoom = pathname.length > 1 && LSUser?.id;
+  const roomId = pathname.slice(1);
+
+  useEffect(() => {
+    if (!LSUser?.id) {
+      setLSUser(user);
+    }
+  }, [user]);
 
   return (
     <Provider store={store}>
-      {pathname.length > 1 ? (
-        <GamePage roomId={pathname.slice(1)} />
+      {isUserIsInRoom ? (
+        <GamePage roomId={roomId} />
       ) : (
-        <LandingPage />
+        <LandingPage roomId={roomId} />
       )}
     </Provider>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('app'));
+const WrappedApp = (): JSX.Element => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+ReactDOM.render(<WrappedApp />, document.getElementById('app'));
