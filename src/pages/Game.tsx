@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Game, Preparation } from '@features';
-import { getRoom } from '@common/firebase/roomFirebase';
+import { getRoom } from '@common/firebase/room';
 import { RoomSettings } from '@common/types';
 
 const defaultState: RoomSettings = {

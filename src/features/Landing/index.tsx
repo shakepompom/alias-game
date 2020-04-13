@@ -3,7 +3,8 @@ import { useLocalStorage } from 'react-use';
 import { useDispatch } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { Button, Input } from '@components';
-import { addRoom, addUser } from '@common/firebase/roomFirebase';
+import { addRoom } from '@common/firebase/room';
+import { addUser } from '@common/firebase/user';
 import { setUserData } from '@common/ducks';
 
 type LandingProps = {
@@ -13,31 +14,33 @@ type LandingProps = {
 export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   const dispatch = useDispatch();
   const [userName, setUserName] = useState('');
-  const [, setLSUser] = useLocalStorage('aliasUser', {});
+  const [, setLSUserId] = useLocalStorage('aliasUser', '');
 
   const handleCreateRoom = (): void => {
     const ruuid = uuid();
+    const userId = uuid();
     const userData = {
-      id: uuid(),
+      id: userId,
       name: userName,
       isAdmin: true,
     };
 
     dispatch(setUserData(userData));
-    setLSUser(userData);
+    setLSUserId(userId);
     window.location.replace(`/${ruuid}`);
     addRoom(ruuid, userData);
   };
 
   const handleJoinRoom = (): void => {
+    const userId = uuid();
     const userData = {
-      id: uuid(),
+      id: userId,
       name: userName,
       isAdmin: false,
     };
 
     dispatch(setUserData(userData));
-    setLSUser(userData);
+    setLSUserId(userId);
     addUser(roomId, userData);
   };
 
