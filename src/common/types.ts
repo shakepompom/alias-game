@@ -9,21 +9,13 @@ export type User = {
   isAdmin: boolean;
 };
 
-export type Team = {
-  name: string;
-  users: string[];
-};
-
-export type Order = {
-  list: string[];
-  current: number;
+type CurrentGameStatus = {
+  isGameStarted: boolean;
 };
 
 export type RoomSettings = {
   users: User[];
-  teams: Team[];
-  order: Order;
-  isGameStarted: false;
+  currentGameStatus: CurrentGameStatus;
 };
 
 export type MainReducer = {

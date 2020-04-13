@@ -5,12 +5,9 @@ import { RoomSettings } from '@common/types';
 
 const defaultState: RoomSettings = {
   users: [],
-  teams: [],
-  order: {
-    list: [],
-    current: 0,
+  currentGameStatus: {
+    isGameStarted: false,
   },
-  isGameStarted: false,
 };
 
 type GamePageProps = {
@@ -19,7 +16,9 @@ type GamePageProps = {
 
 export const GamePage = ({ roomId }: GamePageProps): JSX.Element => {
   const [roomSettings, setRoomSettings] = useState(defaultState);
-  const { isGameStarted } = roomSettings;
+  const {
+    currentGameStatus: { isGameStarted },
+  } = roomSettings;
 
   useEffect(() => {
     getRoom(roomId, (val: RoomSettings) => val && setRoomSettings(val));

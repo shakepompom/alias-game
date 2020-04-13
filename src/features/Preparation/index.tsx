@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button } from '@components';
 import { startGame } from '@common/firebase/roomFirebase';
-import { GameProps, User, Team } from '@common/types';
+import { GameProps, User } from '@common/types';
 
 export const Preparation = ({
   roomId,
   roomSettings,
 }: GameProps): JSX.Element => {
-  const { users, teams } = roomSettings;
+  const { users } = roomSettings;
 
   const handleStartGame = (): void => {
     startGame(roomId);
@@ -22,29 +22,10 @@ export const Preparation = ({
           All Users:
           <ul>
             {users &&
-              users.map(
+              Object.values(users).map(
                 ({ id, name, isAdmin }: User): JSX.Element => (
                   <li key={id} style={{ color: isAdmin ? 'blue' : 'default' }}>
                     {name} ({id}){isAdmin && ' - создатель игры'}
-                  </li>
-                )
-              )}
-          </ul>
-        </div>
-        <div>
-          Teams:
-          <ul>
-            {teams &&
-              teams.map(
-                ({ name, users }: Team): JSX.Element => (
-                  <li key={name}>
-                    {name}
-                    <ul>
-                      {users &&
-                        users.map(
-                          (id: string): JSX.Element => <li key={id}>{id}</li>
-                        )}
-                    </ul>
                   </li>
                 )
               )}

@@ -1,50 +1,30 @@
 import { database } from './initFirebase';
 import { User } from '@common/types';
 
-export const addUser = async (
+export const addUser = (
   ruuid: string,
   { id, name, isAdmin = false }: User
-): Promise<void> => {
-  let index = 0;
-  const setIndex = (i: number): void => {
-    index = i;
-  };
-
-  await database
-    .ref(`rooms/${ruuid}/users/`)
-    .once('value', (snapshot): void => {
-      setIndex(snapshot.val().length);
-    });
-
+): void => {
   const data = {
-    [index]: { id, name, isAdmin },
+    [id]: { id, name, isAdmin },
   };
 
-  await database.ref(`rooms/${ruuid}/users/`).update(data);
+  database.ref(`rooms/${ruuid}/users/`).update(data);
 };
 
 export const addRoom = (ruuid: string, admin: User): void => {
   const data = {
     [ruuid]: {
       users: {
-        0: {
+        [admin.id]: {
           id: admin.id,
           name: admin.name,
           isAdmin: true,
         },
       },
-      teams: {
-        0: {
-          name: 'Котики',
-        },
-        1: {
-          name: 'Пёсики',
-        },
+      currentGameStatus: {
+        isGameStarted: false,
       },
-      order: {
-        current: 0,
-      },
-      isGameStarted: false,
     },
   };
 
@@ -61,5 +41,7 @@ export const getRoom = (
 };
 
 export const startGame = (ruuid: string): void => {
-  database.ref(`rooms/${ruuid}`).update({ isGameStarted: true });
+  database
+    .ref(`rooms/${ruuid}/currentGameStatus`)
+    .update({ isGameStarted: true });
 };
