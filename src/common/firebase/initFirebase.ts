@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app';
 import 'firebase/analytics';
 import 'firebase/database';
+import 'firebase/auth';
 import { Config } from './types';
 
 const config: Config = {
@@ -12,3 +13,5 @@ const config: Config = {
 firebase.initializeApp(config);
 
 export const database = firebase.database();
+
+export const auth = firebase.auth();

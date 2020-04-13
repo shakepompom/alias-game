@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@components';
-import { startGame } from '@common/firebase/room';
+import { startGame } from '@fb/room';
 import { GameProps, User } from '@common/types';
 
 export const Preparation = ({

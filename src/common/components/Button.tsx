@@ -7,10 +7,11 @@ type ButtonProps = {
 
 export const Button = ({
   type = 'button',
+  disabled,
   onClick,
   children,
 }: ButtonProps): JSX.Element => (
-  <button type={type} onClick={onClick}>
+  <button type={type} disabled={disabled} onClick={onClick}>
     {children}
   </button>
 );

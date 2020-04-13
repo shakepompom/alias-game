@@ -1,31 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import { useLocation, useLocalStorage, useEffectOnce } from 'react-use';
+import { Provider } from 'react-redux';
+import { useLocation } from 'react-use';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@fb/initFirebase';
+import { signOut } from '@fb/auth';
 import { LandingPage, GamePage } from '@pages';
-import { getUser } from '@common/firebase/user';
-import { User } from '@common/types';
-import { userSelector } from '@common/selectors';
-import { setUserData } from '@common/ducks';
 import { store } from './store';
 
 const App = (): JSX.Element => {
-  const dispatch = useDispatch();
+  const [user, loading, error] = useAuthState(auth);
   const { pathname = '' } = useLocation();
-  const [LSUserId, setLSUserId]: User = useLocalStorage('aliasUser');
-  const user = useSelector(userSelector);
-  const isUserIsInRoom = pathname.length > 1 && LSUserId;
+  const isUserIsInRoom = pathname.length > 1 && user;
   const roomId = pathname.slice(1);
-
-  useEffect(() => {
-    if (!LSUserId) {
-      setLSUserId(user.id);
-    }
-  }, [user]);
-
-  useEffectOnce(() => {
-    getUser(roomId, LSUserId, (val): void => dispatch(setUserData(val)));
-  });
 
   return (
     <Provider store={store}>
@@ -34,6 +21,7 @@ const App = (): JSX.Element => {
       ) : (
         <LandingPage roomId={roomId} />
       )}
+      <button onClick={() => signOut()}>Log out</button>
     </Provider>
   );
 };
