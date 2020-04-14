@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { mainReducer } from './mainReducer';
-// import { mainSaga } from './mainSaga';
+import { mainSaga } from './mainSaga';
 
 declare global {
   interface Window {
@@ -19,7 +19,6 @@ const enhancer = composeEnhancers
 
 const store = createStore(mainReducer, {}, enhancer);
 
-// TODO Uncomment to enable saga
-// sagaMiddleware.run(mainSaga);
+sagaMiddleware.run(mainSaga);
 
 export { store };

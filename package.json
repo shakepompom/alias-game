@@ -5,10 +5,14 @@
   "repository": "git@github.com:shakepompom/alias-game.git",
   "author": "u.chris1608@gmail.com",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
-    "check-types": "tsc"
+    "clear-public": "rm -rf public/*",
+    "copy-static": "cp -r static/* public",
+    "build": "yarn run clear-public && yarn run copy-static && webpack --mode production",
+    "check-types": "tsc",
+    "start-server": "node --experimental-modules server/index.js"
   },
   "dependencies": {
     "@babel/core": "^7.9.0",
@@ -21,12 +25,17 @@
     "babel-plugin-styled-components": "^1.10.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-measure": "^2.3.0",
     "react-redux": "^7.2.0",
+    "react-use": "^14.1.1",
+    "reconnecting-websocket": "^4.4.0",
     "redux": "^4.0.5",
     "redux-saga": "^1.1.3",
     "reselect": "^4.0.0",
     "styled-components": "^5.1.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "uuid": "^7.0.3",
+    "ws": "^7.2.3"
   },
   "devDependencies": {
     "@types/react": "^16.9.34",

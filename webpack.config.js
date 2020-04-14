@@ -1,5 +1,6 @@
 // eslint-disable-next-line
 const { join, resolve } = require('path');
+const fs = require('fs');
 const rootDir = join(__dirname, './');
 
 module.exports = {
@@ -41,5 +42,6 @@ module.exports = {
     hot: true,
     open: true,
     overlay: true,
+    https: true,
   },
 };
