@@ -1,0 +1,1 @@
+export { splitToTeams } from './splitToTeams';

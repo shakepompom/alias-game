@@ -34,3 +34,7 @@ export const startGame = (ruuid: string): void => {
     .ref(`rooms/${ruuid}/currentGameStatus`)
     .update({ isGameStarted: true });
 };
+
+export const splitToTeams = (ruuid: string, guuid: string, teams): void => {
+  database.ref(`rooms/${ruuid}/games/${guuid}`).update({ id: guuid, teams });
+};

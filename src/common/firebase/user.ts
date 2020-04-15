@@ -23,3 +23,7 @@ export const getUser = (
       callback(snapshot.val());
     });
 };
+
+export const getUserHook = (ruuid: string, userId: string): void => {
+  return database.ref(`rooms/${ruuid}/users/${userId}`);
+};
