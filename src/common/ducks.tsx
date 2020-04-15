@@ -4,13 +4,14 @@ interface InitState {
 
 interface Action {
   type: string;
+  payload: InitState;
 }
 
 const initState: InitState = {
   isLoading: false,
 };
 
-export const ololoReducer = (
+export const userReducer = (
   state: InitState = initState,
   action: Action
 ): InitState => {

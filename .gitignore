@@ -12,3 +12,5 @@ public
 # VSCode local history
 .history
 .vscode
+
+.env

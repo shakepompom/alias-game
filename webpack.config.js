@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line
 const { join, resolve } = require('path');
+const Dotenv = require('dotenv-webpack');
+
 const rootDir = join(__dirname, './');
 
 module.exports = {
@@ -17,6 +20,7 @@ module.exports = {
       '@src': resolve(rootDir, './src'),
       '@common': resolve(rootDir, './src/common'),
       '@components': resolve(rootDir, './src/common/components'),
+      '@fb': resolve(rootDir, './src/common/firebase'),
       '@features': resolve(rootDir, './src/features'),
       '@pages': resolve(rootDir, './src/pages'),
     },
@@ -32,6 +36,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new Dotenv({
+      path: './.env',
+    }),
+  ],
   devtool: 'eval',
   devServer: {
     host: '0.0.0.0',
