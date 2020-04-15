@@ -2,17 +2,12 @@
 Alias online game
 
 ## Firebase Hosting & Deploy
-To deploy now, open a terminal window, then navigate to or create a root directory for your web app.
+Firstly, set Firebase CLI (https://firebase.google.com/docs/hosting/quickstart#install-cli).
 
-Sign in to Google
+`firebase login` - sign in to Google
+`firebase serve` - test project locally
+`firebase deploy` || `firebase deploy -m "Deploying the best new feature ever."` - deploy || deploy with message
+`firebase logout` - logout from Google
 
-`firebase login`
-Initiate your project
-Run this command from your app’s root directory:
-
-`firebase init`
-When you’re ready, deploy your web app
-Put your static files (e.g., HTML, CSS, JS) in your app’s deploy directory (the default is “public”). Then, run this command from your app’s root directory:
-
-`firebase deploy`
-After deploying, view your app at alias-game.web.app
+Serve files must be located in public folder.
+After deploying, view your app at alias-game.web.app.
