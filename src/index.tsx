@@ -26,10 +26,4 @@ const App = (): JSX.Element => {
   );
 };
 
-const WrappedApp = (): JSX.Element => (
-  <Provider store={store}>
-    <App />
-  </Provider>
-);
-
-ReactDOM.render(<WrappedApp />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

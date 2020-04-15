@@ -1,7 +1,5 @@
 interface InitState {
-  id: string;
-  name: string;
-  isAdmin: boolean;
+  isLoading: boolean;
 }
 
 interface Action {
@@ -10,32 +8,16 @@ interface Action {
 }
 
 const initState: InitState = {
-  id: '',
-  name: '',
-  isAdmin: false,
+  isLoading: false,
 };
-
-const SET_USER_DATA = 'user/SET_USER_DATA';
-
-export const setUserData = (payload: InitState): Action => ({
-  type: SET_USER_DATA,
-  payload,
-});
 
 export const userReducer = (
   state: InitState = initState,
   action: Action
 ): InitState => {
-  const { type, payload } = action;
+  const { type } = action;
 
   switch (type) {
-    case SET_USER_DATA:
-      return {
-        ...state,
-        id: payload.id,
-        name: payload.name,
-        isAdmin: payload.isAdmin,
-      };
     default:
       return state;
   }

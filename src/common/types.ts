@@ -17,7 +17,3 @@ export type RoomSettings = {
   users: User[];
   currentGameStatus: CurrentGameStatus;
 };
-
-export type MainReducer = {
-  user: User;
-};
