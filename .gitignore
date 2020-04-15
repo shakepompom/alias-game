@@ -14,3 +14,7 @@ public
 .vscode
 
 .env
+
+#firebase
+.firebase
+firebase-debug.log
