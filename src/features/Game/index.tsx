@@ -1,8 +1,11 @@
 import React from 'react';
-import { GameProps, User } from '@common/types';
+import { useObject } from 'react-firebase-hooks/database';
+import { getCurrentGameId, getTeams } from '@fb/room';
+import { GameProps } from '@common/types';
 
-export const Game = ({ roomId, roomSettings }: GameProps): JSX.Element => {
-  const { users } = roomSettings;
+export const Game = ({ roomId }: GameProps): JSX.Element => {
+  const [gameId] = useObject(getCurrentGameId(roomId));
+  const [teams] = useObject(getTeams(roomId, gameId?.val()));
 
   return (
     <>
@@ -10,13 +13,20 @@ export const Game = ({ roomId, roomSettings }: GameProps): JSX.Element => {
       <div>
         Room data:
         <div>
-          All Users:
+          Teams:
           <ul>
-            {users &&
-              Object.values(users).map(
-                ({ id, name, isAdmin }: User): JSX.Element => (
-                  <li key={id} style={{ color: isAdmin ? 'blue' : 'default' }}>
-                    {name} ({id}){isAdmin && ' - создатель игры'}
+            {teams?.val() &&
+              Object.values(teams.val()).map(
+                ({ name, users }): JSX.Element => (
+                  <li key={name}>
+                    {name}
+                    <ul>
+                      {Object.values(users).map(
+                        ({ id, name }): JSX.Element => (
+                          <li key={id}>{name}</li>
+                        )
+                      )}
+                    </ul>
                   </li>
                 )
               )}

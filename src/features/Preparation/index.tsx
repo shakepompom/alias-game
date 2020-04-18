@@ -4,19 +4,18 @@ import { useObject } from 'react-firebase-hooks/database';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@fb/initFirebase';
 import { Button } from '@components';
-import { startGame, splitToTeams } from '@fb/room';
-import { getUserHook } from '@fb/user';
+import { startGame, getUsers, getCurrentGameId, getTeams } from '@fb/room';
+import { getUser } from '@fb/user';
 import { GameProps, User } from '@common/types';
 import { Teams } from './components';
 
-export const Preparation = ({
-  roomId,
-  roomSettings,
-}: GameProps): JSX.Element => {
+export const Preparation = ({ roomId }: GameProps): JSX.Element => {
   const [authUser] = useAuthState(auth);
-  const [user] = useObject(getUserHook(roomId, authUser?.uid));
+  const [users] = useObject(getUsers(roomId));
+  const [gameId] = useObject(getCurrentGameId(roomId));
+  const [teams] = useObject(getTeams(roomId, gameId?.val()));
+  const [user] = useObject(getUser(roomId, authUser?.uid));
   const isAdmin = user?.val()?.isAdmin;
-  const { users } = roomSettings;
 
   const handleStartGame = (): void => {
     startGame(roomId);
@@ -31,19 +30,18 @@ export const Preparation = ({
           All Users:
           <ul>
             {users &&
-              Object.values(users).map(
-                ({ id, name, isAdmin }: User): JSX.Element => (
+              Object.values(users.val()).map(
+                ({ id, name, isAdmin }: User, index: number): JSX.Element => (
                   <li key={id} style={{ color: isAdmin ? 'blue' : 'default' }}>
-                    {name} ({id}){isAdmin && ' - создатель игры'}
+                    {index + 1}. {name} ({id}){isAdmin && ' - создатель игры'}
                   </li>
                 )
               )}
           </ul>
         </div>
-        <Teams roomId={roomId} roomSettings={roomSettings} />
+        <Teams roomId={roomId} />
       </div>
-      {/* {isAdmin && teams && ( */}
-      {isAdmin && (
+      {isAdmin && teams?.val().length && (
         <div>
           <Button onClick={handleStartGame}>Начать игру</Button>
         </div>

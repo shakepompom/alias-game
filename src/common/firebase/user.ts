@@ -1,6 +1,9 @@
 import { database } from './initFirebase';
 import { User } from '@common/types';
 
+export const getUser = (ruuid: string, userId: string) =>
+  database.ref(`rooms/${ruuid}/users/${userId}`);
+
 export const addUser = (
   ruuid: string,
   { id, name, isAdmin = false }: User
@@ -10,20 +13,4 @@ export const addUser = (
   };
 
   database.ref(`rooms/${ruuid}/users/`).update(data);
-};
-
-export const getUser = (
-  ruuid: string,
-  userId: string,
-  callback: Function = Function.prototype
-): void => {
-  database
-    .ref(`rooms/${ruuid}/users/${userId}`)
-    .on('value', (snapshot): void => {
-      callback(snapshot.val());
-    });
-};
-
-export const getUserHook = (ruuid: string, userId: string): void => {
-  return database.ref(`rooms/${ruuid}/users/${userId}`);
 };
