@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { useObject } from 'react-firebase-hooks/database';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@fb/initFirebase';
 import { Button, Input } from '@components';
-import { getUsers, getCurrentGameId, getTeams, splitToTeams } from '@fb/room';
-import { getUser } from '@fb/user';
+import { useComponentState } from '@hooks';
+import { splitToTeams } from '@fb/room';
 import { GameProps } from '@common/types';
 import { splitToTeams as splitToTeamsUtil } from '../utils';
 
 export const Teams = ({ roomId }: GameProps): JSX.Element => {
-  const [authUser] = useAuthState(auth);
-  const [users] = useObject(getUsers(roomId));
-  const [gameId] = useObject(getCurrentGameId(roomId));
-  const [teams] = useObject(getTeams(roomId, gameId?.val()));
-  const [user] = useObject(getUser(roomId, authUser?.uid));
-  const isAdmin = user?.val()?.isAdmin;
+  const { users, teams, isAdmin } = useComponentState(roomId);
   const [teamCount, setTeamCount] = useState(3);
 
   const handleSplitToTeams = (): void => {
@@ -27,7 +19,7 @@ export const Teams = ({ roomId }: GameProps): JSX.Element => {
 
   return (
     <>
-      {isAdmin && !teams?.val()?.length && (
+      {isAdmin && !teams?.length && (
         <>
           <div>
             Количество команд:
@@ -49,8 +41,8 @@ export const Teams = ({ roomId }: GameProps): JSX.Element => {
       <div>
         Teams:
         <ul>
-          {teams?.val() &&
-            Object.values(teams.val()).map(
+          {teams &&
+            Object.values(teams).map(
               ({ name, users }): JSX.Element => (
                 <li key={name}>
                   {name}
