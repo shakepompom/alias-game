@@ -20,6 +20,7 @@ module.exports = {
       '@src': resolve(rootDir, './src'),
       '@common': resolve(rootDir, './src/common'),
       '@components': resolve(rootDir, './src/common/components'),
+      '@hooks': resolve(rootDir, './src/common/hooks'),
       '@fb': resolve(rootDir, './src/common/firebase'),
       '@features': resolve(rootDir, './src/features'),
       '@pages': resolve(rootDir, './src/pages'),
