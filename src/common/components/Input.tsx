@@ -1,6 +1,8 @@
 import React from 'react';
 
-type InputProps = React.InputHTMLAttributes<HTMLButtonElement> &
+type InputProps = {
+  onChange?: (value: string) => void;
+} & React.InputHTMLAttributes<HTMLInputElement> &
   React.DOMAttributes<HTMLInputElement>;
 
 export const Input = ({
@@ -11,8 +13,8 @@ export const Input = ({
   <input
     type={type}
     value={value}
-    onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-      onChange(e?.target?.value)
-    }
+    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+      onChange && onChange(e.target.value);
+    }}
   />
 );
