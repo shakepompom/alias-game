@@ -1,20 +1,20 @@
-interface InitState {
+interface UserState {
   isLoading: boolean;
 }
 
 interface Action {
   type: string;
-  payload: InitState;
+  payload: UserState;
 }
 
-const initState: InitState = {
+const initState: UserState = {
   isLoading: false,
 };
 
 export const userReducer = (
-  state: InitState = initState,
+  state: UserState = initState,
   action: Action
-): InitState => {
+): UserState => {
   const { type } = action;
 
   switch (type) {
