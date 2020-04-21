@@ -9,6 +9,11 @@ export type User = {
   isAdmin: boolean;
 };
 
+export type Team = {
+  name: string;
+  users: User[];
+};
+
 type CurrentGameStatus = {
   isGameStarted: boolean;
 };

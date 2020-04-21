@@ -1,7 +1,10 @@
-import { database } from './initFirebase';
 import { User } from '@common/types';
+import { database } from './initFirebase';
 
-export const getUser = (ruuid: string, userId: string) =>
+export const getUser = (
+  ruuid: string,
+  userId: string
+): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/users/${userId}`);
 
 export const addUser = (
