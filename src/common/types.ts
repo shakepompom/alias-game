@@ -22,3 +22,9 @@ export type RoomSettings = {
   users: User[];
   currentGameStatus: CurrentGameStatus;
 };
+
+export type CommonComponentState = {
+  users: User[];
+  teams: Team[];
+  isAdmin: boolean;
+};

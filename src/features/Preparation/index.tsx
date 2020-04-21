@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button } from '@components';
 import { startGame } from '@fb/room';
-import { useComponentState } from '@hooks';
+import { useCommonComponentState } from '@hooks';
 import { GameProps, User } from '@common/types';
 import { Teams } from './components';
 
 export const Preparation = ({ roomId }: GameProps): JSX.Element => {
-  const { users, teams, isAdmin } = useComponentState(roomId);
+  const { users, teams, isAdmin } = useCommonComponentState(roomId);
 
   const handleStartGame = (): void => {
     startGame(roomId);
