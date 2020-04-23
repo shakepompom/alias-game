@@ -3,10 +3,14 @@ import { v4 as uuid } from 'uuid';
 import { Button, Input } from '@components';
 import { useCommonComponentState } from '@hooks';
 import { splitToTeams } from '@fb/room';
-import { GameProps } from '@common/types';
+import { Team, User } from '@common/types';
 import { splitToTeams as splitToTeamsUtil } from '../utils';
 
-export const Teams = ({ roomId }: GameProps): JSX.Element => {
+type TeamsProps = {
+  roomId: string;
+};
+
+export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
   const { users, teams, isAdmin } = useCommonComponentState(roomId);
   const [teamCount, setTeamCount] = useState(3);
 
@@ -27,12 +31,12 @@ export const Teams = ({ roomId }: GameProps): JSX.Element => {
               <Input
                 value={teamCount}
                 type="number"
-                onChange={(val: string): void => setTeamCount(val)}
+                handleChange={(val: string): void => setTeamCount(+val)}
               />
             )}
           </div>
           <div>
-            <Button onClick={handleSplitToTeams} disabled={!teamCount}>
+            <Button handleClick={handleSplitToTeams} disabled={!teamCount}>
               Распределить по командам
             </Button>
           </div>
@@ -43,12 +47,12 @@ export const Teams = ({ roomId }: GameProps): JSX.Element => {
         <ul>
           {teams &&
             Object.values(teams).map(
-              ({ name, users }): JSX.Element => (
+              ({ name, users }: Team): JSX.Element => (
                 <li key={name}>
                   {name}
                   <ul>
                     {Object.values(users).map(
-                      ({ id, name }): JSX.Element => (
+                      ({ id, name }: User): JSX.Element => (
                         <li key={id}>{name}</li>
                       )
                     )}

@@ -1,7 +1,11 @@
 import React from 'react';
 import { useObject } from 'react-firebase-hooks/database';
 import { getCurrentGameId, getTeams } from '@fb/room';
-import { GameProps } from '@common/types';
+import { Team, User } from '@common/types';
+
+type GameProps = {
+  roomId: string;
+};
 
 export const Game = ({ roomId }: GameProps): JSX.Element => {
   const [gameId] = useObject(getCurrentGameId(roomId));
@@ -17,12 +21,13 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
           <ul>
             {teams?.val() &&
               Object.values(teams.val()).map(
-                ({ name, users }): JSX.Element => (
+                // TODO: Fix type
+                ({ name, users }: Team): JSX.Element => (
                   <li key={name}>
                     {name}
                     <ul>
                       {Object.values(users).map(
-                        ({ id, name }): JSX.Element => (
+                        ({ id, name }: User): JSX.Element => (
                           <li key={id}>{name}</li>
                         )
                       )}

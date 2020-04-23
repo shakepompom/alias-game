@@ -3,7 +3,7 @@ import { database } from './initFirebase';
 
 export const getUser = (
   ruuid: string,
-  userId: string
+  userId = ''
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/users/${userId}`);
 

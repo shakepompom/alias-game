@@ -2,10 +2,14 @@ import React from 'react';
 import { Button } from '@components';
 import { startGame } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
-import { GameProps, User } from '@common/types';
+import { User } from '@common/types';
 import { Teams } from './components';
 
-export const Preparation = ({ roomId }: GameProps): JSX.Element => {
+type PreparationProps = {
+  roomId: string;
+};
+
+export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
   const { users, teams, isAdmin } = useCommonComponentState(roomId);
 
   const handleStartGame = (): void => {
@@ -34,7 +38,7 @@ export const Preparation = ({ roomId }: GameProps): JSX.Element => {
       </div>
       {isAdmin && teams?.length && (
         <div>
-          <Button onClick={handleStartGame}>Начать игру</Button>
+          <Button handleClick={handleStartGame}>Начать игру</Button>
         </div>
       )}
     </>

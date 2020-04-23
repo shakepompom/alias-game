@@ -1,12 +1,7 @@
-export type GameProps = {
-  roomId: string;
-  roomSettings: RoomSettings;
-};
-
 export type User = {
   id: string;
   name: string;
-  isAdmin: boolean;
+  isAdmin?: boolean;
 };
 
 export type Team = {

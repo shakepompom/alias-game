@@ -19,11 +19,11 @@
     "isolatedModules": true,
     "baseUrl": "./",
     "paths": {
-      "@src": ["src"],
-      "@common": ["src/common"],
+      "@src/*": ["src/*"],
+      "@common/*": ["src/common/*"],
       "@components": ["src/common/components"],
       "@hooks": ["src/common/hooks"],
-      "@fb": ["src/common/firebase"],
+      "@fb/*": ["src/common/firebase/*"],
       "@features": ["src/features"],
       "@pages": ["src/pages"]
     },
