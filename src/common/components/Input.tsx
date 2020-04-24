@@ -1,20 +1,22 @@
 import React from 'react';
 
-type InputProps = {
-  handleChange?: (value: string) => void;
-} & React.InputHTMLAttributes<HTMLInputElement> &
-  React.DOMAttributes<HTMLInputElement>;
+type InputProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange'
+> & {
+  onChange?: (value: string) => void;
+};
 
 export const Input = ({
   type = 'text',
   value,
-  handleChange,
+  onChange,
 }: InputProps): JSX.Element => (
   <input
     type={type}
     value={value}
     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
-      handleChange && handleChange(e.target.value);
+      onChange && onChange(e.target.value);
     }}
   />
 );

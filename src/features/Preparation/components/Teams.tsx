@@ -31,12 +31,12 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
               <Input
                 value={teamCount}
                 type="number"
-                handleChange={(val: string): void => setTeamCount(+val)}
+                onChange={(val: string): void => setTeamCount(+val)}
               />
             )}
           </div>
           <div>
-            <Button handleClick={handleSplitToTeams} disabled={!teamCount}>
+            <Button onClick={handleSplitToTeams} disabled={!teamCount}>
               Распределить по командам
             </Button>
           </div>

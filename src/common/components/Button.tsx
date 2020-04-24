@@ -1,17 +1,17 @@
 import React from 'react';
 
 type ButtonProps = {
-  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 } & React.ButtonHTMLAttributes<HTMLButtonElement> &
   React.DOMAttributes<HTMLButtonElement>;
 
 export const Button = ({
   type = 'button',
   disabled,
-  handleClick,
+  onClick,
   children,
 }: ButtonProps): JSX.Element => (
-  <button type={type} disabled={disabled} onClick={handleClick}>
+  <button type={type} disabled={disabled} onClick={onClick}>
     {children}
   </button>
 );

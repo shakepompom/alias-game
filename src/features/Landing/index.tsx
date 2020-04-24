@@ -41,22 +41,20 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
         Enter your name:
         <Input
           value={userName}
-          handleChange={(val: string): void => setUserName(val)}
+          onChange={(val: string): void => setUserName(val)}
         />
       </div>
       {roomId ? (
         <Button
           disabled={!userName}
-          handleClick={(): void => signIn({ loggedInCallback: handleJoinRoom })}
+          onClick={(): void => signIn({ loggedInCallback: handleJoinRoom })}
         >
           Join game
         </Button>
       ) : (
         <Button
           disabled={!userName}
-          handleClick={(): void =>
-            signIn({ loggedInCallback: handleCreateRoom })
-          }
+          onClick={(): void => signIn({ loggedInCallback: handleCreateRoom })}
         >
           Start game
         </Button>

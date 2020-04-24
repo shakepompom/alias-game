@@ -38,7 +38,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
       </div>
       {isAdmin && teams?.length && (
         <div>
-          <Button handleClick={handleStartGame}>Начать игру</Button>
+          <Button onClick={handleStartGame}>Начать игру</Button>
         </div>
       )}
     </>
