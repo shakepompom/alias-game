@@ -21,7 +21,7 @@ const App = (): JSX.Element => {
       ) : (
         <LandingPage roomId={roomId} />
       )}
-      <button onClick={(): void => signOut()}>Log out</button>
+      <button onClick={(): void => signOut()}>Выйти</button>
     </Provider>
   );
 };

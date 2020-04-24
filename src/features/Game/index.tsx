@@ -13,11 +13,10 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
 
   return (
     <>
-      <div>Game page</div>
+      <div>Дашборд</div>
       <div>
-        Room data:
         <div>
-          Teams:
+          Команды:
           <ul>
             {teams?.val() &&
               Object.values(teams.val()).map(

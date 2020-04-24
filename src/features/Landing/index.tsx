@@ -36,9 +36,9 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
 
   return (
     <>
-      <div>Welcome to alias game!</div>
+      <div>Добро пожаловать в онлайн-игру ALIAS!</div>
       <div>
-        Enter your name:
+        Введи свое имя:
         <Input
           value={userName}
           onChange={(val: string): void => setUserName(val)}
@@ -49,14 +49,14 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
           disabled={!userName}
           onClick={(): void => signIn({ loggedInCallback: handleJoinRoom })}
         >
-          Join game
+          Присоединиться
         </Button>
       ) : (
         <Button
           disabled={!userName}
           onClick={(): void => signIn({ loggedInCallback: handleCreateRoom })}
         >
-          Start game
+          Начать игру
         </Button>
       )}
     </>

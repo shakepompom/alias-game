@@ -3,7 +3,7 @@ import { Button } from '@components';
 import { startGame } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
-import { Teams } from './components';
+import { Teams, Settings } from './components';
 
 type PreparationProps = {
   roomId: string;
@@ -18,23 +18,28 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
 
   return (
     <>
-      <div>Preparation page</div>
+      <div>Предбанник</div>
       <div>
-        Room data:
-        <div>
-          All Users:
-          <ul>
-            {users &&
-              Object.values(users).map(
-                ({ id, name, isAdmin }: User, index: number): JSX.Element => (
-                  <li key={id} style={{ color: isAdmin ? 'blue' : 'default' }}>
-                    {index + 1}. {name} ({id}){isAdmin && ' - создатель игры'}
-                  </li>
-                )
-              )}
-          </ul>
-        </div>
+        {!teams?.length && (
+          <div>
+            Список присоединившихся пользователей:
+            <ul>
+              {users &&
+                Object.values(users).map(
+                  ({ id, name, isAdmin }: User, index: number): JSX.Element => (
+                    <li
+                      key={id}
+                      style={{ color: isAdmin ? 'blue' : 'default' }}
+                    >
+                      {index + 1}. {name} ({id}){isAdmin && ' - создатель игры'}
+                    </li>
+                  )
+                )}
+            </ul>
+          </div>
+        )}
         <Teams roomId={roomId} />
+        <Settings />
       </div>
       {isAdmin && teams?.length && (
         <div>

@@ -12,7 +12,7 @@ type TeamsProps = {
 
 export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
   const { users, teams, isAdmin } = useCommonComponentState(roomId);
-  const [teamCount, setTeamCount] = useState(3);
+  const [teamCount, setTeamCount] = useState(0);
 
   const handleSplitToTeams = (): void => {
     const teams = splitToTeamsUtil(users, teamCount);
@@ -42,11 +42,11 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
           </div>
         </>
       )}
-      <div>
-        Teams:
-        <ul>
-          {teams &&
-            Object.values(teams).map(
+      {teams && (
+        <div>
+          Команды:
+          <ul>
+            {Object.values(teams).map(
               ({ name, users }: Team): JSX.Element => (
                 <li key={name}>
                   {name}
@@ -60,8 +60,9 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
                 </li>
               )
             )}
-        </ul>
-      </div>
+          </ul>
+        </div>
+      )}
     </>
   );
 };
