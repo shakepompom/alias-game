@@ -1,12 +1,12 @@
-export type GameProps = {
-  roomId: string;
-  roomSettings: RoomSettings;
-};
-
 export type User = {
   id: string;
   name: string;
-  isAdmin: boolean;
+  isAdmin?: boolean;
+};
+
+export type Team = {
+  name: string;
+  users: User[];
 };
 
 type CurrentGameStatus = {
@@ -16,4 +16,10 @@ type CurrentGameStatus = {
 export type RoomSettings = {
   users: User[];
   currentGameStatus: CurrentGameStatus;
+};
+
+export type CommonComponentState = {
+  users: User[];
+  teams: Team[];
+  isAdmin: boolean;
 };

@@ -12,7 +12,7 @@ type LandingProps = {
 export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   const [userName, setUserName] = useState('');
 
-  const handleCreateRoom = (user): void => {
+  const handleCreateRoom = (user: firebase.User): void => {
     const ruuid = uuid();
     const userData = {
       id: user?.uid,
@@ -24,7 +24,7 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
     addRoom(ruuid, userData);
   };
 
-  const handleJoinRoom = (user): void => {
+  const handleJoinRoom = (user: firebase.User): void => {
     const userData = {
       id: user?.uid,
       name: userName,
@@ -47,14 +47,14 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
       {roomId ? (
         <Button
           disabled={!userName}
-          onClick={() => signIn({ loggedInCallback: handleJoinRoom })}
+          onClick={(): void => signIn({ loggedInCallback: handleJoinRoom })}
         >
           Join game
         </Button>
       ) : (
         <Button
           disabled={!userName}
-          onClick={() => signIn({ loggedInCallback: handleCreateRoom })}
+          onClick={(): void => signIn({ loggedInCallback: handleCreateRoom })}
         >
           Start game
         </Button>

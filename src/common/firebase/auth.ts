@@ -1,6 +1,14 @@
 import { auth } from './initFirebase';
 
-export const signIn = ({ loggedInCallback = Function.prototype }): void => {
+type LoggedInCallback = (user: firebase.User | null) => void;
+
+type SignInProps = {
+  loggedInCallback: LoggedInCallback | Function;
+};
+
+export const signIn = ({
+  loggedInCallback = Function.prototype,
+}: SignInProps): void => {
   auth.signInAnonymously().catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;

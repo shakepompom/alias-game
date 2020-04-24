@@ -3,8 +3,11 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@fb/initFirebase';
 import { getUsers, getCurrentGameId, getTeams } from '@fb/room';
 import { getUser } from '@fb/user';
+import { CommonComponentState } from '../types';
 
-export const useComponentState = (roomId) => {
+export const useCommonComponentState = (
+  roomId: string
+): CommonComponentState => {
   const [authUser] = useAuthState(auth);
   const [users] = useObject(getUsers(roomId));
   const [gameId] = useObject(getCurrentGameId(roomId));
