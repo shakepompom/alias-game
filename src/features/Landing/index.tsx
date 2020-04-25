@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, Input } from '@components';
+import { Button, Input, GameRules } from '@components';
 import { signIn } from '@fb/auth';
 import { addUser } from '@fb/user';
 import { addRoom } from '@fb/room';
@@ -11,6 +11,7 @@ type LandingProps = {
 
 export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   const [userName, setUserName] = useState('');
+  const [showRules, setShowRules] = useState(false);
 
   const handleCreateRoom = (user: firebase.User): void => {
     const ruuid = uuid();
@@ -34,9 +35,12 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
     addUser(roomId, userData);
   };
 
-  return (
+  return showRules ? (
+    <GameRules returnBackCallback={() => setShowRules(false)} />
+  ) : (
     <>
       <div>Добро пожаловать в онлайн-игру ALIAS!</div>
+      <Button onClick={() => setShowRules(true)}>Правила игры</Button>
       <div>
         Введи свое имя:
         <Input

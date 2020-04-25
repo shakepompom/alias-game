@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from '@components';
+import React, { useState } from 'react';
+import { Button, GameRules } from '@components';
 import { startGame } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
@@ -10,15 +10,19 @@ type PreparationProps = {
 };
 
 export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
+  const [showRules, setShowRules] = useState(false);
   const { users, teams, isAdmin } = useCommonComponentState(roomId);
 
   const handleStartGame = (): void => {
     startGame(roomId);
   };
 
-  return (
+  return showRules ? (
+    <GameRules returnBackCallback={() => setShowRules(false)} />
+  ) : (
     <>
       <div>Предбанник</div>
+      <Button onClick={() => setShowRules(true)}>Правила игры</Button>
       <div>
         {!teams?.length && (
           <div>
