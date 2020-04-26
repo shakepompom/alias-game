@@ -20,9 +20,10 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
       name: userName,
       isAdmin: true,
     };
+    const guuid = uuid();
 
     window.location.replace(`/${ruuid}`);
-    addRoom(ruuid, userData);
+    addRoom(ruuid, userData, guuid);
   };
 
   const handleJoinRoom = (user: firebase.User): void => {
