@@ -51,7 +51,9 @@ export const GameRules = ({
           победы количество очков.
         </li>
       </ul>
-      <Button onClick={() => returnBackCallback()}>Вернуться обратно</Button>
+      <Button onClick={(): void => returnBackCallback()}>
+        Вернуться обратно
+      </Button>
     </div>
   );
 };

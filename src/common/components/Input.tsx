@@ -10,11 +10,13 @@ type InputProps = Omit<
 export const Input = ({
   type = 'text',
   value,
+  readOnly,
   onChange,
 }: InputProps): JSX.Element => (
   <input
     type={type}
     value={value}
+    readOnly={readOnly}
     onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
       onChange && onChange(e.target.value);
     }}

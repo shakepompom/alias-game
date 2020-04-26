@@ -3,7 +3,7 @@ import { Button, GameRules } from '@components';
 import { startGame } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
-import { Teams, Settings } from './components';
+import { GameLink, Teams, Settings } from './components';
 
 type PreparationProps = {
   roomId: string;
@@ -22,7 +22,8 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
   ) : (
     <>
       <div>Предбанник</div>
-      <Button onClick={() => setShowRules(true)}>Правила игры</Button>
+      <Button onClick={(): void => setShowRules(true)}>Правила игры</Button>
+      <GameLink />
       <div>
         {!teams?.length && (
           <div>

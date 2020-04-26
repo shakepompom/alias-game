@@ -40,7 +40,7 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   ) : (
     <>
       <div>Добро пожаловать в онлайн-игру ALIAS!</div>
-      <Button onClick={() => setShowRules(true)}>Правила игры</Button>
+      <Button onClick={(): void => setShowRules(true)}>Правила игры</Button>
       <div>
         Введи свое имя:
         <Input
