@@ -11,7 +11,7 @@ type PreparationProps = {
 
 export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
   const [showRules, setShowRules] = useState(false);
-  const { users, teams, isAdmin } = useCommonComponentState(roomId);
+  const { users, teams, userId, isAdmin } = useCommonComponentState(roomId);
 
   const handleStartGame = (): void => {
     startGame(roomId);
@@ -34,9 +34,17 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
                   ({ id, name, isAdmin }: User, index: number): JSX.Element => (
                     <li
                       key={id}
-                      style={{ color: isAdmin ? 'blue' : 'default' }}
+                      style={{
+                        color:
+                          userId === id
+                            ? 'green'
+                            : isAdmin
+                            ? 'blue'
+                            : 'default',
+                      }}
                     >
-                      {index + 1}. {name} ({id}){isAdmin && ' - создатель игры'}
+                      {index + 1}. {name} ({id}){userId === id && ' - это вы'}
+                      {isAdmin && ' - создатель игры'}
                     </li>
                   )
                 )}

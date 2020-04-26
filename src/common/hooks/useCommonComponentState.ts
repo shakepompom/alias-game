@@ -15,5 +15,10 @@ export const useCommonComponentState = (
   const [user] = useObject(getUser(roomId, authUser?.uid));
   const isAdmin = user?.val()?.isAdmin;
 
-  return { users: users?.val(), teams: teams?.val(), isAdmin };
+  return {
+    users: users?.val(),
+    teams: teams?.val(),
+    userId: authUser?.uid,
+    isAdmin,
+  };
 };

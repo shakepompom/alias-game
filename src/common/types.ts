@@ -21,5 +21,6 @@ export type RoomSettings = {
 export type CommonComponentState = {
   users: User[];
   teams: Team[];
+  userId: string | undefined;
   isAdmin: boolean;
 };
