@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useStateValidator } from 'react-use';
 import { v4 as uuid } from 'uuid';
-import { Button, Input } from '@components';
+import { Button, Input, TeamsList } from '@components';
 import { useCommonComponentState } from '@hooks';
 import { splitToTeams } from '@fb/room';
-import { Team, User } from '@common/types';
 import { splitToTeams as splitToTeamsUtil } from '../utils';
 
 type TeamsProps = {
@@ -51,27 +50,7 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
           </div>
         </>
       )}
-      {teams && (
-        <div>
-          Команды:
-          <ul>
-            {Object.values(teams).map(
-              ({ name, users }: Team): JSX.Element => (
-                <li key={name}>
-                  {name}
-                  <ul>
-                    {Object.values(users).map(
-                      ({ id, name }: User): JSX.Element => (
-                        <li key={id}>{name}</li>
-                      )
-                    )}
-                  </ul>
-                </li>
-              )
-            )}
-          </ul>
-        </div>
-      )}
+      <TeamsList roomId={roomId} />
     </>
   );
 };
