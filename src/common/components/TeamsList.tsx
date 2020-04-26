@@ -7,7 +7,7 @@ type TeamsListProps = {
 };
 
 export const TeamsList = ({ roomId }: TeamsListProps): JSX.Element => {
-  const { userId, teams } = useCommonComponentState(roomId);
+  const { userId, teams, activeUserId } = useCommonComponentState(roomId);
 
   return teams ? (
     <div>
@@ -27,6 +27,7 @@ export const TeamsList = ({ roomId }: TeamsListProps): JSX.Element => {
                       }}
                     >
                       {name}
+                      {activeUserId === id && ' - ходит'}
                     </li>
                   )
                 )}

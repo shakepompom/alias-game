@@ -4,6 +4,7 @@ import { startGame } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
 import { GameLink, Teams, Settings } from './components';
+import { generateOrder } from './utils';
 
 type PreparationProps = {
   roomId: string;
@@ -11,10 +12,14 @@ type PreparationProps = {
 
 export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
   const [showRules, setShowRules] = useState(false);
-  const { users, teams, userId, isAdmin } = useCommonComponentState(roomId);
+  const { users, userId, isAdmin, gameId, teams } = useCommonComponentState(
+    roomId
+  );
 
   const handleStartGame = (): void => {
-    startGame(roomId);
+    const order = generateOrder(teams, Object.keys(users).length);
+
+    startGame(roomId, gameId, order);
   };
 
   return showRules ? (
