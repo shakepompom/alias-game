@@ -31,7 +31,7 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
             Количество команд:
             {isAdmin && (
               <Input
-                value={teamCount}
+                value={String(teamCount)}
                 type="number"
                 min={0}
                 onChange={(val: string): void => setTeamCount(+val)}

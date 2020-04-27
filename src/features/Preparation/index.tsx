@@ -26,7 +26,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
     <GameRules returnBackCallback={() => setShowRules(false)} />
   ) : (
     <>
-      <div>Предбанник</div>
+      <h1>Предбанник</h1>
       <Button onClick={(): void => setShowRules(true)}>Правила игры</Button>
       <GameLink />
       <div>

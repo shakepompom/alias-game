@@ -18,7 +18,7 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
 
   return (
     <>
-      <div>Дашборд</div>
+      <h1>Дашборд</h1>
       <TeamsList roomId={roomId} />
       {/* TODO: Show this button if user is active */}
       <div>
