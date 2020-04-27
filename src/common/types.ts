@@ -24,7 +24,6 @@ export type CommonComponentState = {
   isAdmin: boolean;
   gameId: string;
   teams: Team[];
-  order: string[];
-  orderIndex: number;
-  activeUserId: string;
+  round: number;
+  activeTeamOrder: number;
 };
