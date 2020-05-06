@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, Input } from '@components';
+import { Button, Input, GameRules } from '@components';
 import { signIn } from '@fb/auth';
 import { addUser } from '@fb/user';
 import { addRoom } from '@fb/room';
@@ -11,6 +11,7 @@ type LandingProps = {
 
 export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   const [userName, setUserName] = useState('');
+  const [showRules, setShowRules] = useState(false);
 
   const handleCreateRoom = (user: firebase.User): void => {
     const ruuid = uuid();
@@ -19,9 +20,10 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
       name: userName,
       isAdmin: true,
     };
+    const guuid = uuid();
 
     window.location.replace(`/${ruuid}`);
-    addRoom(ruuid, userData);
+    addRoom(ruuid, userData, guuid);
   };
 
   const handleJoinRoom = (user: firebase.User): void => {
@@ -34,11 +36,14 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
     addUser(roomId, userData);
   };
 
-  return (
+  return showRules ? (
+    <GameRules returnBackCallback={() => setShowRules(false)} />
+  ) : (
     <>
-      <div>Welcome to alias game!</div>
+      <div>Добро пожаловать в онлайн-игру ALIAS!</div>
+      <Button onClick={(): void => setShowRules(true)}>Правила игры</Button>
       <div>
-        Enter your name:
+        Введи свое имя:
         <Input
           value={userName}
           onChange={(val: string): void => setUserName(val)}
@@ -49,14 +54,14 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
           disabled={!userName}
           onClick={(): void => signIn({ loggedInCallback: handleJoinRoom })}
         >
-          Join game
+          Присоединиться
         </Button>
       ) : (
         <Button
           disabled={!userName}
           onClick={(): void => signIn({ loggedInCallback: handleCreateRoom })}
         >
-          Start game
+          Начать игру
         </Button>
       )}
     </>

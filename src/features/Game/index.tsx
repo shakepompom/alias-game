@@ -1,44 +1,39 @@
-import React from 'react';
-import { useObject } from 'react-firebase-hooks/database';
-import { getCurrentGameId, getTeams } from '@fb/room';
-import { Team, User } from '@common/types';
+import React, { useState } from 'react';
+import { switchNextOrder } from '@fb/room';
+import { TeamsList, Button } from '@components';
+import { useCommonComponentState } from '@hooks';
 
 type GameProps = {
   roomId: string;
 };
 
 export const Game = ({ roomId }: GameProps): JSX.Element => {
-  const [gameId] = useObject(getCurrentGameId(roomId));
-  const [teams] = useObject(getTeams(roomId, gameId?.val()));
+  const [isActiveUser, setIsActiveUser] = useState(false);
+  const { teams, round, activeTeamOrder } = useCommonComponentState(roomId);
+
+  const handleClickSwitchOrder = (): void => {
+    const nextRound = teams.length - 1 === activeTeamOrder ? round + 1 : round;
+    const nextActiveTeam =
+      teams.length - 1 === activeTeamOrder ? 0 : activeTeamOrder + 1;
+    const nextState = {
+      round: nextRound,
+      activeTeam: nextActiveTeam,
+    };
+
+    switchNextOrder(roomId, nextState);
+  };
 
   return (
     <>
-      <div>Game page</div>
+      <h1>Дашборд</h1>
+      <TeamsList roomId={roomId} setIsActiveUser={setIsActiveUser} />
+      {/* TODO: Show this button if user is active */}
+      {isActiveUser && <h2>Я вижу тут кнопку</h2>}
       <div>
-        Room data:
-        <div>
-          Teams:
-          <ul>
-            {teams?.val() &&
-              Object.values(teams.val()).map(
-                // TODO: Fix type
-                ({ name, users }: Team): JSX.Element => (
-                  <li key={name}>
-                    {name}
-                    <ul>
-                      {Object.values(users).map(
-                        ({ id, name }: User): JSX.Element => (
-                          <li key={id}>{name}</li>
-                        )
-                      )}
-                    </ul>
-                  </li>
-                )
-              )}
-          </ul>
-        </div>
+        <Button onClick={handleClickSwitchOrder}>
+          Передать ход следующей команде
+        </Button>
       </div>
-      <div>Игра запущена...</div>
     </>
   );
 };

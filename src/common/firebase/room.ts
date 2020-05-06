@@ -19,13 +19,13 @@ export const getTeams = (
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/teams`);
 
-export const startGame = (ruuid: string): void => {
-  database
-    .ref(`rooms/${ruuid}/currentGameStatus`)
-    .update({ isGameStarted: true });
-};
+export const getTeamOrderIndex = (ruuid: string): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/currentGameStatus/activeTeam`);
 
-export const addRoom = (ruuid: string, admin: User): void => {
+export const getGameRound = (ruuid: string): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/currentGameStatus/round`);
+
+export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
   const data = {
     [ruuid]: {
       users: {
@@ -37,6 +37,17 @@ export const addRoom = (ruuid: string, admin: User): void => {
       },
       currentGameStatus: {
         isGameStarted: false,
+        gameId: guuid,
+      },
+      games: {
+        [guuid]: {
+          id: guuid,
+          settings: {
+            timer: 60,
+            pointsToWin: 100,
+            isLastWordToGuess: true,
+          },
+        },
       },
     },
   };
@@ -49,6 +60,26 @@ export const splitToTeams = (
   guuid: string,
   teams: Team[]
 ): void => {
-  database.ref(`rooms/${ruuid}/games/${guuid}`).update({ id: guuid, teams });
-  database.ref(`rooms/${ruuid}/currentGameStatus`).update({ gameId: guuid });
+  database.ref(`rooms/${ruuid}/games/${guuid}`).update({ teams });
+};
+
+export const switchNextOrder = (
+  ruuid: string,
+  nextState: {
+    round: number;
+    activeTeam: number;
+  }
+): void => {
+  database.ref(`rooms/${ruuid}/currentGameStatus`).update({
+    round: nextState.round,
+    activeTeam: nextState.activeTeam,
+  });
+};
+
+export const startGame = (ruuid: string): void => {
+  database.ref(`rooms/${ruuid}/currentGameStatus`).update({
+    isGameStarted: true,
+    round: 0,
+    activeTeam: 0,
+  });
 };

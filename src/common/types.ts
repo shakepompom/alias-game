@@ -20,6 +20,10 @@ export type RoomSettings = {
 
 export type CommonComponentState = {
   users: User[];
-  teams: Team[];
+  userId: string | undefined;
   isAdmin: boolean;
+  gameId: string;
+  teams: Team[];
+  round: number;
+  activeTeamOrder: number;
 };

@@ -23,6 +23,7 @@ module.exports = {
         allowTypedFunctionExpressions: true,
       },
     ],
+    '@typescript-eslint/indent': 'off', // disabled because of a lot of issues https://github.com/typescript-eslint/typescript-eslint/issues/1824
   },
   settings: {
     react: {
