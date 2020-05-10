@@ -15,7 +15,7 @@ export const getUsers = (ruuid: string): firebase.database.Reference =>
 
 export const getTeams = (
   ruuid: string,
-  guuid: string
+  guuid: string,
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/teams`);
 
@@ -24,6 +24,12 @@ export const getTeamOrderIndex = (ruuid: string): firebase.database.Reference =>
 
 export const getGameRound = (ruuid: string): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/currentGameStatus/round`);
+
+export const getGameSettings = (
+  ruuid: string,
+  guuid: string,
+): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/games/${guuid}/settings`);
 
 export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
   const data = {
@@ -58,7 +64,7 @@ export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
 export const splitToTeams = (
   ruuid: string,
   guuid: string,
-  teams: Team[]
+  teams: Team[],
 ): void => {
   database.ref(`rooms/${ruuid}/games/${guuid}`).update({ teams });
 };
@@ -68,7 +74,7 @@ export const switchNextOrder = (
   nextState: {
     round: number;
     activeTeam: number;
-  }
+  },
 ): void => {
   database.ref(`rooms/${ruuid}/currentGameStatus`).update({
     round: nextState.round,

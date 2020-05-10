@@ -7,13 +7,14 @@ import {
   getTeams,
   getTeamOrderIndex,
   getGameRound,
+  getGameSettings,
 } from '@fb/room';
 import { getUser } from '@fb/user';
 import { CommonComponentState } from '../types';
 
 // TODO: Split this hook in 2 different depends on game status/feature component
 export const useCommonComponentState = (
-  roomId: string
+  roomId: string,
 ): CommonComponentState => {
   const [authUser] = useAuthState(auth);
   const [users] = useObject(getUsers(roomId));
@@ -23,6 +24,7 @@ export const useCommonComponentState = (
   const [teams] = useObject(getTeams(roomId, gameId?.val()));
   const [activeTeamOrder] = useObject(getTeamOrderIndex(roomId));
   const [round] = useObject(getGameRound(roomId));
+  const [settings] = useObject(getGameSettings(roomId, gameId?.val()));
 
   return {
     users: users?.val(),
@@ -32,5 +34,6 @@ export const useCommonComponentState = (
     teams: teams?.val(),
     round: round?.val(),
     activeTeamOrder: activeTeamOrder?.val(),
+    settings: settings?.val(),
   };
 };
