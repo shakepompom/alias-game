@@ -31,6 +31,9 @@ export const getGameSettings = (
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/settings`);
 
+export const getIsRoundStarted = (ruuid: string): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/currentGameStatus/isRoundStarted`);
+
 export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
   const data = {
     [ruuid]: {
@@ -87,5 +90,12 @@ export const startGame = (ruuid: string): void => {
     isGameStarted: true,
     round: 0,
     activeTeam: 0,
+    isRoundStarted: false,
   });
+};
+
+export const setRoundStatus = (ruuid: string, value: boolean): void => {
+  database
+    .ref(`rooms/${ruuid}/currentGameStatus`)
+    .update({ isRoundStarted: value });
 };

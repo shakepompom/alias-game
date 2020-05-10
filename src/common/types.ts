@@ -26,6 +26,7 @@ export type CommonComponentState = {
   teams: Team[];
   round: number;
   activeTeamOrder: number;
+  isRoundStarted: boolean;
   settings: {
     isLastWordToGuess: boolean;
     pointsToWin: number;
