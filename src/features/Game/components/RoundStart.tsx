@@ -26,8 +26,14 @@ export const RoundStart = ({
           ? 'Если твоя команда готова, жми кнопку ниже'
           : 'Команда, будьте готовы!'}
       </div>
-      {isActiveUser && <h2>Я вижу тут кнопку</h2>}
+      {isActiveUser && <h3 style={{ color: 'green' }}>Я вижу тут кнопку</h3>}
       {/* TODO: Show this button if user is active */}
+      <div>
+        Для определения статуса слова, можно кликать по кнопкам "Пропустить" и
+        "Угадали" или по стрелочкам на клавиатуре "Влево" и "Вправо"
+        соответственно.
+      </div>
+      <div>{`"<- Пропустить" / "Угадали ->"`}</div>
       <div>
         <Button onClick={handleButtonStartRound}>Начать</Button>
       </div>

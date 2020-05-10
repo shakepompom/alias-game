@@ -24,8 +24,15 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
 
   const renderGameContent = (): JSX.Element => {
     switch (true) {
-      case isRunning:
-        return <RoundProgress isActiveUser={isActiveUser} time={time} />;
+      case isRoundStarted:
+        return (
+          <RoundProgress
+            roomId={roomId}
+            isActiveUser={isActiveUser}
+            time={time}
+            isRunning={isRunning}
+          />
+        );
       case !isRoundStarted:
         return <RoundResults roomId={roomId} isActiveUser={isActiveUser} />;
       default:

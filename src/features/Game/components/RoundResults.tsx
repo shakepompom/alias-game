@@ -29,7 +29,7 @@ export const RoundResults = ({
   return (
     <div>
       <h2>RoundResults</h2>
-      {isActiveUser && <h2>Я вижу тут кнопку</h2>}
+      {isActiveUser && <h3 style={{ color: 'green' }}>Я вижу тут кнопку</h3>}
       {/* TODO: Show this button if user is active */}
       <div>
         <Button onClick={handleClickSwitchOrder}>
