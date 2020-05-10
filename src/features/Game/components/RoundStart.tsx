@@ -22,7 +22,14 @@ export const RoundStart = ({
     <div>
       <h2>RoundStart</h2>
       <div>
-        <Button onClick={handleButtonStartRound}>Запустить таймер</Button>
+        {isActiveUser
+          ? 'Если твоя команда готова, жми кнопку ниже'
+          : 'Команда, будьте готовы!'}
+      </div>
+      {isActiveUser && <h2>Я вижу тут кнопку</h2>}
+      {/* TODO: Show this button if user is active */}
+      <div>
+        <Button onClick={handleButtonStartRound}>Начать</Button>
       </div>
     </div>
   );
