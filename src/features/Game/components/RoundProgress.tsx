@@ -108,7 +108,6 @@ export const RoundProgress = ({
             <Button
               key={name}
               onClick={() => {
-                console.log(index, name);
                 handleGuessLastWord(index);
               }}
             >
@@ -117,7 +116,6 @@ export const RoundProgress = ({
           ))}
           <Button
             onClick={() => {
-              console.log('Никто');
               handleGuessLastWord(null);
             }}
           >
