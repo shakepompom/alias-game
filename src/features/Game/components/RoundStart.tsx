@@ -5,17 +5,14 @@ import { Button } from '@components';
 type RoundStartProps = {
   roomId: string;
   isActiveUser: boolean;
-  start: Function;
 };
 
 export const RoundStart = ({
   roomId,
   isActiveUser,
-  start,
 }: RoundStartProps): JSX.Element => {
   const handleButtonStartRound = (): void => {
     setRoundStatus(roomId, true);
-    start();
   };
 
   return (

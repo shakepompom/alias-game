@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useKeyPressEvent } from 'react-use';
+import { useKeyPressEvent, useEffectOnce } from 'react-use';
 import { WordStatus } from '@common/types';
 import { sendTeamRoundResult, sendLastWordRoundResult } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
@@ -8,6 +8,7 @@ import { Button } from '@components';
 type RoundProgressProps = {
   roomId: string;
   isActiveUser: boolean;
+  start: Function;
   time: number;
   isRunning: boolean;
 };
@@ -36,9 +37,14 @@ const transformTimerToFriendlyDisplaying = (time: number): string => {
 export const RoundProgress = ({
   roomId,
   isActiveUser,
+  start,
   time,
   isRunning,
 }: RoundProgressProps): JSX.Element => {
+  useEffectOnce(() => {
+    start();
+  });
+
   const { teams, gameId, round, activeTeamOrder } = useCommonComponentState(
     roomId,
   );

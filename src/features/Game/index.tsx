@@ -17,18 +17,18 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
     initialTime: 60,
     endTime: 0,
     timerType: 'DECREMENTAL',
-    onTimeOver: () => {
-      console.log('timer is over');
-    },
   });
 
-  const renderGameContent = (): JSX.Element => {
+  const renderGameContent = (): JSX.Element | null => {
     switch (true) {
+      case !isRoundStarted:
+        return <RoundStart roomId={roomId} isActiveUser={isActiveUser} />;
       case isRoundStarted:
         return (
           <RoundProgress
             roomId={roomId}
             isActiveUser={isActiveUser}
+            start={start}
             time={time}
             isRunning={isRunning}
           />
@@ -36,13 +36,7 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
       case !isRoundStarted:
         return <RoundResults roomId={roomId} isActiveUser={isActiveUser} />;
       default:
-        return (
-          <RoundStart
-            roomId={roomId}
-            isActiveUser={isActiveUser}
-            start={start}
-          />
-        );
+        return null;
     }
   };
 
