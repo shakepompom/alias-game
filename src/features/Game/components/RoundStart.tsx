@@ -12,7 +12,7 @@ export const RoundStart = ({
   isActiveUser,
 }: RoundStartProps): JSX.Element => {
   const handleButtonStartRound = (): void => {
-    setRoundStatus(roomId, true);
+    setRoundStatus(roomId, 'progress');
   };
 
   return (

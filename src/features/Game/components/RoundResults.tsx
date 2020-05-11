@@ -1,6 +1,6 @@
 import React from 'react';
 import { useObject } from 'react-firebase-hooks/database';
-import { switchNextOrder, getRoundResult } from '@fb/room';
+import { switchNextOrder, setRoundStatus, getRoundResult } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Button } from '@components';
 import { WordStatus } from '@common/types';
@@ -33,6 +33,7 @@ export const RoundResults = ({
     };
 
     switchNextOrder(roomId, nextState);
+    setRoundStatus(roomId, 'start');
   };
 
   return (

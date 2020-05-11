@@ -10,7 +10,7 @@ type GameProps = {
 
 export const Game = ({ roomId }: GameProps): JSX.Element => {
   const [isActiveUser, setIsActiveUser] = useState(false);
-  const { isRoundStarted, settings } = useCommonComponentState(roomId);
+  const { roundStatus, settings } = useCommonComponentState(roomId);
 
   const { time, start, isRunning } = useTimer({
     // TODO: Replace with timer from settings settings?.timer
@@ -20,10 +20,10 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
   });
 
   const renderGameContent = (): JSX.Element | null => {
-    switch (true) {
-      case !isRoundStarted:
+    switch (roundStatus) {
+      case 'start':
         return <RoundStart roomId={roomId} isActiveUser={isActiveUser} />;
-      case isRoundStarted:
+      case 'progress':
         return (
           <RoundProgress
             roomId={roomId}
@@ -33,7 +33,7 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
             isRunning={isRunning}
           />
         );
-      case !isRoundStarted:
+      case 'result':
         return <RoundResults roomId={roomId} isActiveUser={isActiveUser} />;
       default:
         return null;

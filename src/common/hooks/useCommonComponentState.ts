@@ -8,7 +8,7 @@ import {
   getTeamOrderIndex,
   getGameRound,
   getGameSettings,
-  getIsRoundStarted,
+  getRoundStatus,
 } from '@fb/room';
 import { getUser } from '@fb/user';
 import { CommonComponentState } from '../types';
@@ -25,7 +25,7 @@ export const useCommonComponentState = (
   const [teams] = useObject(getTeams(roomId, gameId?.val()));
   const [activeTeamOrder] = useObject(getTeamOrderIndex(roomId));
   const [round] = useObject(getGameRound(roomId));
-  const [isRoundStarted] = useObject(getIsRoundStarted(roomId));
+  const [roundStatus] = useObject(getRoundStatus(roomId));
   const [settings] = useObject(getGameSettings(roomId, gameId?.val()));
 
   return {
@@ -36,7 +36,7 @@ export const useCommonComponentState = (
     teams: teams?.val(),
     round: round?.val(),
     activeTeamOrder: activeTeamOrder?.val(),
-    isRoundStarted: isRoundStarted?.val(),
+    roundStatus: roundStatus?.val(),
     settings: settings?.val(),
   };
 };

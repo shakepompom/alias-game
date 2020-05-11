@@ -1,5 +1,5 @@
 import { database } from './initFirebase';
-import { User, Team, WordStatus } from '@common/types';
+import { User, Team, RoundStatus, WordStatus } from '@common/types';
 
 export const getRoom = (ruuid: string): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}`);
@@ -31,8 +31,8 @@ export const getGameSettings = (
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/settings`);
 
-export const getIsRoundStarted = (ruuid: string): firebase.database.Reference =>
-  database.ref(`rooms/${ruuid}/currentGameStatus/isRoundStarted`);
+export const getRoundStatus = (ruuid: string): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/currentGameStatus/roundStatus`);
 
 export const getRoundResult = (
   ruuid: string,
@@ -101,14 +101,14 @@ export const startGame = (ruuid: string): void => {
     isGameStarted: true,
     round: 0,
     activeTeam: 0,
-    isRoundStarted: false,
+    roundStatus: 'start',
   });
 };
 
-export const setRoundStatus = (ruuid: string, value: boolean): void => {
+export const setRoundStatus = (ruuid: string, value: RoundStatus): void => {
   database
     .ref(`rooms/${ruuid}/currentGameStatus`)
-    .update({ isRoundStarted: value });
+    .update({ roundStatus: value });
 };
 
 export const sendTeamRoundResult = (

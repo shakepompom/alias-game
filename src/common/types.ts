@@ -18,6 +18,8 @@ export type RoomSettings = {
   currentGameStatus: CurrentGameStatus;
 };
 
+export type RoundStatus = 'start' | 'progress' | 'result';
+
 export type WordStatus = {
   word: string;
   status: boolean;
@@ -31,7 +33,7 @@ export type CommonComponentState = {
   teams: Team[];
   round: number;
   activeTeamOrder: number;
-  isRoundStarted: boolean;
+  roundStatus: RoundStatus;
   settings: {
     isLastWordToGuess: boolean;
     pointsToWin: number;

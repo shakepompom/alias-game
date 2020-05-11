@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useKeyPressEvent, useEffectOnce } from 'react-use';
 import { WordStatus } from '@common/types';
-import { sendTeamRoundResult, sendLastWordRoundResult } from '@fb/room';
+import {
+  sendTeamRoundResult,
+  sendLastWordRoundResult,
+  setRoundStatus,
+} from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Button } from '@components';
 
@@ -91,6 +95,8 @@ export const RoundProgress = ({
 
       sendLastWordRoundResult(roomId, gameId, teamIndex, round, result);
     }
+
+    setRoundStatus(roomId, 'result');
   };
 
   return (
