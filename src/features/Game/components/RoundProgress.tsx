@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useKeyPressEvent } from 'react-use';
+import { WordStatus } from '@common/types';
+import { sendTeamRoundResult, sendLastWordRoundResult } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Button } from '@components';
 
@@ -10,10 +12,19 @@ type RoundProgressProps = {
   isRunning: boolean;
 };
 
-type WordsStatus = {
-  skipped: string[];
-  guessed: string[];
-};
+// TODO: replace this words with words from server
+const wordsSet = [
+  'Машина',
+  'Собака',
+  'Игра',
+  'Понедельник',
+  'Красный крест',
+  'Пюпитр',
+  'Массив',
+  'Счастье',
+  'Юла',
+  'Тетрадь',
+];
 
 const transformTimerToFriendlyDisplaying = (time: number): string => {
   const minutes = Math.floor(time / 60);
@@ -28,24 +39,53 @@ export const RoundProgress = ({
   time,
   isRunning,
 }: RoundProgressProps): JSX.Element => {
-  const { teams, round, activeTeamOrder } = useCommonComponentState(roomId);
-  const [wordsStatus, setWordsStatus] = useState<WordsStatus>({
-    skipped: [],
-    guessed: [],
-  });
+  const { teams, gameId, round, activeTeamOrder } = useCommonComponentState(
+    roomId,
+  );
+  const [wordIndexFromSet, setWordIndexFromSet] = useState(0);
+  const [wordsStatus, setWordsStatus] = useState<WordStatus[]>([]);
 
-  const handleSkipAction = (): void =>
-    setWordsStatus({
+  const showNextWord = (): void => {
+    setWordIndexFromSet(wordIndexFromSet + 1);
+  };
+
+  const handleButton = (status: boolean): void => {
+    showNextWord();
+    setWordsStatus([
       ...wordsStatus,
-      skipped: [...wordsStatus.skipped, 'Слово'],
-    });
-  const handleGuessAction = (): void =>
-    setWordsStatus({
-      ...wordsStatus,
-      guessed: [...wordsStatus.guessed, 'Слово'],
-    });
+      {
+        word: wordsSet[wordIndexFromSet],
+        status,
+      },
+    ]);
+  };
+  const handleSkipAction = (): void => handleButton(false);
+  const handleGuessAction = (): void => handleButton(true);
   useKeyPressEvent('ArrowLeft', handleSkipAction);
   useKeyPressEvent('ArrowRight', handleGuessAction);
+
+  const handleGuessLastWord = (teamIndex: number | null): void => {
+    const userIndex =
+      round % Object.values(teams[activeTeamOrder].users).length;
+
+    sendTeamRoundResult(
+      roomId,
+      gameId,
+      activeTeamOrder,
+      userIndex,
+      round,
+      wordsStatus,
+    );
+
+    if (teamIndex !== null) {
+      const result = {
+        word: wordsSet[wordIndexFromSet],
+        status: true,
+      };
+
+      sendLastWordRoundResult(roomId, gameId, teamIndex, round, result);
+    }
+  };
 
   return (
     <div>
@@ -55,7 +95,7 @@ export const RoundProgress = ({
         <h3 style={{ color: 'green' }}>Я вижу тут слово и кнопки</h3>
       )}
       {/* TODO: Show this word and buttons if user is active */}
-      <h3>Слово</h3>
+      <h3 style={{ color: 'red' }}>{wordsSet[wordIndexFromSet]}</h3>
       {isRunning ? (
         <div>
           <Button onClick={handleSkipAction}>Пропустить</Button>
@@ -69,6 +109,7 @@ export const RoundProgress = ({
               key={name}
               onClick={() => {
                 console.log(index, name);
+                handleGuessLastWord(index);
               }}
             >
               {name}
@@ -77,6 +118,7 @@ export const RoundProgress = ({
           <Button
             onClick={() => {
               console.log('Никто');
+              handleGuessLastWord(null);
             }}
           >
             Никто

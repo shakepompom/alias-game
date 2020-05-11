@@ -18,6 +18,11 @@ export type RoomSettings = {
   currentGameStatus: CurrentGameStatus;
 };
 
+export type WordStatus = {
+  word: string;
+  status: boolean;
+};
+
 export type CommonComponentState = {
   users: User[];
   userId: string | undefined;
