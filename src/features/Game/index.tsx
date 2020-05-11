@@ -13,8 +13,8 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
   const { roundStatus, settings } = useCommonComponentState(roomId);
 
   const { time, start, isRunning } = useTimer({
-    // TODO: Replace with timer from settings settings?.timer
-    initialTime: 60,
+    // TODO: Set 60 or Replace with timer from settings settings?.timer
+    initialTime: 10,
     endTime: 0,
     timerType: 'DECREMENTAL',
   });

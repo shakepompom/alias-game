@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Team, User } from '@common/types';
 import { useCommonComponentState } from '@hooks';
+import { getTotalScore } from '@utils';
 
 type TeamsListProps = {
   roomId: string;
@@ -12,7 +13,7 @@ export const TeamsList = ({
   setIsActiveUser,
 }: TeamsListProps): JSX.Element => {
   const { userId, teams, activeTeamOrder, round } = useCommonComponentState(
-    roomId
+    roomId,
   );
 
   const [activeUserId, setActiveUserId] = useState('');
@@ -28,12 +29,12 @@ export const TeamsList = ({
       Команды:
       <ul>
         {Object.values(teams).map(
-          ({ name, users }: Team, index): JSX.Element => {
+          ({ name, users, guessedWords }: Team, index): JSX.Element => {
             const isActiveTeam = index === activeTeamOrder;
 
             return (
               <li key={name}>
-                {name}
+                {name} - {getTotalScore(users, guessedWords)}
                 {isActiveTeam && ' - ходят'}
                 <ul>
                   {Object.values(users).map(
@@ -57,12 +58,12 @@ export const TeamsList = ({
                           {isActiveUser && ' - ходит'}
                         </li>
                       );
-                    }
+                    },
                   )}
                 </ul>
               </li>
             );
-          }
+          },
         )}
       </ul>
     </div>

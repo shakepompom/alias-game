@@ -1,0 +1,1 @@
+export { getTotalScore } from './getTotalScore';

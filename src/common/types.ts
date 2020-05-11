@@ -2,11 +2,13 @@ export type User = {
   id: string;
   name: string;
   isAdmin?: boolean;
+  score?: WordStatus[][];
 };
 
 export type Team = {
   name: string;
   users: User[];
+  guessedWords?: WordStatus[];
 };
 
 type CurrentGameStatus = {

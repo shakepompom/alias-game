@@ -18,7 +18,10 @@ export const RoundResults = ({
     roomId,
   );
   const userIndex =
-    round && round % Object.values(teams[activeTeamOrder].users).length;
+    round &&
+    teams &&
+    activeTeamOrder &&
+    round % Object.values(teams[activeTeamOrder].users).length;
   const [result] = useObject(
     getRoundResult(roomId, gameId, activeTeamOrder, userIndex, round),
   );
