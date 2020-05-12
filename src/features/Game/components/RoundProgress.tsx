@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useKeyPressEvent, useEffectOnce } from 'react-use';
+import { useTimer } from 'use-timer';
 import { WordStatus } from '@common/types';
 import {
   sendTeamRoundResult,
@@ -12,9 +13,7 @@ import { Button } from '@components';
 type RoundProgressProps = {
   roomId: string;
   isActiveUser: boolean;
-  start: Function;
-  time: number;
-  isRunning: boolean;
+  timerDuration: number;
 };
 
 // TODO: replace this words with words from server
@@ -41,10 +40,14 @@ const transformTimerToFriendlyDisplaying = (time: number): string => {
 export const RoundProgress = ({
   roomId,
   isActiveUser,
-  start,
-  time,
-  isRunning,
+  timerDuration,
 }: RoundProgressProps): JSX.Element => {
+  const { time, start, isRunning } = useTimer({
+    initialTime: timerDuration,
+    endTime: 0,
+    timerType: 'DECREMENTAL',
+  });
+
   useEffectOnce(() => {
     start();
   });
