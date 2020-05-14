@@ -9,6 +9,7 @@ import {
   getGameRound,
   getGameSettings,
   getRoundStatus,
+  getGameWinnerTeamIndex,
 } from '@fb/room';
 import { getUser } from '@fb/user';
 import { CommonComponentState } from '../types';
@@ -27,6 +28,9 @@ export const useCommonComponentState = (
   const [round] = useObject(getGameRound(roomId));
   const [roundStatus] = useObject(getRoundStatus(roomId));
   const [settings] = useObject(getGameSettings(roomId, gameId?.val()));
+  const [winnerTeamIndex] = useObject(
+    getGameWinnerTeamIndex(roomId, gameId?.val()),
+  );
 
   return {
     users: users?.val(),
@@ -37,6 +41,7 @@ export const useCommonComponentState = (
     round: round?.val(),
     activeTeamOrder: activeTeamOrder?.val(),
     roundStatus: roundStatus?.val(),
+    winnerTeamIndex: winnerTeamIndex?.val(),
     settings: settings?.val(),
   };
 };

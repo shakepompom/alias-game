@@ -2,7 +2,7 @@ import { User, WordStatus } from '@common/types';
 
 export const getTotalScore = (
   users: User[],
-  guessedWords: WordStatus[],
+  guessedWords: WordStatus[] = [],
 ): number => {
   const teamScore = users.reduce((acc, user) => {
     let score = acc;
@@ -22,5 +22,5 @@ export const getTotalScore = (
     return score;
   }, 0);
 
-  return teamScore + guessedWords.length;
+  return teamScore + Object.keys(guessedWords).length;
 };

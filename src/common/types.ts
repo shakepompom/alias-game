@@ -11,15 +11,6 @@ export type Team = {
   guessedWords?: WordStatus[];
 };
 
-type CurrentGameStatus = {
-  isGameStarted: boolean;
-};
-
-export type RoomSettings = {
-  users: User[];
-  currentGameStatus: CurrentGameStatus;
-};
-
 export type RoundStatus = 'start' | 'progress' | 'result';
 
 export type WordStatus = {
@@ -36,6 +27,7 @@ export type CommonComponentState = {
   round: number;
   activeTeamOrder: number;
   roundStatus: RoundStatus;
+  winnerTeamIndex: number;
   settings: {
     isLastWordToGuess: boolean;
     pointsToWin: number;
