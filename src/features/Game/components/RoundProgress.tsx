@@ -107,35 +107,35 @@ export const RoundProgress = ({
       <h2>RoundProgress</h2>
       <div>{transformTimerToFriendlyDisplaying(time)}</div>
       {isActiveUser && (
-        <h3 style={{ color: 'green' }}>Я вижу тут слово и кнопки</h3>
-      )}
-      {/* TODO: Show this word and buttons if user is active */}
-      <h3 style={{ color: 'red' }}>{wordsSet[wordIndexFromSet]}</h3>
-      {isRunning ? (
-        <div>
-          <Button onClick={handleSkipAction}>Пропустить</Button>
-          <Button onClick={handleGuessAction}>Угадали</Button>
-        </div>
-      ) : (
         <>
-          <div>Выбери команду, которая угадала последнее слово</div>
-          {teams?.map(({ name }, index) => (
-            <Button
-              key={name}
-              onClick={() => {
-                handleGuessLastWord(index);
-              }}
-            >
-              {name}
-            </Button>
-          ))}
-          <Button
-            onClick={() => {
-              handleGuessLastWord(null);
-            }}
-          >
-            Никто
-          </Button>
+          <h3 style={{ color: 'red' }}>{wordsSet[wordIndexFromSet]}</h3>
+          {isRunning ? (
+            <div>
+              <Button onClick={handleSkipAction}>Пропустить</Button>
+              <Button onClick={handleGuessAction}>Угадали</Button>
+            </div>
+          ) : (
+            <>
+              <div>Выбери команду, которая угадала последнее слово</div>
+              {teams?.map(({ name }, index) => (
+                <Button
+                  key={name}
+                  onClick={() => {
+                    handleGuessLastWord(index);
+                  }}
+                >
+                  {name}
+                </Button>
+              ))}
+              <Button
+                onClick={() => {
+                  handleGuessLastWord(null);
+                }}
+              >
+                Никто
+              </Button>
+            </>
+          )}
         </>
       )}
     </div>

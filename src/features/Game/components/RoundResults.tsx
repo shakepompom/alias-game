@@ -55,13 +55,13 @@ export const RoundResults = ({
             ),
           )}
       </div>
-      {isActiveUser && <h3 style={{ color: 'green' }}>Я вижу тут кнопку</h3>}
-      {/* TODO: Show this button if user is active */}
-      <div>
-        <Button onClick={handleClickSwitchOrder}>
-          Передать ход следующей команде
-        </Button>
-      </div>
+      {isActiveUser && (
+        <div>
+          <Button onClick={handleClickSwitchOrder}>
+            Передать ход следующей команде
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
