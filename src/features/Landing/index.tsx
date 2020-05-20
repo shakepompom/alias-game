@@ -1,9 +1,21 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 import { Button, Input, GameRules } from '@components';
 import { signIn } from '@fb/auth';
 import { addUser } from '@fb/user';
 import { addRoom } from '@fb/room';
+
+const Title = styled.div`
+  margin-bottom: 40px;
+  font-size: ${({ theme }) => theme.font.size.big};
+`;
+
+const ShowRulesButton = styled(Button)`
+  position: absolute;
+  top: 21px;
+  left: 24px;
+`;
 
 type LandingProps = {
   roomId: string;
@@ -40,15 +52,17 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
     <GameRules returnBackCallback={() => setShowRules(false)} />
   ) : (
     <>
-      <div>Добро пожаловать в онлайн-игру ALIAS!</div>
-      <Button onClick={(): void => setShowRules(true)}>Правила игры</Button>
-      <div>
-        Введи свое имя:
-        <Input
-          value={userName}
-          onChange={(val: string): void => setUserName(val)}
-        />
-      </div>
+      <Title>Добро пожаловать в онлайн-игру ALIAS!</Title>
+      <ShowRulesButton onClick={(): void => setShowRules(true)}>
+        Правила игры
+      </ShowRulesButton>
+      <Input
+        label="Введи свое имя:"
+        value={userName}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+          setUserName(e.target.value)
+        }
+      />
       {roomId ? (
         <Button
           disabled={!userName}

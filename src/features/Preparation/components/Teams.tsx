@@ -34,7 +34,9 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
                 value={String(teamCount)}
                 type="number"
                 min={0}
-                onChange={(val: string): void => setTeamCount(+val)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+                  setTeamCount(+e.target.value)
+                }
               />
             )}
           </div>
