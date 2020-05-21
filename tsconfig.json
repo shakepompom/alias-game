@@ -17,6 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "isolatedModules": true,
+    "types": ["node"],
     "baseUrl": "./",
     "paths": {
       "@src/*": ["src/*"],
