@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
 import { useStateValidator } from 'react-use';
+import styled from 'styled-components';
 import { Button, Input, TeamsList } from '@components';
 import { useCommonComponentState } from '@hooks';
 import { splitToTeams } from '@fb/room';
 import { splitToTeams as splitToTeamsUtil } from '../utils';
+
+const Inner = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TeamsNumberInput = styled(Input)`
+  flex-grow: 1;
+  margin-right: 24px;
+`;
 
 type TeamsProps = {
   roomId: string;
@@ -27,25 +38,23 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
     <>
       {isAdmin && !teams?.length && (
         <>
-          <div>
-            Количество команд:
+          <div>Количество команд:</div>
+          <Inner>
             {isAdmin && (
-              <Input
+              <TeamsNumberInput
                 value={String(teamCount)}
                 type="number"
                 min={0}
-                onChange={(val: string): void => setTeamCount(+val)}
+                onChange={(e) => setTeamCount(+e.target.value)}
               />
             )}
-          </div>
-          <div>
             <Button
               onClick={handleSplitToTeams}
               disabled={!teamCount || !isValid}
             >
               Распределить по командам
             </Button>
-          </div>
+          </Inner>
         </>
       )}
       <TeamsList roomId={roomId} />

@@ -1,14 +1,29 @@
 import React from 'react';
+import { useCommonComponentState } from '@hooks';
+import { Content } from '@components';
 
-export const Settings = (): JSX.Element => {
+type SettingsProps = {
+  roomId: string;
+};
+
+export const Settings = ({ roomId }: SettingsProps): JSX.Element => {
+  const { settings } = useCommonComponentState(roomId);
+
   return (
-    <div>
-      Настройки:
-      <ul>
-        <li>Длительность хода: 60 секунд</li>
-        <li>Количество очков для победы: 100</li>
-        <li>Последнее слово в ходе: могут угадывать все команды</li>
-      </ul>
-    </div>
+    <Content.BlockWrapper>
+      <Content.Subtitle>Настройки:</Content.Subtitle>
+      <Content.Ul>
+        <Content.Li>Длительность хода: {settings?.timer} секунд</Content.Li>
+        <Content.Li>
+          Количество очков для победы: {settings?.pointsToWin}
+        </Content.Li>
+        <Content.Li>
+          Последнее слово в ходе:{' '}
+          {settings?.isLastWordToGuess
+            ? 'могут угадывать все команды'
+            : 'никто не угадывает'}
+        </Content.Li>
+      </Content.Ul>
+    </Content.BlockWrapper>
   );
 };

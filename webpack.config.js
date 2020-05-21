@@ -23,6 +23,7 @@ module.exports = {
       '@hooks': resolve(rootDir, './src/common/hooks'),
       '@utils': resolve(rootDir, './src/common/utils'),
       '@fb': resolve(rootDir, './src/common/firebase'),
+      '@styles': resolve(rootDir, './src/common/styles'),
       '@features': resolve(rootDir, './src/features'),
       '@pages': resolve(rootDir, './src/pages'),
     },

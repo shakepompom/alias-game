@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useKeyPressEvent, useEffectOnce } from 'react-use';
 import { useTimer } from 'use-timer';
+import styled from 'styled-components';
 import { WordStatus } from '@common/types';
 import {
   sendTeamRoundResult,
@@ -8,7 +9,17 @@ import {
   setRoundStatus,
 } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
-import { Button } from '@components';
+import { Content, Button } from '@components';
+
+const Word = styled(Content.Title)`
+  margin: 40px 0;
+  font-size: 44px;
+  font-weight: 600;
+`;
+
+const StyledButton = styled(Button)`
+  margin: 0 16px;
+`;
 
 type RoundProgressProps = {
   roomId: string;
@@ -103,41 +114,48 @@ export const RoundProgress = ({
   };
 
   return (
-    <div>
-      <h2>RoundProgress</h2>
-      <div>{transformTimerToFriendlyDisplaying(time)}</div>
+    <>
+      <Content.Subtitle>
+        {transformTimerToFriendlyDisplaying(time)}
+      </Content.Subtitle>
       {isActiveUser && (
         <>
-          <h3 style={{ color: 'red' }}>{wordsSet[wordIndexFromSet]}</h3>
+          <Word>{wordsSet[wordIndexFromSet]}</Word>
           {isRunning ? (
             <div>
-              <Button onClick={handleSkipAction}>Пропустить</Button>
-              <Button onClick={handleGuessAction}>Угадали</Button>
+              <StyledButton onClick={handleSkipAction}>
+                &#8592; Пропустить
+              </StyledButton>
+              <StyledButton onClick={handleGuessAction}>
+                Угадали &#8594;
+              </StyledButton>
             </div>
           ) : (
             <>
-              <div>Выбери команду, которая угадала последнее слово</div>
+              <Content.Text>
+                Выбери команду, которая угадала последнее слово
+              </Content.Text>
               {teams?.map(({ name }, index) => (
-                <Button
+                <StyledButton
                   key={name}
                   onClick={() => {
                     handleGuessLastWord(index);
                   }}
                 >
                   {name}
-                </Button>
+                </StyledButton>
               ))}
-              <Button
+              <StyledButton
                 onClick={() => {
                   handleGuessLastWord(null);
                 }}
               >
                 Никто
-              </Button>
+              </StyledButton>
             </>
           )}
         </>
       )}
-    </div>
+    </>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TeamsList } from '@components';
 import { useCommonComponentState } from '@hooks';
+import { Content, Header, TeamsList } from '@components';
 import { RoundStart, RoundProgress, RoundResults } from './components';
 
 type GameProps = {
@@ -32,9 +32,13 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
 
   return (
     <>
-      <h1>Дашборд</h1>
-      <TeamsList roomId={roomId} setIsActiveUser={setIsActiveUser} />
-      <div>{renderGameContent()}</div>
+      <Header />
+      <Content.CenteredBlockWrapper>
+        <TeamsList roomId={roomId} setIsActiveUser={setIsActiveUser} />
+        <Content.BlockWrapper>
+          <div>{renderGameContent()}</div>
+        </Content.BlockWrapper>
+      </Content.CenteredBlockWrapper>
     </>
   );
 };
