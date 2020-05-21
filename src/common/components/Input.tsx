@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Theme, Color } from '@styles/theme';
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,13 +16,16 @@ const InputLabel = styled.label`
 const InputField = styled.input`
   padding: 8px 16px;
   color: inherit;
-  background-color: ${({ theme }) => theme.color.purple};
-  border: 1px solid ${({ theme }) => theme.color.lightPurple};
+  background-color: ${({ theme }: { theme: Theme }): Color =>
+    theme.color.purple};
+  border: 1px solid
+    ${({ theme }: { theme: Theme }): Color => theme.color.lightPurple};
   border-radius: 4px;
 `;
 
 type InputProps = {
   label?: string;
+  className?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export const Input = ({
@@ -31,8 +35,9 @@ export const Input = ({
   min,
   readOnly,
   onChange,
+  className,
 }: InputProps): JSX.Element => (
-  <Wrapper>
+  <Wrapper className={className}>
     <InputLabel>{label}</InputLabel>
     <InputField
       type={type}

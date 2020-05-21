@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
-import { Button, Input, GameRules } from '@components';
 import { signIn } from '@fb/auth';
 import { addUser } from '@fb/user';
 import { addRoom } from '@fb/room';
-
-const Title = styled.div`
-  margin-bottom: 40px;
-  font-size: ${({ theme }) => theme.font.size.big};
-`;
-
-const ShowRulesButton = styled(Button)`
-  position: absolute;
-  top: 21px;
-  left: 24px;
-`;
+import { Content, Button, Input, GameRules, Header } from '@components';
 
 type LandingProps = {
   roomId: string;
@@ -48,35 +36,56 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
     addUser(roomId, userData);
   };
 
-  return showRules ? (
-    <GameRules returnBackCallback={() => setShowRules(false)} />
-  ) : (
+  return (
     <>
-      <Title>Добро пожаловать в онлайн-игру ALIAS!</Title>
-      <ShowRulesButton onClick={(): void => setShowRules(true)}>
-        Правила игры
-      </ShowRulesButton>
-      <Input
-        label="Введи свое имя:"
-        value={userName}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-          setUserName(e.target.value)
-        }
-      />
-      {roomId ? (
-        <Button
-          disabled={!userName}
-          onClick={(): void => signIn({ loggedInCallback: handleJoinRoom })}
-        >
-          Присоединиться
-        </Button>
+      <Header>
+        {!showRules && (
+          <Button onClick={() => setShowRules(true)}>Правила игры</Button>
+        )}
+      </Header>
+      {showRules ? (
+        <GameRules returnBackCallback={() => setShowRules(false)} />
       ) : (
-        <Button
-          disabled={!userName}
-          onClick={(): void => signIn({ loggedInCallback: handleCreateRoom })}
-        >
-          Начать игру
-        </Button>
+        <>
+          <Content.Title>Добро пожаловать в онлайн-игру ALIAS!</Content.Title>
+          <Content.BlockWrapper>
+            <Content.Ul>
+              {!roomId && (
+                <>
+                  <Content.Li>Создавай комнату для игры</Content.Li>
+                  <Content.Li>Делись созданной ссылкой с друзьями</Content.Li>
+                  <Content.Li>
+                    Для видеосвязи можешь использовать любой удобный тебе способ
+                    (Google Meet, Zoom, Skype...)
+                  </Content.Li>
+                  <Content.Li>
+                    Проведи время с друзьями на расстоянии весело!
+                  </Content.Li>
+                </>
+              )}
+            </Content.Ul>
+          </Content.BlockWrapper>
+          <Input
+            label="Введи свое имя:"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          {roomId ? (
+            <Button
+              disabled={!userName}
+              onClick={() => signIn({ loggedInCallback: handleJoinRoom })}
+            >
+              Присоединиться
+            </Button>
+          ) : (
+            <Button
+              disabled={!userName}
+              onClick={() => signIn({ loggedInCallback: handleCreateRoom })}
+            >
+              Начать игру
+            </Button>
+          )}
+        </>
       )}
     </>
   );

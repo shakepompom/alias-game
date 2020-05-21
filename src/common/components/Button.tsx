@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Theme } from '@styles/theme';
 
 type Kind = 'primary' | 'secondary';
+type getButtonStylesTypes = {
+  kind: Kind;
+  theme: Theme;
+};
 
-const getButtonStyles = ({ kind, theme }): string => {
+const getButtonStyles = ({ kind, theme }: getButtonStylesTypes): string => {
   const kindsMap = {
     primary: `
       color: ${theme.color.purple};

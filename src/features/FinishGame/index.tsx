@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCommonComponentState } from '@hooks';
+import { Content, Header } from '@components';
 import { getTotalScore, getWordDeclension } from '@utils';
 
 type FinishGameProps = {
@@ -17,16 +18,23 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
         )
       : 0;
 
-  return teams && winnerTeamIndex ? (
+  return (
     <>
-      <div>Ура!</div>
-      <h3>Команда {teams[winnerTeamIndex].name} выиграла!</h3>
-      <div>
-        Команда набрала {score}{' '}
-        {getWordDeclension(score, ['очко', 'очка', 'очков'])}.
-      </div>
+      <Header />
+      {teams && winnerTeamIndex ? (
+        <Content.CenteredBlockWrapper>
+          <Content.Subtitle>Ура!</Content.Subtitle>
+          <Content.Title>
+            Команда {teams[winnerTeamIndex].name} выиграла!
+          </Content.Title>
+          <Content.Subtitle>
+            Команда набрала {score}{' '}
+            {getWordDeclension(score, ['очко', 'очка', 'очков'])}.
+          </Content.Subtitle>
+        </Content.CenteredBlockWrapper>
+      ) : (
+        <div>Загрузка...</div>
+      )}
     </>
-  ) : (
-    <div>Загрузка...</div>
   );
 };

@@ -6,8 +6,8 @@ type LandingPageProps = {
   roomId: string;
 };
 
-export const LandingPage = (props: LandingPageProps): JSX.Element => (
+export const LandingPage = ({ roomId }: LandingPageProps): JSX.Element => (
   <AppWrapper>
-    <Landing {...props} />
+    <Landing roomId={roomId} />
   </AppWrapper>
 );

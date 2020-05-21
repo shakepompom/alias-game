@@ -1,9 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useObject } from 'react-firebase-hooks/database';
 import { switchNextOrder, setRoundStatus, getRoundResult } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
-import { Button } from '@components';
+import { Content, Button } from '@components';
 import { WordStatus } from '@common/types';
+import { Theme, Color } from '@styles/theme';
+
+type ScPropsType = {
+  theme: Theme;
+  status: boolean;
+};
+
+const Word = styled(Content.Text)<Pick<ScPropsType, 'status'>>`
+  color: ${({ status, theme }: ScPropsType): Color =>
+    status ? theme.color.yellow : theme.color.lightPurple};
+`;
 
 type RoundResultsProps = {
   roomId: string;
@@ -41,20 +53,16 @@ export const RoundResults = ({
 
   return (
     <div>
-      <h2>RoundResults</h2>
-      <div>
+      <Content.BlockWrapper>
         {result?.val() &&
           result.val().map(
             ({ word, status }: WordStatus): JSX.Element => (
-              <div
-                key={word}
-                style={{ color: status ? 'deepskyblue' : 'gray' }}
-              >
+              <Word key={word} status={status}>
                 {word} - {status ? 'Угадано' : 'Пропущено'}
-              </div>
+              </Word>
             ),
           )}
-      </div>
+      </Content.BlockWrapper>
       {isActiveUser && (
         <div>
           <Button onClick={handleClickSwitchOrder}>
