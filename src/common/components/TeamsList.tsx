@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Team, User } from '@common/types';
+import { finishGame } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
+import { getTotalScore } from '@utils';
 
 type TeamsListProps = {
   roomId: string;
@@ -11,11 +13,17 @@ export const TeamsList = ({
   roomId,
   setIsActiveUser,
 }: TeamsListProps): JSX.Element => {
-  const { userId, teams, activeTeamOrder, round } = useCommonComponentState(
-    roomId
-  );
-
+  const {
+    userId,
+    isAdmin,
+    gameId,
+    teams,
+    activeTeamOrder,
+    round,
+    settings,
+  } = useCommonComponentState(roomId);
   const [activeUserId, setActiveUserId] = useState('');
+  const [totalScore, setTotalScore] = useState<number[]>([]);
 
   useEffect(() => {
     if (setIsActiveUser) {
@@ -23,17 +31,35 @@ export const TeamsList = ({
     }
   }, [setIsActiveUser, activeUserId]);
 
+  useEffect(() => {
+    const isToFinishGame = settings?.pointsToWin
+      ? totalScore.some((score) => score >= settings?.pointsToWin)
+      : false;
+
+    if (isToFinishGame && isAdmin) {
+      const maxScore = Math.max(...totalScore);
+
+      finishGame(roomId, gameId, totalScore.indexOf(maxScore));
+    }
+  }, [settings, isAdmin, totalScore, finishGame]);
+
   return teams ? (
     <div>
       Команды:
       <ul>
         {Object.values(teams).map(
-          ({ name, users }: Team, index): JSX.Element => {
+          ({ name, users, guessedWords }: Team, index): JSX.Element => {
             const isActiveTeam = index === activeTeamOrder;
+            const newScore = getTotalScore(users, guessedWords);
+
+            if (newScore !== totalScore[index]) {
+              totalScore[index] = newScore;
+              setTotalScore(totalScore);
+            }
 
             return (
               <li key={name}>
-                {name}
+                {name} - {newScore}
                 {isActiveTeam && ' - ходят'}
                 <ul>
                   {Object.values(users).map(
@@ -57,12 +83,12 @@ export const TeamsList = ({
                           {isActiveUser && ' - ходит'}
                         </li>
                       );
-                    }
+                    },
                   )}
                 </ul>
               </li>
             );
-          }
+          },
         )}
       </ul>
     </div>

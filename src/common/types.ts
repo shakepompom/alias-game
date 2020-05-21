@@ -2,20 +2,20 @@ export type User = {
   id: string;
   name: string;
   isAdmin?: boolean;
+  score?: WordStatus[][];
 };
 
 export type Team = {
   name: string;
   users: User[];
+  guessedWords?: WordStatus[];
 };
 
-type CurrentGameStatus = {
-  isGameStarted: boolean;
-};
+export type RoundStatus = 'start' | 'progress' | 'result';
 
-export type RoomSettings = {
-  users: User[];
-  currentGameStatus: CurrentGameStatus;
+export type WordStatus = {
+  word: string;
+  status: boolean;
 };
 
 export type CommonComponentState = {
@@ -26,4 +26,11 @@ export type CommonComponentState = {
   teams: Team[];
   round: number;
   activeTeamOrder: number;
+  roundStatus: RoundStatus;
+  winnerTeamIndex: number;
+  settings: {
+    isLastWordToGuess: boolean;
+    pointsToWin: number;
+    timer: number;
+  };
 };

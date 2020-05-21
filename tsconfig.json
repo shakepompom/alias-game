@@ -23,17 +23,13 @@
       "@common/*": ["src/common/*"],
       "@components": ["src/common/components"],
       "@hooks": ["src/common/hooks"],
+      "@utils": ["src/common/utils"],
       "@fb/*": ["src/common/firebase/*"],
       "@features": ["src/features"],
       "@pages": ["src/pages"]
-    },
+    }
   },
-  "exclude": [
-    "node_modules",
-    "public",
-  ],
+  "exclude": ["node_modules", "public"],
   "include": ["**/*.ts", "**/*.tsx"],
-  "types": [
-    "typePatches",
-  ]
+  "types": ["typePatches"]
 }

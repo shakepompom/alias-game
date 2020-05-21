@@ -1,11 +1,11 @@
 import { database } from './initFirebase';
-import { User, Team } from '@common/types';
+import { User, Team, RoundStatus, WordStatus } from '@common/types';
 
 export const getRoom = (ruuid: string): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}`);
 
-export const getIsGameStarted = (ruuid: string): firebase.database.Reference =>
-  database.ref(`rooms/${ruuid}/currentGameStatus/isGameStarted`);
+export const getGameStatus = (ruuid: string): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/currentGameStatus/gameStatus`);
 
 export const getCurrentGameId = (ruuid: string): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/currentGameStatus/gameId`);
@@ -15,7 +15,7 @@ export const getUsers = (ruuid: string): firebase.database.Reference =>
 
 export const getTeams = (
   ruuid: string,
-  guuid: string
+  guuid: string,
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/teams`);
 
@@ -24,6 +24,32 @@ export const getTeamOrderIndex = (ruuid: string): firebase.database.Reference =>
 
 export const getGameRound = (ruuid: string): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/currentGameStatus/round`);
+
+export const getGameSettings = (
+  ruuid: string,
+  guuid: string,
+): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/games/${guuid}/settings`);
+
+export const getRoundStatus = (ruuid: string): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/currentGameStatus/roundStatus`);
+
+export const getRoundResult = (
+  ruuid: string,
+  guuid: string,
+  activeTeam: number,
+  userIndex: number,
+  round: number,
+): firebase.database.Reference =>
+  database.ref(
+    `rooms/${ruuid}/games/${guuid}/teams/${activeTeam}/users/${userIndex}/score/${round}`,
+  );
+
+export const getGameWinnerTeamIndex = (
+  ruuid: string,
+  guuid: string,
+): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/games/${guuid}/gameResult/winnerTeamIndex`);
 
 export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
   const data = {
@@ -36,7 +62,7 @@ export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
         },
       },
       currentGameStatus: {
-        isGameStarted: false,
+        gameStatus: 'preparation',
         gameId: guuid,
       },
       games: {
@@ -58,7 +84,7 @@ export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
 export const splitToTeams = (
   ruuid: string,
   guuid: string,
-  teams: Team[]
+  teams: Team[],
 ): void => {
   database.ref(`rooms/${ruuid}/games/${guuid}`).update({ teams });
 };
@@ -68,7 +94,7 @@ export const switchNextOrder = (
   nextState: {
     round: number;
     activeTeam: number;
-  }
+  },
 ): void => {
   database.ref(`rooms/${ruuid}/currentGameStatus`).update({
     round: nextState.round,
@@ -78,8 +104,59 @@ export const switchNextOrder = (
 
 export const startGame = (ruuid: string): void => {
   database.ref(`rooms/${ruuid}/currentGameStatus`).update({
-    isGameStarted: true,
+    gameStatus: 'progress',
     round: 0,
     activeTeam: 0,
+    roundStatus: 'start',
   });
+};
+
+export const setRoundStatus = (ruuid: string, value: RoundStatus): void => {
+  database
+    .ref(`rooms/${ruuid}/currentGameStatus`)
+    .update({ roundStatus: value });
+};
+
+export const sendTeamRoundResult = (
+  ruuid: string,
+  guuid: string,
+  activeTeam: number,
+  userIndex: number,
+  round: number,
+  results: WordStatus[],
+): void => {
+  database
+    .ref(
+      `rooms/${ruuid}/games/${guuid}/teams/${activeTeam}/users/${userIndex}/score`,
+    )
+    .update({
+      [round]: results,
+    });
+};
+
+export const sendLastWordRoundResult = (
+  ruuid: string,
+  guuid: string,
+  team: number,
+  round: number,
+  results: WordStatus,
+): void => {
+  database
+    .ref(`rooms/${ruuid}/games/${guuid}/teams/${team}/guessedWords`)
+    .update({
+      [round]: results,
+    });
+};
+
+export const finishGame = (
+  ruuid: string,
+  guuid: string,
+  winnerTeamIndex: number,
+): void => {
+  database
+    .ref(`rooms/${ruuid}/currentGameStatus/`)
+    .update({ gameStatus: 'finish' });
+  database
+    .ref(`rooms/${ruuid}/games/${guuid}/gameResult`)
+    .update({ winnerTeamIndex });
 };

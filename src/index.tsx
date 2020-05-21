@@ -21,7 +21,9 @@ const App = (): JSX.Element => {
       ) : (
         <LandingPage roomId={roomId} />
       )}
-      <button onClick={(): void => signOut()}>Выйти</button>
+      <button style={{ marginTop: '150px' }} onClick={(): void => signOut()}>
+        Выйти
+      </button>
     </Provider>
   );
 };

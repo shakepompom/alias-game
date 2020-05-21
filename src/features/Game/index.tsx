@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { switchNextOrder } from '@fb/room';
-import { TeamsList, Button } from '@components';
+import { TeamsList } from '@components';
 import { useCommonComponentState } from '@hooks';
+import { RoundStart, RoundProgress, RoundResults } from './components';
 
 type GameProps = {
   roomId: string;
@@ -9,31 +9,32 @@ type GameProps = {
 
 export const Game = ({ roomId }: GameProps): JSX.Element => {
   const [isActiveUser, setIsActiveUser] = useState(false);
-  const { teams, round, activeTeamOrder } = useCommonComponentState(roomId);
+  const { roundStatus, settings } = useCommonComponentState(roomId);
 
-  const handleClickSwitchOrder = (): void => {
-    const nextRound = teams.length - 1 === activeTeamOrder ? round + 1 : round;
-    const nextActiveTeam =
-      teams.length - 1 === activeTeamOrder ? 0 : activeTeamOrder + 1;
-    const nextState = {
-      round: nextRound,
-      activeTeam: nextActiveTeam,
-    };
-
-    switchNextOrder(roomId, nextState);
+  const renderGameContent = (): JSX.Element | null => {
+    switch (roundStatus) {
+      case 'start':
+        return <RoundStart roomId={roomId} isActiveUser={isActiveUser} />;
+      case 'progress':
+        return (
+          <RoundProgress
+            roomId={roomId}
+            isActiveUser={isActiveUser}
+            timerDuration={settings?.timer}
+          />
+        );
+      case 'result':
+        return <RoundResults roomId={roomId} isActiveUser={isActiveUser} />;
+      default:
+        return null;
+    }
   };
 
   return (
     <>
       <h1>Дашборд</h1>
       <TeamsList roomId={roomId} setIsActiveUser={setIsActiveUser} />
-      {/* TODO: Show this button if user is active */}
-      {isActiveUser && <h2>Я вижу тут кнопку</h2>}
-      <div>
-        <Button onClick={handleClickSwitchOrder}>
-          Передать ход следующей команде
-        </Button>
-      </div>
+      <div>{renderGameContent()}</div>
     </>
   );
 };
