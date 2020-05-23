@@ -4,6 +4,8 @@ import { signIn } from '@fb/auth';
 import { addUser } from '@fb/user';
 import { addRoom } from '@fb/room';
 import { Content, Button, Input, GameRules, Header } from '@components';
+// import { useEffectOnce } from 'react-use';
+// import { addWords } from '@fb/words';
 
 type LandingProps = {
   roomId: string;
@@ -12,6 +14,11 @@ type LandingProps = {
 export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   const [userName, setUserName] = useState('');
   const [showRules, setShowRules] = useState(false);
+
+  // Uncomment to add new words to db
+  // useEffectOnce(() => {
+  //   addWords();
+  // });
 
   const handleCreateRoom = (user: firebase.User): void => {
     const ruuid = uuid();
