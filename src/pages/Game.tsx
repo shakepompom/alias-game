@@ -1,5 +1,5 @@
 import React from 'react';
-import { useObject } from 'react-firebase-hooks/database';
+import { useObjectVal } from 'react-firebase-hooks/database';
 import { Game, Preparation, FinishGame } from '@features';
 import { getGameStatus } from '@fb/room';
 import { AppWrapper } from '@components';
@@ -9,10 +9,10 @@ type GamePageProps = {
 };
 
 export const GamePage = ({ roomId }: GamePageProps): JSX.Element => {
-  const [gameStatus] = useObject(getGameStatus(roomId));
+  const [gameStatus] = useObjectVal(getGameStatus(roomId));
 
   const renderContent = (): JSX.Element => {
-    switch (gameStatus?.val()) {
+    switch (gameStatus) {
       case 'preparation':
         return <Preparation roomId={roomId} />;
       case 'progress':

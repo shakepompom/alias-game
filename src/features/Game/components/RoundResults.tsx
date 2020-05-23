@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useObject } from 'react-firebase-hooks/database';
+import { useObjectVal } from 'react-firebase-hooks/database';
 import { switchNextOrder, setRoundStatus, getRoundResult } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Content, Button } from '@components';
@@ -34,7 +34,7 @@ export const RoundResults = ({
     teams &&
     activeTeamOrder &&
     round % Object.values(teams[activeTeamOrder].users).length;
-  const [result] = useObject(
+  const [result] = useObjectVal<WordStatus[]>(
     getRoundResult(roomId, gameId, activeTeamOrder, userIndex, round),
   );
 
@@ -54,8 +54,8 @@ export const RoundResults = ({
   return (
     <div>
       <Content.BlockWrapper>
-        {result?.val() &&
-          result.val().map(
+        {result &&
+          result.map(
             ({ word, status }: WordStatus): JSX.Element => (
               <Word key={word} status={status}>
                 {word} - {status ? 'Угадано' : 'Пропущено'}

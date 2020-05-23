@@ -18,19 +18,22 @@ export type WordStatus = {
   status: boolean;
 };
 
+export type Settings = {
+  isLastWordToGuess: boolean;
+  pointsToWin: number;
+  timer: number;
+};
+
 export type CommonComponentState = {
-  users: User[];
+  users: User[] | undefined;
   userId: string | undefined;
-  isAdmin: boolean;
-  gameId: string;
-  teams: Team[];
-  round: number;
-  activeTeamOrder: number;
-  roundStatus: RoundStatus;
-  winnerTeamIndex: number;
-  settings: {
-    isLastWordToGuess: boolean;
-    pointsToWin: number;
-    timer: number;
-  };
+  isAdmin: boolean | undefined;
+  gameId: string | undefined;
+  teams: Team[] | undefined;
+  round: number | undefined;
+  activeTeamOrder: number | undefined;
+  roundStatus: RoundStatus | undefined;
+  wordsOrder: number[] | undefined;
+  winnerTeamIndex: number | undefined;
+  settings: Settings | undefined;
 };

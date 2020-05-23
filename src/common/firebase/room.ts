@@ -15,7 +15,7 @@ export const getUsers = (ruuid: string): firebase.database.Reference =>
 
 export const getTeams = (
   ruuid: string,
-  guuid: string,
+  guuid = '',
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/teams`);
 
@@ -27,19 +27,25 @@ export const getGameRound = (ruuid: string): firebase.database.Reference =>
 
 export const getGameSettings = (
   ruuid: string,
-  guuid: string,
+  guuid = '',
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/settings`);
 
 export const getRoundStatus = (ruuid: string): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/currentGameStatus/roundStatus`);
 
+export const getWordsOrder = (
+  ruuid: string,
+  guuid = '',
+): firebase.database.Reference =>
+  database.ref(`rooms/${ruuid}/games/${guuid}/wordsOrder`);
+
 export const getRoundResult = (
   ruuid: string,
-  guuid: string,
-  activeTeam: number,
-  userIndex: number,
-  round: number,
+  guuid = '',
+  activeTeam: number | undefined,
+  userIndex: number | undefined,
+  round: number | undefined,
 ): firebase.database.Reference =>
   database.ref(
     `rooms/${ruuid}/games/${guuid}/teams/${activeTeam}/users/${userIndex}/score/${round}`,
@@ -47,7 +53,7 @@ export const getRoundResult = (
 
 export const getGameWinnerTeamIndex = (
   ruuid: string,
-  guuid: string,
+  guuid = '',
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/gameResult/winnerTeamIndex`);
 
@@ -89,16 +95,13 @@ export const splitToTeams = (
   database.ref(`rooms/${ruuid}/games/${guuid}`).update({ teams });
 };
 
-export const switchNextOrder = (
+export const setWordsOrder = (
   ruuid: string,
-  nextState: {
-    round: number;
-    activeTeam: number;
-  },
+  guuid = '',
+  wordsOrder: number[] = [],
 ): void => {
-  database.ref(`rooms/${ruuid}/currentGameStatus`).update({
-    round: nextState.round,
-    activeTeam: nextState.activeTeam,
+  database.ref(`rooms/${ruuid}/games/${guuid}`).update({
+    wordsOrder,
   });
 };
 
@@ -115,6 +118,19 @@ export const setRoundStatus = (ruuid: string, value: RoundStatus): void => {
   database
     .ref(`rooms/${ruuid}/currentGameStatus`)
     .update({ roundStatus: value });
+};
+
+export const switchNextOrder = (
+  ruuid: string,
+  nextState: {
+    round: number;
+    activeTeam: number;
+  },
+): void => {
+  database.ref(`rooms/${ruuid}/currentGameStatus`).update({
+    round: nextState.round,
+    activeTeam: nextState.activeTeam,
+  });
 };
 
 export const sendTeamRoundResult = (

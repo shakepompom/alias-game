@@ -25,21 +25,8 @@ type RoundProgressProps = {
   roomId: string;
   isActiveUser: boolean;
   timerDuration: number;
+  wordsSet: string[];
 };
-
-// TODO: replace this words with words from server
-const wordsSet = [
-  'Машина',
-  'Собака',
-  'Игра',
-  'Понедельник',
-  'Красный крест',
-  'Пюпитр',
-  'Массив',
-  'Счастье',
-  'Юла',
-  'Тетрадь',
-];
 
 const transformTimerToFriendlyDisplaying = (time: number): string => {
   const minutes = Math.floor(time / 60);
@@ -52,6 +39,7 @@ export const RoundProgress = ({
   roomId,
   isActiveUser,
   timerDuration,
+  wordsSet,
 }: RoundProgressProps): JSX.Element => {
   const { time, start, isRunning } = useTimer({
     initialTime: timerDuration,

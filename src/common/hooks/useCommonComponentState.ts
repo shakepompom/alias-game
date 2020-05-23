@@ -1,4 +1,4 @@
-import { useObject } from 'react-firebase-hooks/database';
+import { useObjectVal } from 'react-firebase-hooks/database';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@fb/initFirebase';
 import {
@@ -9,39 +9,47 @@ import {
   getGameRound,
   getGameSettings,
   getRoundStatus,
+  getWordsOrder,
   getGameWinnerTeamIndex,
 } from '@fb/room';
 import { getUser } from '@fb/user';
-import { CommonComponentState } from '../types';
+import {
+  CommonComponentState,
+  User,
+  Team,
+  RoundStatus,
+  Settings,
+} from '../types';
 
-// TODO: Split this hook in 2 different depends on game status/feature component
 export const useCommonComponentState = (
   roomId: string,
 ): CommonComponentState => {
   const [authUser] = useAuthState(auth);
-  const [users] = useObject(getUsers(roomId));
-  const [user] = useObject(getUser(roomId, authUser?.uid));
-  const isAdmin = user?.val()?.isAdmin;
-  const [gameId] = useObject(getCurrentGameId(roomId));
-  const [teams] = useObject(getTeams(roomId, gameId?.val()));
-  const [activeTeamOrder] = useObject(getTeamOrderIndex(roomId));
-  const [round] = useObject(getGameRound(roomId));
-  const [roundStatus] = useObject(getRoundStatus(roomId));
-  const [settings] = useObject(getGameSettings(roomId, gameId?.val()));
-  const [winnerTeamIndex] = useObject(
-    getGameWinnerTeamIndex(roomId, gameId?.val()),
+  const [users] = useObjectVal<User[]>(getUsers(roomId));
+  const [user] = useObjectVal<User>(getUser(roomId, authUser?.uid));
+  const isAdmin = user?.isAdmin;
+  const [gameId] = useObjectVal<string>(getCurrentGameId(roomId));
+  const [teams] = useObjectVal<Team[]>(getTeams(roomId, gameId));
+  const [activeTeamOrder] = useObjectVal<number>(getTeamOrderIndex(roomId));
+  const [round] = useObjectVal<number>(getGameRound(roomId));
+  const [roundStatus] = useObjectVal<RoundStatus>(getRoundStatus(roomId));
+  const [wordsOrder] = useObjectVal<number[]>(getWordsOrder(roomId, gameId));
+  const [winnerTeamIndex] = useObjectVal<number>(
+    getGameWinnerTeamIndex(roomId, gameId),
   );
+  const [settings] = useObjectVal<Settings>(getGameSettings(roomId, gameId));
 
   return {
-    users: users?.val(),
+    users,
     userId: authUser?.uid,
     isAdmin,
-    gameId: gameId?.val(),
-    teams: teams?.val(),
-    round: round?.val(),
-    activeTeamOrder: activeTeamOrder?.val(),
-    roundStatus: roundStatus?.val(),
-    winnerTeamIndex: winnerTeamIndex?.val(),
-    settings: settings?.val(),
+    gameId,
+    teams,
+    round,
+    activeTeamOrder,
+    roundStatus,
+    wordsOrder,
+    winnerTeamIndex,
+    settings,
   };
 };
