@@ -9,18 +9,27 @@ type GameProps = {
 
 export const Game = ({ roomId }: GameProps): JSX.Element => {
   const [isActiveUser, setIsActiveUser] = useState(false);
+  const [wordsSet, setWordsSet] = useState<string[]>([]);
   const { roundStatus, settings } = useCommonComponentState(roomId);
 
   const renderGameContent = (): JSX.Element | null => {
     switch (roundStatus) {
       case 'start':
-        return <RoundStart roomId={roomId} isActiveUser={isActiveUser} />;
+        return (
+          <RoundStart
+            roomId={roomId}
+            isActiveUser={isActiveUser}
+            wordsSet={wordsSet}
+            setWordsSet={setWordsSet}
+          />
+        );
       case 'progress':
         return (
           <RoundProgress
             roomId={roomId}
             isActiveUser={isActiveUser}
             timerDuration={settings?.timer}
+            wordsSet={wordsSet}
           />
         );
       case 'result':

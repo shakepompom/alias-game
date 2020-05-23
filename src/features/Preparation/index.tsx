@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useObjectVal } from 'react-firebase-hooks/database';
 import styled from 'styled-components';
 import { Button, GameRules } from '@components';
-import { startGame } from '@fb/room';
+import { startGame, setWordsOrder } from '@fb/room';
+import { getAllWords } from '@fb/words';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
 import { Header, Content } from '@components';
+import { generateRandomNumbersArray } from '@utils';
 import { GameLink, Teams, Settings } from './components';
 import { Theme, Color } from '@styles/theme';
 
@@ -24,9 +27,17 @@ type PreparationProps = {
 
 export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
   const [showRules, setShowRules] = useState(false);
-  const { users, userId, isAdmin, teams } = useCommonComponentState(roomId);
+  const [allWords] = useObjectVal<string[]>(getAllWords());
+  const { users, userId, isAdmin, teams, gameId } = useCommonComponentState(
+    roomId,
+  );
 
   const handleStartGame = (): void => {
+    const wordsOrder = allWords
+      ? generateRandomNumbersArray(allWords.length)
+      : [];
+
+    setWordsOrder(roomId, gameId, wordsOrder);
     startGame(roomId);
   };
 
