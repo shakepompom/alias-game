@@ -1,8 +1,8 @@
 import { database } from './initFirebase';
 import { ololo } from './ololo';
 
-export const getAllWords = (): firebase.database.Reference =>
-  database.ref(`words`);
+export const getAllWords = (): Promise<firebase.database.DataSnapshot> =>
+  database.ref(`words`).once('value');
 
 export const getWordByIndex = (
   index: number,

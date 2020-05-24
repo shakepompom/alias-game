@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useObjectVal } from 'react-firebase-hooks/database';
+import { useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
 import { Button, GameRules } from '@components';
 import { startGame, setWordsOrder } from '@fb/room';
@@ -27,19 +27,27 @@ type PreparationProps = {
 
 export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
   const [showRules, setShowRules] = useState(false);
-  const [allWords] = useObjectVal<string[]>(getAllWords());
+  const [allWordsLength, setAllWordsLength] = useState(0);
   const { users, userId, isAdmin, teams, gameId } = useCommonComponentState(
     roomId,
   );
 
   const handleStartGame = (): void => {
-    const wordsOrder = allWords
-      ? generateRandomNumbersArray(allWords.length)
-      : [];
+    const wordsOrder = generateRandomNumbersArray(allWordsLength);
 
     setWordsOrder(roomId, gameId, wordsOrder);
     startGame(roomId);
   };
+
+  useUpdateEffect(() => {
+    if (isAdmin) {
+      getAllWords().then((snapshot) => {
+        if (snapshot.val().length !== allWordsLength) {
+          setAllWordsLength(snapshot.val().length);
+        }
+      });
+    }
+  }, [isAdmin, setAllWordsLength]);
 
   return (
     <>
