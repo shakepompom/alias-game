@@ -3,17 +3,21 @@ import { database } from './initFirebase';
 
 export const getUser = (
   ruuid: string,
-  userId = ''
+  userId = '',
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/users/${userId}`);
 
 export const addUser = (
   ruuid: string,
-  { id, name, isAdmin = false }: User
+  { id, name, isAdmin = false }: User,
 ): void => {
   const data = {
     [id]: { id, name, isAdmin },
   };
 
-  database.ref(`rooms/${ruuid}/users/`).update(data);
+  database.ref(`rooms/${ruuid}/users`).update(data);
+};
+
+export const removeUser = (ruuid: string, userId = ''): void => {
+  database.ref(`rooms/${ruuid}/users/${userId}`).remove();
 };

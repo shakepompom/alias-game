@@ -45,7 +45,7 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
 
   return (
     <>
-      <Header>
+      <Header roomId={roomId}>
         {!showRules && (
           <Button onClick={() => setShowRules(true)}>Правила игры</Button>
         )}

@@ -51,7 +51,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
 
   return (
     <>
-      <Header>
+      <Header roomId={roomId}>
         {!showRules ? (
           <Button onClick={() => setShowRules(true)}>Правила игры</Button>
         ) : (

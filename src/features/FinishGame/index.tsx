@@ -20,7 +20,7 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
 
   return (
     <>
-      <Header />
+      <Header roomId={roomId} />
       {teams && winnerTeamIndex ? (
         <Content.CenteredBlockWrapper>
           <Content.Subtitle>Ура!</Content.Subtitle>

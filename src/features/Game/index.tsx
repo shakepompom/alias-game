@@ -41,7 +41,7 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
 
   return (
     <>
-      <Header />
+      <Header roomId={roomId} />
       <Content.CenteredBlockWrapper>
         <TeamsList roomId={roomId} setIsActiveUser={setIsActiveUser} />
         <Content.BlockWrapper>
