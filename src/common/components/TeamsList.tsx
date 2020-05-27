@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Team, User } from '@common/types';
-import { finishGame } from '@fb/room';
+import { setGameWinnerTeamIndex } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { getTotalScore } from '@utils';
 import { Theme, Color } from '@styles/theme';
@@ -105,9 +105,9 @@ export const TeamsList = ({
     if (isToFinishGame && isAdmin) {
       const maxScore = Math.max(...totalScore);
 
-      finishGame(roomId, gameId, totalScore.indexOf(maxScore));
+      setGameWinnerTeamIndex(roomId, gameId, totalScore.indexOf(maxScore));
     }
-  }, [settings, isAdmin, totalScore, finishGame]);
+  }, [settings, isAdmin, totalScore]);
 
   return teams ? (
     <div>

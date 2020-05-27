@@ -4,12 +4,17 @@ import { useTimer } from 'use-timer';
 import styled from 'styled-components';
 import { WordStatus } from '@common/types';
 import {
-  sendTeamRoundResult,
-  sendLastWordRoundResult,
+  setTeamRoundResult,
+  setLastWordRoundResult,
   setRoundStatus,
 } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Content, Button } from '@components';
+import { Theme, Color } from '@styles/theme';
+
+const EverybodyMayGuess = styled(Content.Subtitle)`
+  color: ${({ theme }: { theme: Theme }): Color => theme.color.yellow};
+`;
 
 const Word = styled(Content.Title)`
   margin: 40px 0;
@@ -79,13 +84,14 @@ export const RoundProgress = ({
   const handleGuessLastWord = (teamIndex: number | null): void => {
     const userIndex =
       round % Object.values(teams[activeTeamOrder].users).length;
+    const roundOrder = round * teams?.length + activeTeamOrder;
 
-    sendTeamRoundResult(
+    setTeamRoundResult(
       roomId,
       gameId,
       activeTeamOrder,
       userIndex,
-      round,
+      roundOrder,
       wordsStatus,
     );
 
@@ -95,7 +101,7 @@ export const RoundProgress = ({
         status: true,
       };
 
-      sendLastWordRoundResult(roomId, gameId, teamIndex, round, result);
+      setLastWordRoundResult(roomId, gameId, teamIndex, roundOrder, result);
     }
 
     setRoundStatus(roomId, 'result');
@@ -106,6 +112,7 @@ export const RoundProgress = ({
       <Content.Subtitle>
         {transformTimerToFriendlyDisplaying(time)}
       </Content.Subtitle>
+      {!isRunning && <EverybodyMayGuess>Угадывают все</EverybodyMayGuess>}
       {isActiveUser && (
         <>
           <Word>{wordsSet[wordIndexFromSet]}</Word>
