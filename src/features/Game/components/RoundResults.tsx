@@ -1,11 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useObjectVal } from 'react-firebase-hooks/database';
-import { switchNextOrder, setRoundStatus, getRoundResult } from '@fb/room';
+import {
+  switchNextOrder,
+  setRoundStatus,
+  getRoundResult,
+  getGameWinnerTeamIndex,
+  finishGame,
+} from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Content, Button } from '@components';
 import { WordStatus } from '@common/types';
 import { Theme, Color } from '@styles/theme';
+import { getLastWordRoundResult } from '../utils';
 
 type ScPropsType = {
   theme: Theme;
@@ -14,7 +21,24 @@ type ScPropsType = {
 
 const Word = styled(Content.Text)<Pick<ScPropsType, 'status'>>`
   color: ${({ status, theme }: ScPropsType): Color =>
-    status ? theme.color.yellow : theme.color.lightPurple};
+    status ? theme.color.yellow : theme.color.white};
+  font-weight: ${({ status }: ScPropsType): number => (status ? 600 : 200)};
+`;
+
+const LastWord = styled(Word)`
+  position: relative;
+  padding-top: 16px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100px;
+    height: 1px;
+    transform: translateX(-50%);
+    background-color: ${({ theme }) => theme.color.yellow};
+  }
 `;
 
 type RoundResultsProps = {
@@ -30,15 +54,21 @@ export const RoundResults = ({
     roomId,
   );
   const userIndex =
-    round &&
-    teams &&
-    activeTeamOrder &&
-    round % Object.values(teams[activeTeamOrder].users).length;
+    teams && round % Object.values(teams[activeTeamOrder].users).length;
+
+  const roundOrder = round * teams?.length + activeTeamOrder;
   const [result] = useObjectVal<WordStatus[]>(
-    getRoundResult(roomId, gameId, activeTeamOrder, userIndex, round),
+    getRoundResult(roomId, gameId, activeTeamOrder, userIndex, roundOrder),
+  );
+  const [winnerTeamIndex] = useObjectVal<number>(
+    getGameWinnerTeamIndex(roomId, gameId),
   );
 
   const handleClickSwitchOrder = (): void => {
+    if (typeof winnerTeamIndex === 'number') {
+      finishGame(roomId);
+    }
+
     const nextRound = teams.length - 1 === activeTeamOrder ? round + 1 : round;
     const nextActiveTeam =
       teams.length - 1 === activeTeamOrder ? 0 : activeTeamOrder + 1;
@@ -54,6 +84,7 @@ export const RoundResults = ({
   return (
     <div>
       <Content.BlockWrapper>
+        <Content.Subtitle>Результаты раунда</Content.Subtitle>
         {result &&
           result.map(
             ({ word, status }: WordStatus): JSX.Element => (
@@ -62,6 +93,7 @@ export const RoundResults = ({
               </Word>
             ),
           )}
+        <LastWord status>{getLastWordRoundResult(roundOrder, teams)}</LastWord>
       </Content.BlockWrapper>
       {isActiveUser && (
         <div>
