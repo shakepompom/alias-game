@@ -18,6 +18,10 @@ export const addUser = (
   database.ref(`rooms/${ruuid}/users`).update(data);
 };
 
+export const setNewAdmin = (ruuid: string, userId = ''): void => {
+  database.ref(`rooms/${ruuid}/users/${userId}`).update({ isAdmin: true });
+};
+
 export const removeUser = (ruuid: string, userId = ''): void => {
   database.ref(`rooms/${ruuid}/users/${userId}`).remove();
 };

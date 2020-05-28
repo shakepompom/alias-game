@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@fb/initFirebase';
 import { signOut } from '@fb/auth';
-import { removeUser } from '@fb/user';
+import { removeUser, setNewAdmin } from '@fb/user';
 import { removeRoom } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Button } from '@components';
+import { getNewAdmin } from '@utils';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,12 +27,17 @@ type HeaderProps = {
 
 export const Header = ({ roomId, children }: HeaderProps): JSX.Element => {
   const [user, loading, error] = useAuthState(auth);
-  const { users } = useCommonComponentState(roomId);
+  const { users, isAdmin } = useCommonComponentState(roomId);
 
   const handleLogout = (): void => {
     signOut();
     removeUser(roomId, user?.uid);
     window.location.replace(`/`);
+
+    if (isAdmin && users) {
+      const newAdminId = getNewAdmin(users);
+      setNewAdmin(roomId, newAdminId);
+    }
 
     if (users && Object.keys(users).length === 1) {
       removeRoom(roomId);
