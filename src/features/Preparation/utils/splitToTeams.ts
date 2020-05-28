@@ -1,6 +1,14 @@
 import { Team, User } from '@common/types';
 
-const TEAM_NAMES = ['Котики', 'Пёсики', 'Птички', 'Динозаврики', 'Поняшки'];
+const TEAM_NAMES = [
+  'Котики',
+  'Зайчики',
+  'Поняшки',
+  'Динозаврики',
+  'Птички',
+  'Ёжики',
+  'Пёсики',
+];
 
 export const splitToTeams = (users: User[], teamCount: number): Team[] => {
   const teams = [];
@@ -15,6 +23,6 @@ export const splitToTeams = (users: User[], teamCount: number): Team[] => {
 
       return acc;
     },
-    teams
+    teams,
   );
 };
