@@ -78,6 +78,7 @@ export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
           settings: {
             timer: 60,
             pointsToWin: 100,
+            missedWordIsMinusPoint: false,
             isLastWordToGuess: true,
           },
         },

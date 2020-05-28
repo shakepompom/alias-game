@@ -19,9 +19,10 @@ export type WordStatus = {
 };
 
 export type Settings = {
-  isLastWordToGuess: boolean;
-  pointsToWin: number;
   timer: number;
+  pointsToWin: number;
+  missedWordIsMinusPoint: boolean;
+  isLastWordToGuess: boolean;
 };
 
 export type CommonComponentState = {
