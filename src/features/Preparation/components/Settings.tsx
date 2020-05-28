@@ -18,6 +18,10 @@ export const Settings = ({ roomId }: SettingsProps): JSX.Element => {
           Количество очков для победы: {settings?.pointsToWin}
         </Content.Li>
         <Content.Li>
+          Пропущенное слово:{' '}
+          {settings?.missedWordIsMinusPoint ? '-1 очко' : '0 очков'}
+        </Content.Li>
+        <Content.Li>
           Последнее слово в ходе:{' '}
           {settings?.isLastWordToGuess
             ? 'могут угадывать все команды'

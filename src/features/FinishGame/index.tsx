@@ -11,7 +11,7 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
   const { teams, winnerTeamIndex } = useCommonComponentState(roomId);
 
   const score =
-    teams && winnerTeamIndex
+    teams && typeof winnerTeamIndex === 'number'
       ? getTotalScore(
           teams[winnerTeamIndex].users,
           teams[winnerTeamIndex].guessedWords,
@@ -20,8 +20,8 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
 
   return (
     <>
-      <Header />
-      {teams && winnerTeamIndex ? (
+      <Header roomId={roomId} />
+      {teams && typeof winnerTeamIndex === 'number' ? (
         <Content.CenteredBlockWrapper>
           <Content.Subtitle>Ура!</Content.Subtitle>
           <Content.Title>

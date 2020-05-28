@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import { useObjectVal } from 'react-firebase-hooks/database';
 import { signIn } from '@fb/auth';
 import { addUser } from '@fb/user';
-import { addRoom } from '@fb/room';
-import { Content, Button, Input, GameRules, Header } from '@components';
+import { addRoom, getRoom } from '@fb/room';
+import {
+  Content,
+  Button,
+  Input,
+  GameRules,
+  Header,
+  EmptyRoom,
+} from '@components';
 // import { useEffectOnce } from 'react-use';
 // import { addWords } from '@fb/words';
 
@@ -14,11 +22,14 @@ type LandingProps = {
 export const Landing = ({ roomId }: LandingProps): JSX.Element => {
   const [userName, setUserName] = useState('');
   const [showRules, setShowRules] = useState(false);
+  const [room] = useObjectVal(getRoom(roomId));
 
   // Uncomment to add new words to db
   // useEffectOnce(() => {
   //   addWords();
   // });
+
+  if (roomId && room === null) return <EmptyRoom />;
 
   const handleCreateRoom = (user: firebase.User): void => {
     const ruuid = uuid();
@@ -45,7 +56,7 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
 
   return (
     <>
-      <Header>
+      <Header roomId={roomId}>
         {!showRules && (
           <Button onClick={() => setShowRules(true)}>Правила игры</Button>
         )}

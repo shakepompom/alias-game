@@ -60,6 +60,7 @@ export const getGameWinnerTeamIndex = (
 export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
   const data = {
     [ruuid]: {
+      createdAt: new Date(),
       users: {
         [admin.id]: {
           id: admin.id,
@@ -77,6 +78,7 @@ export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
           settings: {
             timer: 60,
             pointsToWin: 100,
+            missedWordIsMinusPoint: false,
             isLastWordToGuess: true,
           },
         },
@@ -178,4 +180,8 @@ export const finishGame = (ruuid: string): void => {
   database
     .ref(`rooms/${ruuid}/currentGameStatus/`)
     .update({ gameStatus: 'finish' });
+};
+
+export const removeRoom = (ruuid: string): void => {
+  database.ref(`rooms/${ruuid}`).remove();
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { useObjectVal } from 'react-firebase-hooks/database';
 import { Game, Preparation, FinishGame } from '@features';
 import { getGameStatus } from '@fb/room';
-import { AppWrapper } from '@components';
+import { AppWrapper, EmptyRoom } from '@components';
 
 type GamePageProps = {
   roomId: string;
@@ -19,6 +19,8 @@ export const GamePage = ({ roomId }: GamePageProps): JSX.Element => {
         return <Game roomId={roomId} />;
       case 'finish':
         return <FinishGame roomId={roomId} />;
+      case null:
+        return <EmptyRoom />;
       default:
         return <div>Что-то пошло не так... Перезагрузите страницу.</div>;
     }
@@ -26,7 +28,7 @@ export const GamePage = ({ roomId }: GamePageProps): JSX.Element => {
 
   return (
     <AppWrapper>
-      {gameStatus ? renderContent() : <div>Загрузка...</div>}
+      {gameStatus !== undefined ? renderContent() : <div>Загрузка...</div>}
     </AppWrapper>
   );
 };
