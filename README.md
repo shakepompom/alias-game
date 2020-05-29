@@ -1,6 +1,6 @@
 # alias-game
 
-Alias online game
+Alias online game at https://alias-game.web.app/.
 
 ## Setup locally
 
@@ -21,4 +21,3 @@ Firstly, set Firebase CLI (https://firebase.google.com/docs/hosting/quickstart#i
 `firebase logout` - logout from Google
 
 Serve files must be located in public folder.
-After deploying, view your app at alias-game.web.app.
