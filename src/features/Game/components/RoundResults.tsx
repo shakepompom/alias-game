@@ -65,7 +65,7 @@ export const RoundResults = ({
   );
 
   const handleClickSwitchOrder = (): void => {
-    if (typeof winnerTeamIndex === 'object') {
+    if (winnerTeamIndex !== null && typeof winnerTeamIndex === 'object') {
       finishGame(roomId);
     }
 

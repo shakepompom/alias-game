@@ -6,7 +6,7 @@ import { removeTeams, startGame, setWordsOrder } from '@fb/room';
 import { getAllWords } from '@fb/words';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
-import { Header, Content } from '@components';
+import { Header, Footer, Content } from '@components';
 import { generateRandomNumbersArray, isNewUserJoined } from '@utils';
 import { GameLink, Teams, Settings } from './components';
 import { Theme, Color } from '@styles/theme';
@@ -116,6 +116,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
           )}
         </>
       )}
+      <Footer />
     </>
   );
 };

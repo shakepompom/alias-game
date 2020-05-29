@@ -1,14 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-use';
 import { useObjectVal } from 'react-firebase-hooks/database';
 import { Game, Preparation, FinishGame } from '@features';
 import { getGameStatus } from '@fb/room';
 import { AppWrapper, EmptyRoom } from '@components';
 
-type GamePageProps = {
-  roomId: string;
-};
-
-export const GamePage = ({ roomId }: GamePageProps): JSX.Element => {
+const GamePage = (): JSX.Element => {
+  const { pathname = '' } = useLocation();
+  const roomId = pathname.slice(1);
   const [gameStatus] = useObjectVal(getGameStatus(roomId));
 
   const renderContent = (): JSX.Element => {
@@ -32,3 +31,5 @@ export const GamePage = ({ roomId }: GamePageProps): JSX.Element => {
     </AppWrapper>
   );
 };
+
+export default GamePage;

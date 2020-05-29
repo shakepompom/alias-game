@@ -28,7 +28,7 @@
       "@fb/*": ["src/common/firebase/*"],
       "@styles/*": ["src/common/styles/*"],
       "@features": ["src/features"],
-      "@pages": ["src/pages"]
+      "@pages/*": ["src/pages/*"]
     }
   },
   "exclude": ["node_modules", "public"],

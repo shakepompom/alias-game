@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCommonComponentState } from '@hooks';
-import { Content, Header } from '@components';
+import { Content, Header, Footer } from '@components';
 import { getTotalScore, getWordDeclension } from '@utils';
 
 type FinishGameProps = {
@@ -27,11 +27,9 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
           <Content.Title>
             {isPluralWinners ? 'Команды ' : 'Команда '}
             {teams &&
-              teams.map(({ name }, index) => {
-                if (winnerTeamIndex.includes(index)) {
-                  return index === 0 ? name : ` и ${name}`;
-                }
-              })}
+              teams
+                .filter((_, index) => winnerTeamIndex.includes(index))
+                .map(({ name }, index) => (index === 0 ? name : ` и ${name}`))}
             {isPluralWinners ? ' выиграли' : ' выиграла'}!
           </Content.Title>
           <Content.Subtitle>
@@ -42,6 +40,7 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
       ) : (
         <div>Загрузка...</div>
       )}
+      <Footer />
     </>
   );
 };
