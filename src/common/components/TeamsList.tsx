@@ -105,7 +105,15 @@ export const TeamsList = ({
     if (isToFinishGame && isAdmin) {
       const maxScore = Math.max(...totalScore);
 
-      setGameWinnerTeamIndex(roomId, gameId, totalScore.indexOf(maxScore));
+      const winnerIndices = [];
+      let index = totalScore.indexOf(maxScore);
+
+      while (index !== -1) {
+        winnerIndices.push(index);
+        index = totalScore.indexOf(maxScore, index + 1);
+      }
+
+      setGameWinnerTeamIndex(roomId, gameId, winnerIndices);
     }
   }, [settings, isAdmin, totalScore]);
 

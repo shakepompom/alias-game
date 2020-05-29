@@ -83,7 +83,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
                       ): JSX.Element => (
                         <StyledUser key={id} isCurrent={userId === id}>
                           {index + 1}. {name}
-                          {userId === id && ' - это вы'}
+                          {userId === id && ' - это ты'}
                           {isAdmin && ' - создатель игры'}
                         </StyledUser>
                       ),

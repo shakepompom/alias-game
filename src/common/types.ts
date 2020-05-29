@@ -35,6 +35,6 @@ export type CommonComponentState = {
   activeTeamOrder: number | undefined;
   roundStatus: RoundStatus | undefined;
   wordsOrder: number[] | undefined;
-  winnerTeamIndex: number | undefined;
+  winnerTeamIndex: number[] | undefined;
   settings: Settings | undefined;
 };
