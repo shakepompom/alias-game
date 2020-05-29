@@ -6,6 +6,8 @@ import { ROUTES } from '@common/constants';
 
 const LandingPage = lazy(() => import('@pages/Landing'));
 const GamePage = lazy(() => import('@pages/Game'));
+const FeedbackPage = lazy(() => import('@pages/Feedback'));
+const RoadmapPage = lazy(() => import('@pages/Roadmap'));
 
 export const AppRouter = (): JSX.Element => {
   const [user, loading, error] = useAuthState(auth);
@@ -13,12 +15,8 @@ export const AppRouter = (): JSX.Element => {
   return (
     <Suspense fallback={<div>Загрузка...</div>}>
       <Switch>
-        <Route path={ROUTES.FEEDBACK}>
-          <div>Feedback</div>
-        </Route>
-        <Route path={ROUTES.ROADMAP}>
-          <div>Roadmap</div>
-        </Route>
+        <Route path={ROUTES.FEEDBACK} component={FeedbackPage} />
+        <Route path={ROUTES.ROADMAP} component={RoadmapPage} />
         <Route path={ROUTES.GAME} component={user ? GamePage : LandingPage} />
         <Route path={ROUTES.LANDING} component={LandingPage} />
       </Switch>

@@ -7,6 +7,7 @@ import { removeUser, setNewAdmin } from '@fb/user';
 import { removeRoom } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Button } from '@components';
+import { ROUTES } from '@common/constants';
 import { getNewAdmin, isCurrentUserInAnyTeam } from '@utils';
 import { Theme, Color } from '../styles/theme';
 
@@ -40,7 +41,7 @@ export const Header = ({ roomId, children }: HeaderProps): JSX.Element => {
   const handleLogout = (): void => {
     signOut();
     removeUser(roomId, user?.uid);
-    window.location.replace(`/`);
+    window.location.replace(ROUTES.LANDING);
 
     if (isAdmin && users) {
       const newAdminId = getNewAdmin(users);
