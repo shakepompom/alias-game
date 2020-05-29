@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useUpdateEffect } from 'react-use';
 import styled from 'styled-components';
 import { Button, GameRules } from '@components';
-import { startGame, setWordsOrder } from '@fb/room';
+import { removeTeams, startGame, setWordsOrder } from '@fb/room';
 import { getAllWords } from '@fb/words';
 import { useCommonComponentState } from '@hooks';
 import { User } from '@common/types';
-import { Header, Content } from '@components';
-import { generateRandomNumbersArray } from '@utils';
+import { Header, Footer, Content } from '@components';
+import { generateRandomNumbersArray, isNewUserJoined } from '@utils';
 import { GameLink, Teams, Settings } from './components';
 import { Theme, Color } from '@styles/theme';
 
@@ -19,6 +19,10 @@ type ScPropsType = {
 const StyledUser = styled(Content.Li)<Pick<ScPropsType, 'isCurrent'>>`
   color: ${({ isCurrent, theme }): Color =>
     isCurrent ? theme.color.yellow : theme.color.default};
+`;
+
+const Warning = styled.div`
+  color: ${({ theme }: { theme: Theme }): Color => theme.color.yellow};
 `;
 
 type PreparationProps = {
@@ -79,7 +83,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
                       ): JSX.Element => (
                         <StyledUser key={id} isCurrent={userId === id}>
                           {index + 1}. {name}
-                          {userId === id && ' - это вы'}
+                          {userId === id && ' - это ты'}
                           {isAdmin && ' - создатель игры'}
                         </StyledUser>
                       ),
@@ -88,8 +92,23 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
               </Content.BlockWrapper>
             )}
             <Teams roomId={roomId} />
+            {teams?.length && isAdmin && (
+              <Content.CenteredBlockWrapper>
+                <Button onClick={() => removeTeams(roomId, gameId)}>
+                  Перераспределить команды
+                </Button>
+              </Content.CenteredBlockWrapper>
+            )}
             <Settings roomId={roomId} />
           </div>
+          {users && teams && isNewUserJoined(users, teams) && (
+            <Content.BlockWrapper>
+              <Warning>
+                Пришёл новый игрок. Создатель может сделать перераспределение по
+                командам.
+              </Warning>
+            </Content.BlockWrapper>
+          )}
           {isAdmin && teams?.length && (
             <div>
               <Button onClick={handleStartGame}>Начать игру</Button>
@@ -97,6 +116,7 @@ export const Preparation = ({ roomId }: PreparationProps): JSX.Element => {
           )}
         </>
       )}
+      <Footer />
     </>
   );
 };

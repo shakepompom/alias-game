@@ -182,6 +182,10 @@ export const finishGame = (ruuid: string): void => {
     .update({ gameStatus: 'finish' });
 };
 
+export const removeTeams = (ruuid: string, guuid: string): void => {
+  database.ref(`rooms/${ruuid}/games/${guuid}/teams`).remove();
+};
+
 export const removeRoom = (ruuid: string): void => {
   database.ref(`rooms/${ruuid}`).remove();
 };

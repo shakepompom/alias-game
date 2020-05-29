@@ -1,4 +1,6 @@
+export { Feedback } from './Feedback';
+export { FinishGame } from './FinishGame';
+export { Game } from './Game';
 export { Landing } from './Landing';
 export { Preparation } from './Preparation';
-export { Game } from './Game';
-export { FinishGame } from './FinishGame';
+export { Roadmap } from './Roadmap';
