@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCommonComponentState } from '@hooks';
-import { Content, Header } from '@components';
+import { Content, Header, Footer } from '@components';
 import { getTotalScore, getWordDeclension } from '@utils';
 
 type FinishGameProps = {
@@ -9,32 +9,38 @@ type FinishGameProps = {
 
 export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
   const { teams, winnerTeamIndex } = useCommonComponentState(roomId);
-
+  const isPluralWinners = winnerTeamIndex?.length > 1;
   const score =
-    teams && typeof winnerTeamIndex === 'number'
+    teams && typeof winnerTeamIndex === 'object'
       ? getTotalScore(
-          teams[winnerTeamIndex].users,
-          teams[winnerTeamIndex].guessedWords,
+          teams[winnerTeamIndex[0]].users,
+          teams[winnerTeamIndex[0]].guessedWords,
         )
       : 0;
 
   return (
     <>
       <Header roomId={roomId} />
-      {teams && typeof winnerTeamIndex === 'number' ? (
+      {teams && typeof winnerTeamIndex === 'object' ? (
         <Content.CenteredBlockWrapper>
           <Content.Subtitle>Ура!</Content.Subtitle>
           <Content.Title>
-            Команда {teams[winnerTeamIndex].name} выиграла!
+            {isPluralWinners ? 'Команды ' : 'Команда '}
+            {teams &&
+              teams
+                .filter((_, index) => winnerTeamIndex.includes(index))
+                .map(({ name }, index) => (index === 0 ? name : ` и ${name}`))}
+            {isPluralWinners ? ' выиграли' : ' выиграла'}!
           </Content.Title>
           <Content.Subtitle>
-            Команда набрала {score}{' '}
-            {getWordDeclension(score, ['очко', 'очка', 'очков'])}.
+            {isPluralWinners ? 'Команды набрали по ' : 'Команда набрала '}
+            {score} {getWordDeclension(score, ['очко', 'очка', 'очков'])}.
           </Content.Subtitle>
         </Content.CenteredBlockWrapper>
       ) : (
         <div>Загрузка...</div>
       )}
+      <Footer />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useKeyPressEvent, useEffectOnce } from 'react-use';
+import { useKeyPressEvent, useEffectOnce, useUpdateEffect } from 'react-use';
 import { useTimer } from 'use-timer';
 import styled from 'styled-components';
 import { WordStatus } from '@common/types';
@@ -37,6 +37,10 @@ const transformTimerToFriendlyDisplaying = (time: number): string => {
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;
 
+  if (isNaN(minutes) || isNaN(seconds)) {
+    return 'Не удалось загрузить таймер. Дождитесь действия ведущего.';
+  }
+
   return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 };
 
@@ -46,7 +50,7 @@ export const RoundProgress = ({
   timerDuration,
   wordsSet,
 }: RoundProgressProps): JSX.Element => {
-  const { time, start, isRunning } = useTimer({
+  const { time, start, reset, isRunning } = useTimer({
     initialTime: timerDuration,
     endTime: 0,
     timerType: 'DECREMENTAL',
@@ -54,6 +58,16 @@ export const RoundProgress = ({
 
   useEffectOnce(() => {
     start();
+
+    return () => {
+      if (isRunning) reset();
+    };
+  });
+
+  useUpdateEffect(() => {
+    if (!timerDuration && isActiveUser) {
+      setRoundStatus(roomId, 'start');
+    }
   });
 
   const { teams, gameId, round, activeTeamOrder } = useCommonComponentState(

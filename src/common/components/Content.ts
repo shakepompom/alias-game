@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Theme, FontSize } from '@styles/theme';
+import { Theme, FontSize, Color } from '@styles/theme';
 
 const Title = styled.h1`
   margin: 24px 0;
@@ -17,6 +17,18 @@ const Subtitle = styled.h2`
 
 const Text = styled.div`
   margin: 16px 0;
+`;
+
+const Link = styled.a`
+  color: ${({ theme }: { theme: Theme }): Color => theme.color.yellow};
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: border-bottom 0.2s;
+
+  &:hover {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
 `;
 
 const Ul = styled.ul`
@@ -53,6 +65,7 @@ export const Content = {
   Title,
   Subtitle,
   Text,
+  Link,
   Ul,
   Li,
   BlockWrapper,

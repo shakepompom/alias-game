@@ -15,7 +15,7 @@ const InputLabel = styled.label`
 
 const InputField = styled.input`
   padding: 8px 16px;
-  color: inherit;
+  color: ${({ theme }: { theme: Theme }): Color => theme.color.white};
   background-color: ${({ theme }: { theme: Theme }): Color =>
     theme.color.purple};
   border: 1px solid

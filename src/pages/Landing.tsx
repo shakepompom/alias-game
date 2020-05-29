@@ -1,13 +1,17 @@
 import React from 'react';
+import { useLocation } from 'react-use';
 import { Landing } from '@features';
 import { AppWrapper } from '@components';
 
-type LandingPageProps = {
-  roomId: string;
+const LandingPage = (): JSX.Element => {
+  const { pathname = '' } = useLocation();
+  const roomId = pathname.slice(1);
+
+  return (
+    <AppWrapper>
+      <Landing roomId={roomId} />
+    </AppWrapper>
+  );
 };
 
-export const LandingPage = ({ roomId }: LandingPageProps): JSX.Element => (
-  <AppWrapper>
-    <Landing roomId={roomId} />
-  </AppWrapper>
-);
+export default LandingPage;

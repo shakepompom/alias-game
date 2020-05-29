@@ -10,6 +10,7 @@ import {
   Input,
   GameRules,
   Header,
+  Footer,
   EmptyRoom,
 } from '@components';
 // import { useEffectOnce } from 'react-use';
@@ -105,6 +106,7 @@ export const Landing = ({ roomId }: LandingProps): JSX.Element => {
           )}
         </>
       )}
+      <Footer />
     </>
   );
 };
