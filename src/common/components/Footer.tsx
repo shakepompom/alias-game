@@ -18,6 +18,7 @@ const FeedbackButton = styled(Button)`
 export const Footer = (): JSX.Element => {
   const { pathname } = useLocation();
   const isFeedbackPage = pathname === ROUTES.FEEDBACK;
+  const isRoadmapPage = pathname === ROUTES.ROADMAP;
 
   return (
     <Wrapper>
@@ -44,16 +45,18 @@ export const Footer = (): JSX.Element => {
         </Content.Link>
         .
       </Content.CenteredBlockWrapper>
-      <Content.CenteredBlockWrapper>
-        <Content.Link
-          href={ROUTES.ROADMAP}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Roadmap
-        </Content.Link>{' '}
-        проекта
-      </Content.CenteredBlockWrapper>
+      {!isRoadmapPage && (
+        <Content.CenteredBlockWrapper>
+          <Content.Link
+            href={ROUTES.ROADMAP}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Roadmap
+          </Content.Link>{' '}
+          проекта
+        </Content.CenteredBlockWrapper>
+      )}
     </Wrapper>
   );
 };

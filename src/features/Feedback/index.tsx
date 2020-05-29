@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { sendFeedback } from '@fb/feedback';
 import { Content, Header, Footer, Button } from '@components';
 import { ROUTES } from '@common/constants';
-import { Theme, Color } from '@common/types';
+import { Theme, Color } from '@common/styles/theme';
 
 const Textarea = styled.textarea`
   width: 100%;
