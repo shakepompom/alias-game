@@ -30,7 +30,7 @@ const Warning = styled.div`
 `;
 
 type HeaderProps = {
-  roomId: string;
+  roomId?: string;
   children?: React.ReactNode;
 };
 

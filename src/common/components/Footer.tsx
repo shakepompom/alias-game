@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-use';
 import styled from 'styled-components';
 import { Content, Button } from '@components';
 import { ROUTES } from '@common/constants';
@@ -15,17 +16,25 @@ const FeedbackButton = styled(Button)`
 `;
 
 export const Footer = (): JSX.Element => {
+  const { pathname } = useLocation();
+  const isFeedbackPage = pathname === ROUTES.FEEDBACK;
+
   return (
     <Wrapper>
       <Content.CenteredBlockWrapper>
-        <FeedbackButton
-          onClick={() => {
-            window.open(ROUTES.FEEDBACK, '_blank');
-          }}
-        >
-          Оставить отзыв
-        </FeedbackButton>
-        или оформить Issue на{' '}
+        {!isFeedbackPage && (
+          <>
+            <FeedbackButton
+              onClick={() => {
+                window.open(ROUTES.FEEDBACK, '_blank');
+              }}
+            >
+              Оставить отзыв
+            </FeedbackButton>
+            или{' '}
+          </>
+        )}
+        {!isFeedbackPage ? 'о' : 'О'}формить Issue на{' '}
         <Content.Link
           href="https://github.com/shakepompom/alias-game/issues"
           target="_blank"
