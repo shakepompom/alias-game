@@ -7,9 +7,12 @@ import { removeUser, setNewAdmin } from '@fb/user';
 import { removeRoom } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Button } from '@components';
-import { getNewAdmin } from '@utils';
+import { getNewAdmin, isCurrentUserInAnyTeam } from '@utils';
+import { Theme, Color } from '../styles/theme';
 
-const Wrapper = styled.div`
+const Wrapper = styled.div``;
+
+const Inner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,6 +23,11 @@ const LogoutButton = styled(Button)`
   margin-left: auto;
 `;
 
+const Warning = styled.div`
+  color: ${({ theme }: { theme: Theme }): Color => theme.color.yellow};
+  text-align: center;
+`;
+
 type HeaderProps = {
   roomId: string;
   children?: React.ReactNode;
@@ -27,7 +35,7 @@ type HeaderProps = {
 
 export const Header = ({ roomId, children }: HeaderProps): JSX.Element => {
   const [user, loading, error] = useAuthState(auth);
-  const { users, isAdmin } = useCommonComponentState(roomId);
+  const { users, teams, isAdmin } = useCommonComponentState(roomId);
 
   const handleLogout = (): void => {
     signOut();
@@ -46,11 +54,18 @@ export const Header = ({ roomId, children }: HeaderProps): JSX.Element => {
 
   return (
     <Wrapper>
-      {children}
-      {user?.uid && (
-        <LogoutButton kind="secondary" onClick={handleLogout}>
-          Выйти
-        </LogoutButton>
+      <Inner>
+        {children}
+        {user?.uid && (
+          <LogoutButton kind="secondary" onClick={handleLogout}>
+            Выйти
+          </LogoutButton>
+        )}
+      </Inner>
+      {roomId && teams && !isCurrentUserInAnyTeam(user?.uid, teams) && (
+        <Warning>
+          Игра уже началась. Ты можешь просто наблюдать за процессом.
+        </Warning>
       )}
     </Wrapper>
   );
