@@ -11,6 +11,7 @@ import {
 import { useCommonComponentState } from '@hooks';
 import { Content, Button } from '@components';
 import { Theme, Color } from '@styles/theme';
+import { getUserIndex, getRoundOrder } from '../utils';
 
 const EverybodyMayGuess = styled(Content.Subtitle)`
   color: ${({ theme }: { theme: Theme }): Color => theme.color.yellow};
@@ -96,17 +97,8 @@ export const RoundProgress = ({
   useKeyPressEvent('ArrowRight', handleGuessAction);
 
   const handleGuessLastWord = (teamIndex: number | null): void => {
-    const userIndex =
-      typeof round === 'number' &&
-      teams &&
-      typeof activeTeamOrder === 'number' &&
-      round % Object.values(teams[activeTeamOrder].users).length;
-
-    const roundOrder =
-      typeof round === 'number' &&
-      teams &&
-      typeof activeTeamOrder === 'number' &&
-      round * teams?.length + activeTeamOrder;
+    const userIndex = getUserIndex(round, teams, activeTeamOrder);
+    const roundOrder = getRoundOrder(round, teams, activeTeamOrder);
 
     setTeamRoundResult(
       roomId,

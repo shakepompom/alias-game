@@ -12,7 +12,7 @@ import { useCommonComponentState } from '@hooks';
 import { Content, Button } from '@components';
 import { WordStatus } from '@common/types';
 import { Theme, Color } from '@styles/theme';
-import { getLastWordRoundResult } from '../utils';
+import { getUserIndex, getRoundOrder, getLastWordRoundResult } from '../utils';
 
 type ScPropsType = {
   theme: Theme;
@@ -53,17 +53,9 @@ export const RoundResults = ({
   const { gameId, teams, round, activeTeamOrder } = useCommonComponentState(
     roomId,
   );
-  const userIndex =
-    typeof round === 'number' &&
-    teams &&
-    typeof activeTeamOrder === 'number' &&
-    round % Object.values(teams[activeTeamOrder].users).length;
+  const userIndex = getUserIndex(round, teams, activeTeamOrder);
+  const roundOrder = getRoundOrder(round, teams, activeTeamOrder);
 
-  const roundOrder =
-    typeof round === 'number' &&
-    teams &&
-    typeof activeTeamOrder === 'number' &&
-    round * teams?.length + activeTeamOrder;
   const [result] = useObjectVal<WordStatus[]>(
     getRoundResult(roomId, gameId, activeTeamOrder, userIndex, roundOrder),
   );
@@ -87,7 +79,8 @@ export const RoundResults = ({
       typeof activeTeamOrder === 'number' &&
       teams.length - 1 === activeTeamOrder
         ? 0
-        : typeof activeTeamOrder === 'number' && activeTeamOrder + 1;
+        : (typeof activeTeamOrder === 'number' && activeTeamOrder + 1) ||
+          undefined;
     const nextState = {
       round: nextRound,
       activeTeam: nextActiveTeam,
