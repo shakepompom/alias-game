@@ -16,10 +16,13 @@ export const getRoundWordsSet = async ({
   activeTeamOrder,
 }: PropsType): Promise<string[]> => {
   const startFromIndex =
+    typeof round === 'number' &&
+    teamsLength &&
+    typeof activeTeamOrder === 'number' &&
     (round * teamsLength + activeTeamOrder) * WORDS_PER_ROUND;
   const result: string[] = [];
 
-  if (wordsOrder) {
+  if (wordsOrder && typeof startFromIndex === 'number') {
     for (let i = startFromIndex; i < startFromIndex + WORDS_PER_ROUND; i++) {
       await getWordByIndex(wordsOrder[i]).then((w) => result.push(w?.val()));
     }

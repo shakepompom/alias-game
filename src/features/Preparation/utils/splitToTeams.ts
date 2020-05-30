@@ -10,7 +10,12 @@ const TEAM_NAMES = [
   'Пёсики',
 ];
 
-export const splitToTeams = (users: User[], teamCount: number): Team[] => {
+export const splitToTeams = (
+  users: { [key: string]: User } | undefined,
+  teamCount: number,
+): Team[] => {
+  if (!users) return [];
+
   const teams = [];
 
   for (let i = 0; i < teamCount; i++) {

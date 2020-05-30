@@ -1,13 +1,16 @@
 import { Team } from '../types';
 
 export const isCurrentUserInAnyTeam = (
-  userId: string,
+  userId: string | undefined,
   teams: Team[],
-): boolean =>
-  teams?.reduce((acc, { users }) => {
-    if (users.filter(({ id }) => id === userId).length) {
-      return true;
-    }
+): boolean => {
+  let isInAnyTeam = false;
 
-    return acc;
-  }, false);
+  for (let i = 0; i < teams.length; i++) {
+    if (teams[i].users.filter(({ id }) => id === userId).length) {
+      isInAnyTeam = true;
+    }
+  }
+
+  return isInAnyTeam;
+};

@@ -5,14 +5,14 @@ import {
   switchNextOrder,
   setRoundStatus,
   getRoundResult,
-  getGameWinnerTeamIndex,
+  getGameWinnersIndices,
   finishGame,
 } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { Content, Button } from '@components';
 import { WordStatus } from '@common/types';
 import { Theme, Color } from '@styles/theme';
-import { getLastWordRoundResult } from '../utils';
+import { getUserIndex, getRoundOrder, getLastWordRoundResult } from '../utils';
 
 type ScPropsType = {
   theme: Theme;
@@ -53,25 +53,34 @@ export const RoundResults = ({
   const { gameId, teams, round, activeTeamOrder } = useCommonComponentState(
     roomId,
   );
-  const userIndex =
-    teams && round % Object.values(teams[activeTeamOrder].users).length;
+  const userIndex = getUserIndex(round, teams, activeTeamOrder);
+  const roundOrder = getRoundOrder(round, teams, activeTeamOrder);
 
-  const roundOrder = round * teams?.length + activeTeamOrder;
   const [result] = useObjectVal<WordStatus[]>(
     getRoundResult(roomId, gameId, activeTeamOrder, userIndex, roundOrder),
   );
-  const [winnerTeamIndex] = useObjectVal<number>(
-    getGameWinnerTeamIndex(roomId, gameId),
+  const [winnersIndices] = useObjectVal<number>(
+    getGameWinnersIndices(roomId, gameId),
   );
 
   const handleClickSwitchOrder = (): void => {
-    if (winnerTeamIndex !== null && typeof winnerTeamIndex === 'object') {
+    if (winnersIndices !== null && typeof winnersIndices === 'object') {
       finishGame(roomId);
     }
 
-    const nextRound = teams.length - 1 === activeTeamOrder ? round + 1 : round;
+    const nextRound =
+      teams &&
+      typeof round === 'number' &&
+      teams?.length - 1 === activeTeamOrder
+        ? round + 1
+        : round;
     const nextActiveTeam =
-      teams.length - 1 === activeTeamOrder ? 0 : activeTeamOrder + 1;
+      teams &&
+      typeof activeTeamOrder === 'number' &&
+      teams.length - 1 === activeTeamOrder
+        ? 0
+        : (typeof activeTeamOrder === 'number' && activeTeamOrder + 1) ||
+          undefined;
     const nextState = {
       round: nextRound,
       activeTeam: nextActiveTeam,

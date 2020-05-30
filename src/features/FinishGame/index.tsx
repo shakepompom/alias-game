@@ -8,27 +8,28 @@ type FinishGameProps = {
 };
 
 export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
-  const { teams, winnerTeamIndex } = useCommonComponentState(roomId);
-  const isPluralWinners = winnerTeamIndex?.length > 1;
+  const { teams, winnersIndices } = useCommonComponentState(roomId);
+  const isPluralWinners =
+    typeof winnersIndices === 'object' && winnersIndices?.length > 1;
   const score =
-    teams && typeof winnerTeamIndex === 'object'
+    teams && typeof winnersIndices === 'object'
       ? getTotalScore(
-          teams[winnerTeamIndex[0]].users,
-          teams[winnerTeamIndex[0]].guessedWords,
+          teams[winnersIndices[0]].users,
+          teams[winnersIndices[0]].guessedWords,
         )
       : 0;
 
   return (
     <>
       <Header roomId={roomId} />
-      {teams && typeof winnerTeamIndex === 'object' ? (
+      {teams && typeof winnersIndices === 'object' ? (
         <Content.CenteredBlockWrapper>
           <Content.Subtitle>Ура!</Content.Subtitle>
           <Content.Title>
             {isPluralWinners ? 'Команды ' : 'Команда '}
             {teams &&
               teams
-                .filter((_, index) => winnerTeamIndex.includes(index))
+                .filter((_, index) => winnersIndices.includes(index))
                 .map(({ name }, index) => (index === 0 ? name : ` и ${name}`))}
             {isPluralWinners ? ' выиграли' : ' выиграла'}!
           </Content.Title>

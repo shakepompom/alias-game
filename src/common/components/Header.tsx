@@ -34,7 +34,7 @@ type HeaderProps = {
   children?: React.ReactNode;
 };
 
-export const Header = ({ roomId, children }: HeaderProps): JSX.Element => {
+export const Header = ({ roomId = '', children }: HeaderProps): JSX.Element => {
   const [user, loading, error] = useAuthState(auth);
   const { users, teams, isAdmin } = useCommonComponentState(roomId);
 

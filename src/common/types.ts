@@ -26,7 +26,7 @@ export type Settings = {
 };
 
 export type CommonComponentState = {
-  users: User[] | undefined;
+  users: { [key: string]: User } | undefined;
   userId: string | undefined;
   isAdmin: boolean | undefined;
   gameId: string | undefined;
@@ -35,6 +35,6 @@ export type CommonComponentState = {
   activeTeamOrder: number | undefined;
   roundStatus: RoundStatus | undefined;
   wordsOrder: number[] | undefined;
-  winnerTeamIndex: number[] | undefined;
+  winnersIndices: number[] | undefined;
   settings: Settings | undefined;
 };
