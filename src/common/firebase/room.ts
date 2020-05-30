@@ -15,7 +15,7 @@ export const getUsers = (ruuid: string): firebase.database.Reference =>
 
 export const getTeams = (
   ruuid: string,
-  guuid = '',
+  guuid: string | undefined,
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/teams`);
 
@@ -27,7 +27,7 @@ export const getGameRound = (ruuid: string): firebase.database.Reference =>
 
 export const getGameSettings = (
   ruuid: string,
-  guuid = '',
+  guuid: string | undefined,
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/settings`);
 
@@ -36,13 +36,13 @@ export const getRoundStatus = (ruuid: string): firebase.database.Reference =>
 
 export const getWordsOrder = (
   ruuid: string,
-  guuid = '',
+  guuid: string | undefined,
 ): firebase.database.Reference =>
   database.ref(`rooms/${ruuid}/games/${guuid}/wordsOrder`);
 
 export const getRoundResult = (
   ruuid: string,
-  guuid = '',
+  guuid: string | undefined,
   activeTeam: number | undefined,
   userIndex: number | undefined,
   roundOrder: number | undefined,
@@ -51,47 +51,53 @@ export const getRoundResult = (
     `rooms/${ruuid}/games/${guuid}/teams/${activeTeam}/users/${userIndex}/score/${roundOrder}`,
   );
 
-export const getGameWinnerTeamIndex = (
+export const getGameWinnersIndices = (
   ruuid: string,
-  guuid = '',
+  guuid: string | undefined,
 ): firebase.database.Reference =>
-  database.ref(`rooms/${ruuid}/games/${guuid}/gameResult/winnerTeamIndex`);
+  database.ref(`rooms/${ruuid}/games/${guuid}/gameResult/winnersIndices`);
 
-export const addRoom = (ruuid: string, admin: User, guuid: string): void => {
-  const data = {
-    [ruuid]: {
-      createdAt: new Date(),
-      users: {
-        [admin.id]: {
-          id: admin.id,
-          name: admin.name,
-          isAdmin: true,
+export const addRoom = (
+  ruuid: string,
+  admin: User,
+  guuid: string | undefined,
+): void => {
+  if (guuid) {
+    const data = {
+      [ruuid]: {
+        createdAt: new Date(),
+        users: {
+          [admin.id]: {
+            id: admin.id,
+            name: admin.name,
+            isAdmin: true,
+          },
         },
-      },
-      currentGameStatus: {
-        gameStatus: 'preparation',
-        gameId: guuid,
-      },
-      games: {
-        [guuid]: {
-          id: guuid,
-          settings: {
-            timer: 60,
-            pointsToWin: 100,
-            missedWordIsMinusPoint: false,
-            isLastWordToGuess: true,
+        currentGameStatus: {
+          gameStatus: 'preparation',
+          gameId: guuid,
+        },
+        games: {
+          [guuid]: {
+            id: guuid,
+            settings: {
+              timer: 60,
+              pointsToWin: 100,
+              missedWordIsMinusPoint: false,
+              isLastWordToGuess: true,
+            },
           },
         },
       },
-    },
-  };
+    };
 
-  database.ref('rooms/').update(data);
+    database.ref('rooms/').update(data);
+  }
 };
 
 export const splitToTeams = (
   ruuid: string,
-  guuid: string,
+  guuid: string | undefined,
   teams: Team[],
 ): void => {
   database.ref(`rooms/${ruuid}/games/${guuid}`).update({ teams });
@@ -99,7 +105,7 @@ export const splitToTeams = (
 
 export const setWordsOrder = (
   ruuid: string,
-  guuid = '',
+  guuid: string | undefined,
   wordsOrder: number[] = [],
 ): void => {
   database.ref(`rooms/${ruuid}/games/${guuid}`).update({
@@ -125,8 +131,8 @@ export const setRoundStatus = (ruuid: string, value: RoundStatus): void => {
 export const switchNextOrder = (
   ruuid: string,
   nextState: {
-    round: number;
-    activeTeam: number;
+    round: number | undefined;
+    activeTeam: number | undefined;
   },
 ): void => {
   database.ref(`rooms/${ruuid}/currentGameStatus`).update({
@@ -137,43 +143,47 @@ export const switchNextOrder = (
 
 export const setTeamRoundResult = (
   ruuid: string,
-  guuid: string,
-  activeTeam: number,
-  userIndex: number,
-  roundOrder: number,
+  guuid: string | undefined,
+  activeTeam: number | undefined,
+  userIndex: number | undefined,
+  roundOrder: number | undefined,
   results: WordStatus[],
 ): void => {
-  database
-    .ref(
-      `rooms/${ruuid}/games/${guuid}/teams/${activeTeam}/users/${userIndex}/score`,
-    )
-    .update({
-      [roundOrder]: results,
-    });
+  if (typeof roundOrder === 'number') {
+    database
+      .ref(
+        `rooms/${ruuid}/games/${guuid}/teams/${activeTeam}/users/${userIndex}/score`,
+      )
+      .update({
+        [roundOrder]: results,
+      });
+  }
 };
 
 export const setLastWordRoundResult = (
   ruuid: string,
-  guuid: string,
-  team: number,
-  roundOrder: number,
+  guuid: string | undefined,
+  team: number | undefined,
+  roundOrder: number | undefined,
   results: WordStatus,
 ): void => {
-  database
-    .ref(`rooms/${ruuid}/games/${guuid}/teams/${team}/guessedWords`)
-    .update({
-      [roundOrder]: results,
-    });
+  if (typeof roundOrder === 'number') {
+    database
+      .ref(`rooms/${ruuid}/games/${guuid}/teams/${team}/guessedWords`)
+      .update({
+        [roundOrder]: results,
+      });
+  }
 };
 
-export const setGameWinnerTeamIndex = (
+export const setGameWinnersIndices = (
   ruuid: string,
-  guuid: string,
-  winnerTeamIndex: number,
+  guuid: string | undefined,
+  winnersIndices: number[] | undefined,
 ): void => {
   database
     .ref(`rooms/${ruuid}/games/${guuid}/gameResult`)
-    .update({ winnerTeamIndex });
+    .update({ winnersIndices });
 };
 
 export const finishGame = (ruuid: string): void => {
@@ -182,7 +192,7 @@ export const finishGame = (ruuid: string): void => {
     .update({ gameStatus: 'finish' });
 };
 
-export const removeTeams = (ruuid: string, guuid: string): void => {
+export const removeTeams = (ruuid: string, guuid: string | undefined): void => {
   database.ref(`rooms/${ruuid}/games/${guuid}/teams`).remove();
 };
 

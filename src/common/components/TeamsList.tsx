@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Team, User } from '@common/types';
-import { setGameWinnerTeamIndex } from '@fb/room';
+import { setGameWinnersIndices } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { getTotalScore } from '@utils';
 import { Theme, Color } from '@styles/theme';
@@ -105,15 +105,15 @@ export const TeamsList = ({
     if (isToFinishGame && isAdmin) {
       const maxScore = Math.max(...totalScore);
 
-      const winnerIndices = [];
+      const winnersIndices = [];
       let index = totalScore.indexOf(maxScore);
 
       while (index !== -1) {
-        winnerIndices.push(index);
+        winnersIndices.push(index);
         index = totalScore.indexOf(maxScore, index + 1);
       }
 
-      setGameWinnerTeamIndex(roomId, gameId, winnerIndices);
+      setGameWinnersIndices(roomId, gameId, winnersIndices);
     }
   }, [settings, isAdmin, totalScore]);
 
@@ -138,6 +138,7 @@ export const TeamsList = ({
                     ({ id, name }: User, index: number): JSX.Element => {
                       const isActiveUser =
                         isActiveTeam &&
+                        typeof round === 'number' &&
                         round % Object.values(users).length === index;
 
                       if (isActiveUser && activeUserId !== id) {

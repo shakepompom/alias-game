@@ -29,7 +29,7 @@ const StyledButton = styled(Button)`
 type RoundProgressProps = {
   roomId: string;
   isActiveUser: boolean;
-  timerDuration: number;
+  timerDuration: number | undefined;
   wordsSet: string[];
 };
 
@@ -97,8 +97,16 @@ export const RoundProgress = ({
 
   const handleGuessLastWord = (teamIndex: number | null): void => {
     const userIndex =
+      typeof round === 'number' &&
+      teams &&
+      typeof activeTeamOrder === 'number' &&
       round % Object.values(teams[activeTeamOrder].users).length;
-    const roundOrder = round * teams?.length + activeTeamOrder;
+
+    const roundOrder =
+      typeof round === 'number' &&
+      teams &&
+      typeof activeTeamOrder === 'number' &&
+      round * teams?.length + activeTeamOrder;
 
     setTeamRoundResult(
       roomId,

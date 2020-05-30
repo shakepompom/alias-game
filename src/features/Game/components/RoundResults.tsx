@@ -5,7 +5,7 @@ import {
   switchNextOrder,
   setRoundStatus,
   getRoundResult,
-  getGameWinnerTeamIndex,
+  getGameWinnersIndices,
   finishGame,
 } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
@@ -54,24 +54,40 @@ export const RoundResults = ({
     roomId,
   );
   const userIndex =
-    teams && round % Object.values(teams[activeTeamOrder].users).length;
+    typeof round === 'number' &&
+    teams &&
+    typeof activeTeamOrder === 'number' &&
+    round % Object.values(teams[activeTeamOrder].users).length;
 
-  const roundOrder = round * teams?.length + activeTeamOrder;
+  const roundOrder =
+    typeof round === 'number' &&
+    teams &&
+    typeof activeTeamOrder === 'number' &&
+    round * teams?.length + activeTeamOrder;
   const [result] = useObjectVal<WordStatus[]>(
     getRoundResult(roomId, gameId, activeTeamOrder, userIndex, roundOrder),
   );
-  const [winnerTeamIndex] = useObjectVal<number>(
-    getGameWinnerTeamIndex(roomId, gameId),
+  const [winnersIndices] = useObjectVal<number>(
+    getGameWinnersIndices(roomId, gameId),
   );
 
   const handleClickSwitchOrder = (): void => {
-    if (winnerTeamIndex !== null && typeof winnerTeamIndex === 'object') {
+    if (winnersIndices !== null && typeof winnersIndices === 'object') {
       finishGame(roomId);
     }
 
-    const nextRound = teams.length - 1 === activeTeamOrder ? round + 1 : round;
+    const nextRound =
+      teams &&
+      typeof round === 'number' &&
+      teams?.length - 1 === activeTeamOrder
+        ? round + 1
+        : round;
     const nextActiveTeam =
-      teams.length - 1 === activeTeamOrder ? 0 : activeTeamOrder + 1;
+      teams &&
+      typeof activeTeamOrder === 'number' &&
+      teams.length - 1 === activeTeamOrder
+        ? 0
+        : typeof activeTeamOrder === 'number' && activeTeamOrder + 1;
     const nextState = {
       round: nextRound,
       activeTeam: nextActiveTeam,
