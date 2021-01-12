@@ -17,7 +17,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "isolatedModules": true,
-    "types": ["node"],
+    "types": ["node", "webpack-env"],
     "baseUrl": "./",
     "paths": {
       "@src/*": ["src/*"],

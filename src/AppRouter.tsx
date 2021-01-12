@@ -9,7 +9,7 @@ const GamePage = lazy(() => import('@pages/Game'));
 const FeedbackPage = lazy(() => import('@pages/Feedback'));
 const RoadmapPage = lazy(() => import('@pages/Roadmap'));
 
-export const AppRouter = (): JSX.Element => {
+const AppRouter = (): JSX.Element => {
   const [user, loading, error] = useAuthState(auth);
 
   return (
@@ -23,3 +23,5 @@ export const AppRouter = (): JSX.Element => {
     </Suspense>
   );
 };
+
+export default AppRouter;
