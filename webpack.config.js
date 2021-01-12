@@ -6,6 +6,7 @@ const Dotenv = require('dotenv-webpack');
 const rootDir = join(__dirname, './');
 
 module.exports = {
+  mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
   entry: {
     app: join(rootDir, './src/index.tsx'),
   },
@@ -44,11 +45,13 @@ module.exports = {
       path: './.env',
     }),
   ],
-  devtool: 'eval',
+  devtool: 'source-map',
+  target: process.env.NODE_ENV === 'development' ? 'web' : 'browserslist',
   devServer: {
-    host: '0.0.0.0',
     port: 8000,
     contentBase: join(rootDir, './static'),
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    watchContentBase: true,
     historyApiFallback: true,
     hot: true,
     open: true,

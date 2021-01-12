@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@styles/theme';
 import { GlobalStyles } from '@styles/GlobalStyles';
-import { AppRouter } from './AppRouter';
+import AppRouter from './AppRouter';
 import { store } from './store';
 
 const App = (): JSX.Element => (
@@ -20,3 +20,7 @@ const App = (): JSX.Element => (
 );
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+if (module.hot) {
+  module.hot.accept();
+}

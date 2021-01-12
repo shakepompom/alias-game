@@ -10,8 +10,8 @@ const config: Config = {
   databaseURL: process.env.FIREBASE_DB_URL,
 };
 
-firebase.initializeApp(config);
+firebase.default.initializeApp(config);
 
-export const database = firebase.database();
+export const database = firebase.default.database();
 
-export const auth = firebase.auth();
+export const auth = firebase.default.auth();
