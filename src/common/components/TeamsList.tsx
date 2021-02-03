@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Team, User } from '@common/types';
 import { setGameWinnersIndices } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
 import { getTotalScore } from '@utils';
@@ -72,7 +71,7 @@ const StyledUser = styled.div<Pick<ScPropsType, 'isCurrent' | 'isActiveUser'>>`
 
 type TeamsListProps = {
   roomId: string;
-  setIsActiveUser?: Function;
+  setIsActiveUser?: (isActive: boolean) => void;
 };
 
 export const TeamsList = ({
@@ -121,7 +120,7 @@ export const TeamsList = ({
     <div>
       <TableWrapper>
         {Object.values(teams).map(
-          ({ name, users, guessedWords }: Team, index): JSX.Element => {
+          ({ name, users, guessedWords }, index): JSX.Element => {
             const isActiveTeam = index === activeTeamOrder;
             const newScore = getTotalScore(users, guessedWords);
 
@@ -135,7 +134,7 @@ export const TeamsList = ({
                 <TeamName isActiveTeam={isActiveTeam}>{name}</TeamName>
                 <TeamList>
                   {Object.values(users).map(
-                    ({ id, name }: User, index: number): JSX.Element => {
+                    ({ id, name }, index: number): JSX.Element => {
                       const isActiveUser =
                         isActiveTeam &&
                         typeof round === 'number' &&
@@ -154,13 +153,13 @@ export const TeamsList = ({
                           {name}
                         </StyledUser>
                       );
-                    },
+                    }
                   )}
                 </TeamList>
                 <TeamScore>{newScore}</TeamScore>
               </TeamWrapper>
             );
-          },
+          }
         )}
       </TableWrapper>
     </div>

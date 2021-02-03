@@ -1,7 +1,7 @@
 // How to set declensions in Array ['одно', 'два', 'пять']
 export const getWordDeclension = (
   number: number,
-  declensions: string[],
+  declensions: string[]
 ): string => {
   if ((!number && +number !== 0) || !declensions) {
     throw new Error('Function calls without arguments');

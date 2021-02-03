@@ -1,8 +1,9 @@
-import { User, WordStatus } from '@common/types';
+import { WordStatus } from '@common/types';
+import { User } from '@common/model/user';
 
 export const getTotalScore = (
   users: User[],
-  guessedWords: WordStatus[] = [],
+  guessedWords: WordStatus[] = []
 ): number => {
   const teamScore = users.reduce((acc, user) => {
     let score = acc;

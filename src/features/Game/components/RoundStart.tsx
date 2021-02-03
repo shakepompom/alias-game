@@ -8,17 +8,17 @@ type RoundStartProps = {
   roomId: string;
   isActiveUser: boolean;
   wordsSet: string[];
-  setWordsSet: Function;
+  setWordsSet: (words: string[]) => void;
 };
 
-export const RoundStart = ({
+export const RoundStart: React.FC<RoundStartProps> = ({
   roomId,
   isActiveUser,
   wordsSet,
   setWordsSet,
-}: RoundStartProps): JSX.Element => {
+}) => {
   const { wordsOrder, teams, round, activeTeamOrder } = useCommonComponentState(
-    roomId,
+    roomId
   );
 
   const handleButtonStartRound = (): void => {

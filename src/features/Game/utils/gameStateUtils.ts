@@ -3,7 +3,7 @@ import { Team } from '@src/common/types';
 export const getUserIndex = (
   round: number | undefined,
   teams: Team[] | undefined,
-  activeTeamOrder: number | undefined,
+  activeTeamOrder: number | undefined
 ): number | undefined => {
   if (
     typeof round === 'number' &&
@@ -19,7 +19,7 @@ export const getUserIndex = (
 export const getRoundOrder = (
   round: number | undefined,
   teams: Team[] | undefined,
-  activeTeamOrder: number | undefined,
+  activeTeamOrder: number | undefined
 ): number | undefined => {
   if (
     typeof round === 'number' &&

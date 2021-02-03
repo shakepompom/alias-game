@@ -1,6 +1,6 @@
-import { User } from '@common/types';
+import { ObjectedUser } from '@common/model/user';
 
-export const getNewAdmin = (users: { [key: string]: User }): string => {
+export const getNewAdmin = (users: ObjectedUser): string => {
   if (!users) return '';
 
   return Object.keys(users).filter((id) => !users[id].isAdmin)[0];

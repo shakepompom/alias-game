@@ -5,15 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { theme } from '@styles/theme';
 import { GlobalStyles } from '@styles/GlobalStyles';
-import AppRouter from './AppRouter';
 import { store } from './store';
+import Layout from '@common/layout';
 
 const App = (): JSX.Element => (
   <ThemeProvider theme={theme}>
     <GlobalStyles />
     <Provider store={store}>
       <BrowserRouter>
-        <AppRouter />
+        <Layout />
       </BrowserRouter>
     </Provider>
   </ThemeProvider>

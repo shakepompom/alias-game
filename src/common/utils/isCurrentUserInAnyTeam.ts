@@ -2,7 +2,7 @@ import { Team } from '../types';
 
 export const isCurrentUserInAnyTeam = (
   userId: string | undefined,
-  teams: Team[],
+  teams: Team[]
 ): boolean => {
   let isInAnyTeam = false;
 

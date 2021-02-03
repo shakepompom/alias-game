@@ -29,7 +29,7 @@ export const Teams = ({ roomId }: TeamsProps): JSX.Element => {
   const [[isValid]] = useStateValidator(teamCount, teamCountValidator);
 
   const handleSplitToTeams = (): void => {
-    const teams = splitToTeamsUtil(users, teamCount);
+    const teams = splitToTeamsUtil(teamCount, users);
 
     splitToTeams(roomId, gameId, teams);
   };

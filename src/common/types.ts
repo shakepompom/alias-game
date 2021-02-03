@@ -1,9 +1,4 @@
-export type User = {
-  id: string;
-  name: string;
-  isAdmin?: boolean;
-  score?: WordStatus[][];
-};
+import { User } from '@common/model/user';
 
 export type Team = {
   name: string;

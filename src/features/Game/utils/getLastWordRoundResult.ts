@@ -2,7 +2,7 @@ import { Team } from '@common/types';
 
 export const getLastWordRoundResult = (
   roundOrder: number | undefined,
-  teams: Team[] = [],
+  teams: Team[] = []
 ): string =>
   teams?.reduce((acc, { name, guessedWords }) => {
     if (

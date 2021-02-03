@@ -6,6 +6,8 @@ module.exports = {
       files: './src/**/*.ts, ./src/**/*.tsx',
       options: {
         trailingComma: 'all',
+        printWidth: 120,
+        tabWidth: 2,
       },
     },
   ],

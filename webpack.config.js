@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line
 const { join, resolve } = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 const rootDir = join(__dirname, './');
@@ -8,7 +9,7 @@ const rootDir = join(__dirname, './');
 module.exports = {
   mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
   entry: {
-    app: join(rootDir, './src/index.tsx'),
+    main: join(__dirname, './src/index.tsx'),
   },
   output: {
     path: join(rootDir, './public'),
@@ -16,7 +17,7 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', 'jsx'],
     alias: {
       '@src': resolve(rootDir, './src'),
       '@common': resolve(rootDir, './src/common'),
@@ -32,7 +33,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
+        test: /\.(ts)x?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader',
+        },
+      },
+      {
+        test: /\.(js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -41,11 +49,14 @@ module.exports = {
     ],
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      template: join(rootDir, './static/index.html'),
+    }),
     new Dotenv({
       path: './.env',
     }),
   ],
-  devtool: 'source-map',
+  devtool: 'cheap-module-source-map',
   target: process.env.NODE_ENV === 'development' ? 'web' : 'browserslist',
   devServer: {
     port: 8000,

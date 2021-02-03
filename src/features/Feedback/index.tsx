@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { sendFeedback } from '@fb/feedback';
-import { Content, Header, Footer, Button } from '@components';
-import { ROUTES } from '@common/constants';
+import { Content, Button } from '@components';
 import { Theme, Color } from '@common/styles/theme';
 
 const Textarea = styled.textarea`
@@ -29,11 +28,6 @@ export const Feedback = (): JSX.Element => {
 
   return (
     <>
-      <Header>
-        <Button onClick={() => (window.location.href = ROUTES.LANDING)}>
-          На главную
-        </Button>
-      </Header>
       <Content.BlockWrapper>
         {hasSent ? (
           <>
@@ -60,7 +54,6 @@ export const Feedback = (): JSX.Element => {
           </>
         )}
       </Content.BlockWrapper>
-      <Footer />
     </>
   );
 };

@@ -1,30 +1,29 @@
-import { User } from '@common/types';
 import { database } from './initFirebase';
+import firebase from 'firebase';
+import { User } from '@common/model/user';
 
 export const getUser = (
-  ruuid: string,
-  userId: string | undefined,
+  roomId: string,
+  userId: string | undefined
 ): firebase.database.Reference =>
-  database.ref(`rooms/${ruuid}/users/${userId}`);
+  database.ref(`rooms/${roomId}/users/${userId}`);
 
-export const addUser = (
-  ruuid: string,
-  { id, name, isAdmin = false }: User,
-): void => {
+export const addUser = (roomId: string, user: User): void => {
+  const { id, name, isAdmin = false } = user;
   const data = {
     [id]: { id, name, isAdmin },
   };
 
-  database.ref(`rooms/${ruuid}/users`).update(data);
+  database.ref(`rooms/${roomId}/users`).update(data);
 };
 
 export const setNewAdmin = (
-  ruuid: string,
-  userId: string | undefined,
+  roomId: string,
+  userId: string | undefined
 ): void => {
-  database.ref(`rooms/${ruuid}/users/${userId}`).update({ isAdmin: true });
+  database.ref(`rooms/${roomId}/users/${userId}`).update({ isAdmin: true });
 };
 
-export const removeUser = (ruuid: string, userId: string | undefined): void => {
-  database.ref(`rooms/${ruuid}/users/${userId}`).remove();
+export const removeUser = (roomId: string, userId?: string): void => {
+  database.ref(`rooms/${roomId}/users/${userId}`).remove();
 };

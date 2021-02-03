@@ -1,6 +1,7 @@
 export const ROUTES = {
-  LANDING: '/',
-  GAME: '/:roomhash',
+  MAIN: '/',
+  ROOMS: '/rooms',
+  ROOM: '/rooms/:roomId',
   FEEDBACK: '/feedback',
   ROADMAP: '/roadmap',
 };
