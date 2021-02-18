@@ -1,24 +1,20 @@
 import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@fb/initFirebase';
-import { ROUTES } from '@common/constants';
+import { ROUTES } from '@common/constants/routes';
 
-const LandingPage = lazy(() => import('@pages/Landing'));
-const GamePage = lazy(() => import('@pages/Game'));
+const StartPage = lazy(() => import('@pages/Start'));
+const RoomPage = lazy(() => import('@pages/Room'));
 const FeedbackPage = lazy(() => import('@pages/Feedback'));
 const RoadmapPage = lazy(() => import('@pages/Roadmap'));
 
 const AppRouter = (): JSX.Element => {
-  const [user, loading, error] = useAuthState(auth);
-
   return (
-    <Suspense fallback={<div>Загрузка...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
       <Switch>
         <Route path={ROUTES.FEEDBACK} component={FeedbackPage} />
         <Route path={ROUTES.ROADMAP} component={RoadmapPage} />
-        <Route path={ROUTES.GAME} component={user ? GamePage : LandingPage} />
-        <Route path={ROUTES.LANDING} component={LandingPage} />
+        <Route path={ROUTES.ROOM} component={RoomPage} />
+        <Route exact path={ROUTES.MAIN} component={StartPage} />
       </Switch>
     </Suspense>
   );

@@ -3,7 +3,9 @@ module.exports = {
   extends: [
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
-    'plugin:prettier/recommended', // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors.
+    // Make sure this is always the last configuration in the extends array.
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
@@ -13,9 +15,6 @@ module.exports = {
     },
   },
   rules: {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
-    // e.g. "@typescript-eslint/explicit-function-return-type": "off",
-    '@typescript-eslint/indent': ['error', 2],
     '@typescript-eslint/explicit-function-return-type': [
       'error',
       {
@@ -23,7 +22,11 @@ module.exports = {
         allowTypedFunctionExpressions: true,
       },
     ],
-    '@typescript-eslint/indent': 'off', // disabled because of a lot of issues https://github.com/typescript-eslint/typescript-eslint/issues/1824
+    // disabled because of a lot of issues https://github.com/typescript-eslint/typescript-eslint/issues/1824
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
+    'react/prop-types': 'off',
+    'max-len': ['warn', { code: 120, tabWidth: 2 }],
   },
   settings: {
     react: {

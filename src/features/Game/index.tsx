@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCommonComponentState } from '@hooks';
-import { Content, Header, TeamsList } from '@components';
+import { Content, TeamsList } from '@components';
 import { RoundStart, RoundProgress, RoundResults } from './components';
 
 type GameProps = {
@@ -41,7 +41,6 @@ export const Game = ({ roomId }: GameProps): JSX.Element => {
 
   return (
     <>
-      <Header roomId={roomId} />
       <Content.CenteredBlockWrapper>
         <TeamsList roomId={roomId} setIsActiveUser={setIsActiveUser} />
         <Content.BlockWrapper>

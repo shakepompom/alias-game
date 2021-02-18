@@ -1,20 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Content } from './Content';
-import { Button } from './Button';
 
-const BackButton = styled(Button)`
-  display: block;
-  margin: 40px auto 0;
-`;
-
-type GameRulesProps = {
-  returnBackCallback: Function;
-};
-
-export const GameRules = ({
-  returnBackCallback,
-}: GameRulesProps): JSX.Element => (
+export const GameRules = (): JSX.Element => (
   <div>
     <Content.Title>Правила игры:</Content.Title>
     <Content.Ul>
@@ -63,8 +50,5 @@ export const GameRules = ({
         </Content.Li>
       </Content.Ul>
     </Content.BlockWrapper>
-    <BackButton onClick={() => returnBackCallback()}>
-      Вернуться обратно
-    </BackButton>
   </div>
 );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@fb/initFirebase';
@@ -6,12 +6,16 @@ import { signOut } from '@fb/auth';
 import { removeUser, setNewAdmin } from '@fb/user';
 import { removeRoom } from '@fb/room';
 import { useCommonComponentState } from '@hooks';
-import { Button } from '@components';
-import { ROUTES } from '@common/constants';
+import { Button, GameRules } from '@components';
+import { ROUTES } from '@common/constants/routes';
 import { getNewAdmin, isCurrentUserInAnyTeam } from '@utils';
-import { Theme, Color } from '../styles/theme';
+import { Theme, Color, FontSize } from '@styles/theme';
+import { useHistory, useParams } from 'react-router';
+import { RoomParams } from '@common/model/routes';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  position: relative;
+`;
 
 const Inner = styled.div`
   display: flex;
@@ -29,19 +33,31 @@ const Warning = styled.div`
   text-align: center;
 `;
 
-type HeaderProps = {
-  roomId?: string;
-  children?: React.ReactNode;
-};
+const ControlButtons = styled.div`
+  display: flex;
+  gap: ${({ theme }: { theme: Theme }): FontSize => theme.font.size.small};
+`;
 
-export const Header = ({ roomId = '', children }: HeaderProps): JSX.Element => {
-  const [user, loading, error] = useAuthState(auth);
+const GameRuleWrapper = styled.div`
+  background-color: ${({ theme }: { theme: Theme }): Color =>
+    theme.color.deepPurple};
+  position: absolute;
+  z-index: 999;
+`;
+
+interface HeaderProps {}
+
+export const Header: React.FC<HeaderProps> = () => {
+  const [user] = useAuthState(auth);
+  const { roomId } = useParams<RoomParams>();
   const { users, teams, isAdmin } = useCommonComponentState(roomId);
+  const [isOpenRules, toggleRules] = useState(false);
+  const history = useHistory();
 
   const handleLogout = (): void => {
     signOut();
     removeUser(roomId, user?.uid);
-    window.location.replace(ROUTES.LANDING);
+    history.push(ROUTES.MAIN);
 
     if (isAdmin && users) {
       const newAdminId = getNewAdmin(users);
@@ -56,7 +72,12 @@ export const Header = ({ roomId = '', children }: HeaderProps): JSX.Element => {
   return (
     <Wrapper>
       <Inner>
-        {children}
+        <ControlButtons>
+          <Button onClick={() => history.push(ROUTES.MAIN)}>На главную</Button>
+          <Button onClick={() => toggleRules(!isOpenRules)}>
+            Правила игры
+          </Button>
+        </ControlButtons>
         {user?.uid && (
           <LogoutButton kind="secondary" onClick={handleLogout}>
             Выйти
@@ -67,6 +88,11 @@ export const Header = ({ roomId = '', children }: HeaderProps): JSX.Element => {
         <Warning>
           Игра уже началась. Ты можешь просто наблюдать за процессом.
         </Warning>
+      )}
+      {isOpenRules && (
+        <GameRuleWrapper>
+          <GameRules />
+        </GameRuleWrapper>
       )}
     </Wrapper>
   );

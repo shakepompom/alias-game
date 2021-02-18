@@ -1,9 +1,8 @@
 export { AppWrapper } from './AppWrapper';
 export { Button } from './Button';
 export { Content } from './Content';
-export { EmptyRoom } from './EmptyRoom';
-export { Footer } from './Footer';
+export { Footer } from '../layout/Footer';
 export { GameRules } from './GameRules';
-export { Header } from './Header';
+export { Header } from '../layout/Header';
 export { Input } from './Input';
 export { TeamsList } from './TeamsList';

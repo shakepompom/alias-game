@@ -1,4 +1,5 @@
-import { Team, User } from '@common/types';
+import { Team } from '@common/types';
+import { ObjectedUser } from '@common/model/user';
 
 const TEAM_NAMES = [
   'Котики',
@@ -11,23 +12,20 @@ const TEAM_NAMES = [
 ];
 
 export const splitToTeams = (
-  users: { [key: string]: User } | undefined,
   teamCount: number,
+  users?: ObjectedUser
 ): Team[] => {
   if (!users) return [];
 
-  const teams = [];
+  const teams: Team[] = [];
 
   for (let i = 0; i < teamCount; i++) {
     teams.push({ name: TEAM_NAMES[i], users: [] });
   }
 
-  return Object.values(users).reduce(
-    (acc: Team[], { id, name }: User, index: number) => {
-      acc[index % teamCount].users.push({ id, name });
+  return Object.values(users).reduce((acc, { id, name }, index: number) => {
+    acc[index % teamCount].users.push({ id, name });
 
-      return acc;
-    },
-    teams,
-  );
+    return acc;
+  }, teams);
 };

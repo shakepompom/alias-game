@@ -51,17 +51,21 @@ export const RoundProgress = ({
   timerDuration,
   wordsSet,
 }: RoundProgressProps): JSX.Element => {
-  const { time, start, reset, isRunning } = useTimer({
+  const { time, start, reset, status } = useTimer({
     initialTime: timerDuration,
     endTime: 0,
     timerType: 'DECREMENTAL',
   });
 
+  const isRunning = status === 'RUNNING';
+
   useEffectOnce(() => {
     start();
 
     return () => {
-      if (isRunning) reset();
+      if (isRunning) {
+        reset();
+      }
     };
   });
 
@@ -72,7 +76,7 @@ export const RoundProgress = ({
   });
 
   const { teams, gameId, round, activeTeamOrder } = useCommonComponentState(
-    roomId,
+    roomId
   );
   const [wordIndexFromSet, setWordIndexFromSet] = useState(0);
   const [wordsStatus, setWordsStatus] = useState<WordStatus[]>([]);
@@ -106,7 +110,7 @@ export const RoundProgress = ({
       activeTeamOrder,
       userIndex,
       roundOrder,
-      wordsStatus,
+      wordsStatus
     );
 
     if (teamIndex !== null) {

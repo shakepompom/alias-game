@@ -1,13 +1,14 @@
-import { User, Team } from '../types';
+import { Team } from '../types';
+import { ObjectedUser } from '@common/model/user';
 
 export const isNewUserJoined = (
-  users: { [key: string]: User },
-  teams: Team[],
+  users: ObjectedUser,
+  teams: Team[]
 ): boolean => {
   const usersInRoomLength = Object.keys(users).length;
   const usersInTeamsLength = teams.reduce(
     (acc, { users }) => acc + users.length,
-    0,
+    0
   );
 
   return usersInRoomLength !== usersInTeamsLength;

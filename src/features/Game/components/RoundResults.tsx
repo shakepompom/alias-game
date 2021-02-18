@@ -51,16 +51,16 @@ export const RoundResults = ({
   isActiveUser,
 }: RoundResultsProps): JSX.Element => {
   const { gameId, teams, round, activeTeamOrder } = useCommonComponentState(
-    roomId,
+    roomId
   );
   const userIndex = getUserIndex(round, teams, activeTeamOrder);
   const roundOrder = getRoundOrder(round, teams, activeTeamOrder);
 
   const [result] = useObjectVal<WordStatus[]>(
-    getRoundResult(roomId, gameId, activeTeamOrder, userIndex, roundOrder),
+    getRoundResult(roomId, gameId, activeTeamOrder, userIndex, roundOrder)
   );
   const [winnersIndices] = useObjectVal<number>(
-    getGameWinnersIndices(roomId, gameId),
+    getGameWinnersIndices(roomId, gameId)
   );
 
   const handleClickSwitchOrder = (): void => {
@@ -100,7 +100,7 @@ export const RoundResults = ({
               <Word key={word} status={status}>
                 {word} - {status ? 'Угадано' : 'Пропущено'}
               </Word>
-            ),
+            )
           )}
         <LastWord status>{getLastWordRoundResult(roundOrder, teams)}</LastWord>
       </Content.BlockWrapper>

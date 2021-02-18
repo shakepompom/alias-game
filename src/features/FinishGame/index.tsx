@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCommonComponentState } from '@hooks';
-import { Content, Header, Footer } from '@components';
+import { Content } from '@components';
 import { getTotalScore, getWordDeclension } from '@utils';
 
 type FinishGameProps = {
@@ -15,13 +15,12 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
     teams && typeof winnersIndices === 'object'
       ? getTotalScore(
           teams[winnersIndices[0]].users,
-          teams[winnersIndices[0]].guessedWords,
+          teams[winnersIndices[0]].guessedWords
         )
       : 0;
 
   return (
     <>
-      <Header roomId={roomId} />
       {teams && typeof winnersIndices === 'object' ? (
         <Content.CenteredBlockWrapper>
           <Content.Subtitle>Ура!</Content.Subtitle>
@@ -41,7 +40,6 @@ export const FinishGame = ({ roomId }: FinishGameProps): JSX.Element => {
       ) : (
         <div>Загрузка...</div>
       )}
-      <Footer />
     </>
   );
 };

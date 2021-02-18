@@ -24,7 +24,19 @@ export const GlobalStyles = createGlobalStyle`
       theme.color.deepPurple};
   }
 
+  a {
+    color: ${({ theme }: { theme: Theme }): Color => theme.color.yellow};
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    transition: border-bottom 0.2s;
+
+    &:hover {
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+  }
+
   button {
-  cursor: pointer;
+    cursor: pointer;
   }
 `;

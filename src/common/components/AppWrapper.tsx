@@ -1,10 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-type PageWrapperProps = {
-  children: React.ReactNode;
-};
-
 const Wrapper = styled.div`
   position: relative;
   max-width: 1200px;
@@ -13,6 +9,6 @@ const Wrapper = styled.div`
   margin: 0 auto;
 `;
 
-export const AppWrapper = ({ children }: PageWrapperProps): JSX.Element => (
+export const AppWrapper: React.FC = ({ children }) => (
   <Wrapper>{children}</Wrapper>
 );
